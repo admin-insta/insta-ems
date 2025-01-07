@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import loginbg from "../components/utils/images/loginbg.png";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import { auth } from "../components/utils/firebase";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 // import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addUser } from "./store/userSlice";
@@ -27,12 +27,21 @@ const Login = () => {
         // Signed up
         const user = userCredential.user;
         console.log("registred user is", user);
-        // navigate("/userview");
-        const { uid, email } = auth.currentUser;
-        console.log(uid, email);
-
-        dispatch(addUser({ uid: uid, email: email }));
-        // ...
+        updateProfile(user, {
+          displayName: "Ashish",
+          photoURL: "https://avatars.githubusercontent.com/u/112201248?v=4",
+        })
+          .then(() => {
+            const { uid, email, displayName } = auth.currentUser;
+            dispatch(
+              addUser({ uid: uid, email: email, displayName: displayName })
+            );
+            // Profile updated!
+            // ...
+          })
+          .catch((error) => {
+            //An Error Occured
+          });
       })
       .catch((error) => {
         const errorCode = error.code;
