@@ -10,6 +10,7 @@ import Reviews from "./components/Reviews";
 import MainPage from "./components/userView/MainPage";
 import { Provider } from "react-redux";
 import appStore from "./components/store/appStore";
+import  People from "./components/userView/people/People";
 function App() {
   const appRouter = createBrowserRouter([
     {
@@ -35,6 +36,10 @@ function App() {
           path: "/userview",
           element: <MainPage />,
         },
+        {
+          path:"/people",
+          element:<People/>
+        }
       ],
     },
   ]);
