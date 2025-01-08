@@ -7,7 +7,7 @@ const UserManager = () => {
     <div className="flex mx-4">
         
       <div className="m-4 p-4 w-1/2 bg-blue-700 text-white rounded-md shadow-lg hover:bg-blue-900 hover:scale-105 transition-all ease-in-out duration-500">
-        <div className="text-white text-2xl  font-semibold text-center"><ManageAccountsIcon sx={{fontSize:64}}/></div>
+        <div className="text-white text-2xl  font-semibold text-center"><ManageAccountsIcon sx={{fontSize:64}}/><p>Manager</p></div>
         <div>
           <div className="font-semibold text-xl mt-4">Without InstaEms</div>
           <ul className="list-inside">
@@ -54,7 +54,7 @@ const UserManager = () => {
       </div>
       <div className="m-4 p-4 w-1/2 rounded-md shadow-lg bg-gray-800 text-white hover:scale-105 duration-500 transition-all ease-in-out  hover:bg-gray-900">
         <div className="text-white text-2xl  font-semibold text-center">
-          <GroupIcon sx={{fontSize:64}}/>
+          <GroupIcon sx={{fontSize:64}}/><p>Employees</p>
         </div>
         <div>
           <div className="font-semibold text-xl mt-4">Without InstaEms</div>

@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import LanguageIcon from "@mui/icons-material/Language";
 import FitbitIcon from "@mui/icons-material/Fitbit";
 import MenuIcon from "@mui/icons-material/Menu";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { addUser, removeUser } from "./store/userSlice";
@@ -11,48 +11,43 @@ import { auth } from "./utils/firebase";
 const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const location = useLocation(); // Get the current route
   const user = useSelector((store) => store?.user);
 
   const handleSignOut = () => {
     signOut(auth)
       .then(() => {
         dispatch(removeUser()); // Clear user from Redux store
-        navigate("/"); // Redirect to login page
       })
       .catch((error) => {
         console.error("Error during sign out:", error.message);
       });
   };
 
-  // useEffect(() => {
-  //   const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-  //     if (currentUser) {
-  //       const { uid, email, displayName } = currentUser;
-  //       dispatch(addUser({ uid, email, displayName }));
-  //       // Navigate to /userview only if not already on it
-  //       if (location.pathname !== "/userview") {
-  //         navigate("/userview");
-  //       }
-  //     } else {
-  //       dispatch(removeUser());
-  //       // Navigate to login only if not already on it
-  //       if (location.pathname !== "/login") {
-  //         navigate("/");
-  //       }
-  //     }
-  //   });
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const { uid, email, displayName, photoURL } = user;
+        dispatch(
+          addUser({
+            uid: uid,
+            email: email,
+            name: displayName,
+            photoUrl: photoURL,
+          })
+        );
+        // Navigate to /userview only if not already on it
+        navigate("/userview");
+      } else {
+        dispatch(removeUser());
+        navigate("/");
+        // Navigate to login only if not already on it
+      }
+    });
 
-  //   return () => unsubscribe(); // Cleanup on component unmount
-  // }, [dispatch, navigate, location]);
+    return () => unsubscribe(); // Cleanup on component unmount
+  }, []);
 
-  return user ? (
-    <div>
-      <button onClick={handleSignOut} className="font-bold -mt-6 px-2">
-        Sign Out - {user.displayName}
-      </button>
-    </div>
-  ) : (
+  return (
     <div className="grid grid-cols-12 p-2 z-10 sticky top-0 justify-center items-center text-lg bg-blue-700">
       <div className="col-span-1">
         <span className="mx-4">
@@ -83,17 +78,26 @@ const Header = () => {
           </button>
         </li>
         <li>
-          <Link to="/login">
-            <button className="px-4 py-1.5 bg-slate-800 text-white rounded-lg hover:scale-110 transition-all ease-in-out">
-              Login
+          {user ? (
+            <button
+              onClick={handleSignOut}
+              className="px-4 py-1.5 bg-slate-800 text-white rounded-lg hover:scale-110 transition-all ease-in-out"
+            >
+              Logout
             </button>
-          </Link>
+          ) : (
+            <Link to="/login">
+              <button className="px-4 py-1.5 bg-slate-800 text-white rounded-lg hover:scale-110 transition-all ease-in-out">
+                Login
+              </button>
+            </Link>
+          )}
         </li>
-        <li>
+        {/* <li>
           <button className="px-4 py-1.5 bg-slate-800 rounded-lg text-white hover:scale-110 transition-all ease-in-out">
             Sign Up
           </button>
-        </li>
+        </li> */}
       </ul>
       <div className="mx-20">
         <LanguageIcon
