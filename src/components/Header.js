@@ -13,6 +13,7 @@ const Header = () => {
   const navigate = useNavigate();
   const user = useSelector((store) => store?.user);
 
+  //SignOut
   const handleSignOut = () => {
     signOut(auth)
       .then(() => {
@@ -23,6 +24,7 @@ const Header = () => {
       });
   };
 
+  //On auth state changed
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -48,30 +50,34 @@ const Header = () => {
   }, []);
 
   return (
-    <div className="grid grid-cols-12 p-2 z-10 sticky top-0 justify-center items-center text-lg bg-blue-700">
-      <div className="col-span-1">
+    <div className="grid grid-cols-12 p-2 z-10 sticky top-0 justify-center items-center lg:text-lg md:text-sm sm:text-xs bg-blue-700 font-semibold">
+      {/* First Menu-Item sidebar and Logo*/}
+      <div className="grid grid-flow-col justify-center items-center col-span-1">
         <span className="mx-4">
           <MenuIcon
             className="hover:scale-110 transition-all ease-in-out hover:shadow-md"
             sx={{ color: "white" }}
           />
         </span>
-        <FitbitIcon
-          className="hover:scale-110 transition-all ease-in-out hover:shadow-md"
-          sx={{ color: "white" }}
-        />
+        <span className="lg:inline sm:hidden">
+          <FitbitIcon
+            className="hover:scale-110 transition-all ease-in-out hover:shadow-md"
+            sx={{ color: "white" }}
+          />
+        </span>
       </div>
-      <ul className="flex col-span-6 space-x-2 sm:space-x-6 md:space-x-8">
+      {/* Second Menu-Item Buttons */}
+      <ul className="grid grid-flow-col justify-start col-span-6 space-x-2 sm:space-x-6 md:space-x-8">
         <Link to="/">
-          <li className="text-white font-semibold hover:scale-110 transition-all ease-in-out">
+          <li className="text-white  hover:scale-110 transition-all ease-in-out">
             Home
           </li>
         </Link>
-        <li className="text-white font-semibold hover:scale-110 transition-all ease-in-out">
+        <li className="text-white hover:scale-110 transition-all ease-in-out">
           Services
         </li>
       </ul>
-      <ul className="grid grid-flow-col justify-between col-span-4">
+      <ul className="grid grid-flow-col justify-end space-x-4 col-span-4">
         <li>
           <button className="px-4 py-1.5 bg-slate-800 text-white rounded-lg hover:scale-110 transition-all ease-in-out">
             Request a Demo
@@ -99,10 +105,11 @@ const Header = () => {
           </button>
         </li> */}
       </ul>
-      <div className="mx-20">
+      {/* Third Menu-Item Language-Icon*/}
+      <div className="grid col-span-1 justify-center">
         <LanguageIcon
           className="hover:scale-110 transition-all ease-in-out hover:shadow-md"
-          sx={{ color: "white" }}
+          sx={{ color: "white", fontSize: { xs: 12, sm: 20, md: 28 } }}
         />
       </div>
     </div>
