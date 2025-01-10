@@ -32,7 +32,7 @@ const Header = () => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        console.log("user in header is", user)
+        console.log("user in header is", user);
         const { uid, email, displayName, photoURL } = user;
         dispatch(
           addUser({
@@ -78,11 +78,15 @@ const Header = () => {
         </span>
 
         <ul className="grid grid-flow-col justify-start m-2">
-          <Link to="/">
-            <li className="text-white  hover:scale-110 transition-all ease-in-out m-2">
-              Home
-            </li>
-          </Link>
+          <li
+            onClick={() => {
+              user ? navigate("/userview") : navigate("/");
+            }}
+            className="text-white  hover:scale-110 transition-all ease-in-out m-2 cursor-pointer"
+          >
+            Home
+          </li>
+
           <li className="text-white hover:scale-110 transition-all ease-in-out m-2">
             Services
           </li>
@@ -93,7 +97,10 @@ const Header = () => {
       <div className="grid grid-flow-col col-span-6 justify-end items-center">
         <ul className="grid grid-flow-col justify-end">
           <li>
-            <button className="p-2  m-2 bg-slate-800 text-white rounded-lg hover:scale-110 transition-all ease-in-out ">
+            <button
+              onClick={() => navigate("/demorequest")}
+              className="p-2  m-2 bg-slate-800 text-white rounded-lg hover:scale-110 transition-all ease-in-out "
+            >
               Request A Demo
             </button>
           </li>

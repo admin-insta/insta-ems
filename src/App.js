@@ -9,6 +9,7 @@ import Reviews from "./components/Reviews";
 import MainPage from "./components/userView/MainPage";
 import { Provider } from "react-redux";
 import appStore from "./components/store/appStore";
+import DemoRequest from "./components/DemoRequest";
 function App() {
   const appRouter = createBrowserRouter([
     {
@@ -29,6 +30,10 @@ function App() {
         {
           path: "/login",
           element: <Login />,
+        },
+        {
+          path: "/demorequest",
+          element: <DemoRequest />,
         },
         {
           path: "/userview",

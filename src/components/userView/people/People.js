@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import employeeList from "../../utils/mockData"; 
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import employeeList from "../../utils/mockData";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 const People = () => {
   const [selectedEmployee, setSelectedEmployee] = useState(
@@ -24,7 +24,7 @@ const People = () => {
   }, [filteredEmployees, selectedEmployee]);
 
   return (
-    <div className="m-4 border border-gray-300 flex">
+    <div className="m-8 border border-gray-300 flex ">
       {/* Scrollable Employee List */}
       <div
         className="overflow-y-auto max-h-96 border-r border-gray-300 w-1/3"
@@ -57,7 +57,7 @@ const People = () => {
         {selectedEmployee ? (
           <div className="bg-gray-100 p-4 border border-clay rounded-md h-80">
             <p>
-              <AccountCircleIcon sx={{ fontSize: 72, color:"blue" }} />
+              <AccountCircleIcon sx={{ fontSize: 72, color: "blue" }} />
             </p>
             <p>
               <strong>Name:</strong> {selectedEmployee.name}
