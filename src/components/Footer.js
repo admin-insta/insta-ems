@@ -6,7 +6,12 @@ import YouTubeIcon from "@mui/icons-material/YouTube";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import footer from "../components/utils/images/footer.png";
 import XIcon from "@mui/icons-material/X";
+import { useSelector } from "react-redux";
 const Footer = () => {
+  const user = useSelector((store)=>store?.user)
+  if(user){
+    return null;
+  }
   const phoneNumber = "8123897887";
   const message = "Hi, I would like to connect with you";
 

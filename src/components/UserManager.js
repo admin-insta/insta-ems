@@ -3,7 +3,9 @@ import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import GroupIcon from '@mui/icons-material/Group';
 
 const UserManager = () => {
+ 
   return (
+    
     <div className="flex mx-4">
         
       <div className="m-4 p-4 w-1/2 bg-blue-700 text-white rounded-md shadow-lg hover:bg-blue-900 hover:scale-105 transition-all ease-in-out duration-500">

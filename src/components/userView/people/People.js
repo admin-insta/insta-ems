@@ -1,50 +1,83 @@
-import React, { useState } from "react";
-import employeeList from "../../utils/mockData"; // Adjust the path if needed
-import PersonIcon from '@mui/icons-material/Person';
+import React, { useState, useEffect } from "react";
+import employeeList from "../../utils/mockData"; 
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+
 const People = () => {
-  const [selectedEmployee, setSelectedEmployee] = useState(null);
+  const [selectedEmployee, setSelectedEmployee] = useState(
+    employeeList.length > 0 ? employeeList[0] : null
+  );
+  const [searchQuery, setSearchQuery] = useState("");
 
   const handleEmployeeClick = (employee) => {
-    setSelectedEmployee((prev) =>
-      prev?.name === employee.name ? null : employee
-    );
+    setSelectedEmployee(employee);
   };
 
+  const filteredEmployees = employeeList.filter((employee) =>
+    employee.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  useEffect(() => {
+    // Set the first employee in the filtered list only if no employee is selected
+    if (!selectedEmployee && filteredEmployees.length > 0) {
+      setSelectedEmployee(filteredEmployees[0]);
+    }
+  }, [filteredEmployees, selectedEmployee]);
+
   return (
-    <div className="m-4 border border-gray-300">
-      <h1 className="text-lg mx-4 my-2">Employee List</h1>
-      <div>
-        {employeeList.map((employee, index) => (
-          <div className="flex" key={index}>
-            <div
-              className="bg-gray-200 p-2 mx-4 my-1 border border-gray-400 rounded-sm w-1/3 cursor-pointer h-fit"
-              onClick={() => handleEmployeeClick(employee)}
-            >
-              {employee.name}
-            </div>
-            {/* Display description box if this employee is selected */}
-            {selectedEmployee?.name === employee.name && (
-              <div className="bg-blue-100 p-4 m-2 border border-blue-300 rounded-md w-3/5 h-96 absolute top-32 right-4">
-                <p><PersonIcon sx= {{fontSize:44}}/></p>
-                <p>
-                  <strong>Name:</strong> {employee.name}
-                </p>
-                <p>
-                  <strong>Contact:</strong> {employee.contact}
-                </p>
-                <p>
-                  <strong>Designation:</strong> {employee.designation}
-                </p>
-                <p>
-                  <strong>Location:</strong> {employee.location}
-                </p>
-                <p>
-                  <strong>Date of Birth:</strong> {employee.dateOfBirth}
-                </p>
-              </div>
-            )}
+    <div className="m-4 border border-gray-300 flex">
+      {/* Scrollable Employee List */}
+      <div
+        className="overflow-y-auto max-h-96 border-r border-gray-300 w-1/3"
+        style={{ scrollbarWidth: "thin" }}
+      >
+        <h1 className="text-lg mx-4 my-2">Employee List</h1>
+        <input
+          type="text"
+          placeholder="Search by name"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="block w-11/12 mx-auto my-2 p-2 border border-gray-300 rounded-sm"
+        />
+        {filteredEmployees.map((employee, index) => (
+          <div
+            className={`bg-clay p-1 mx-4 my-1 border border-gray-400 hover:bg-white rounded-sm cursor-pointer ${
+              selectedEmployee?.name === employee.name ? "bg-gray-200" : ""
+            }`}
+            key={index}
+            onClick={() => handleEmployeeClick(employee)}
+          >
+            {employee.name}
+            <p className="text-xs">{employee.designation}</p>
           </div>
         ))}
+      </div>
+
+      {/* Description Box */}
+      <div className="w-2/3 p-4 relative">
+        {selectedEmployee ? (
+          <div className="bg-gray-100 p-4 border border-clay rounded-md h-80">
+            <p>
+              <AccountCircleIcon sx={{ fontSize: 72, color:"blue" }} />
+            </p>
+            <p>
+              <strong>Name:</strong> {selectedEmployee.name}
+            </p>
+            <p>
+              <strong>Contact:</strong> {selectedEmployee.contact}
+            </p>
+            <p>
+              <strong>Designation:</strong> {selectedEmployee.designation}
+            </p>
+            <p>
+              <strong>Location:</strong> {selectedEmployee.location}
+            </p>
+            <p>
+              <strong>Date of Birth:</strong> {selectedEmployee.dateOfBirth}
+            </p>
+          </div>
+        ) : (
+          <p className="text-gray-500">No employee found.</p>
+        )}
       </div>
     </div>
   );

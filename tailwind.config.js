@@ -5,7 +5,15 @@ module.exports = {
     "./public/index.html", // Optionally, include the HTML file
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        clay: {
+          DEFAULT: '#d7d5c7', // Example clay color
+          light: '#D7A18B',   // Lighter shade
+          dark: '#8A4C38',    // Darker shade
+        },
+      }
+    },
   },
   plugins: [],
 };

@@ -13,6 +13,7 @@ const Login = () => {
   console.log(alreadyUser);
   const email = useRef();
   const password = useRef();
+  const companyName = useRef();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -29,7 +30,7 @@ const Login = () => {
           const user = userCredential.user;
           console.log("registred user is", user);
           updateProfile(user, {
-            displayName: "Comapny Name",
+            displayName: companyName.current.value,
             photoURL: "https://avatars.githubusercontent.com/u/112201248?v=4",
           }).catch((error) => {
             //An Error Occured
@@ -98,6 +99,7 @@ const Login = () => {
               className="m-2 p-2 border border-gray-700 rounded-md"
               type="text"
               placeholder="Your Company Name"
+              ref={companyName}
             />
           )}
           <input

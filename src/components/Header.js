@@ -13,6 +13,10 @@ const Header = () => {
   const navigate = useNavigate();
   const user = useSelector((store) => store?.user);
 
+  //Login
+  const handleSignIn = () => {
+    navigate("/login");
+  };
   //SignOut
   const handleSignOut = () => {
     signOut(auth)
@@ -28,6 +32,7 @@ const Header = () => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
+        console.log("user in header is", user)
         const { uid, email, displayName, photoURL } = user;
         dispatch(
           addUser({
@@ -50,67 +55,66 @@ const Header = () => {
   }, []);
 
   return (
-    <div className="grid grid-cols-12 p-2 z-10 sticky top-0 justify-center items-center lg:text-lg md:text-sm sm:text-xs bg-blue-700 font-semibold">
+    <div className="grid grid-cols-12  z-10 sticky top-0 justify-center items-center lg:text-base md:text-sm sm:text-xs xs:text-xs bg-blue-700 font-semibold whitespace-nowrap">
       {/* First Menu-Item sidebar and Logo*/}
-      <div className="grid grid-flow-col justify-center items-center col-span-1">
-        <span className="mx-4">
+      <div className="grid grid-flow-col justify-start items-center col-span-6">
+        <span className="lg:mx-4 md:mx-2 sm:m-1">
           <MenuIcon
             className="hover:scale-110 transition-all ease-in-out hover:shadow-md"
-            sx={{ color: "white" }}
+            sx={{
+              color: "white",
+              fontSize: { lg: 28, md: 24, sm: 20, xs: 16 },
+            }}
           />
         </span>
-        <span className="lg:inline sm:hidden">
+        <span className="lg:mx-4 md:mx-2 sm:m-1">
           <FitbitIcon
             className="hover:scale-110 transition-all ease-in-out hover:shadow-md"
-            sx={{ color: "white" }}
+            sx={{
+              color: "white",
+              fontSize: { lg: 28, md: 24, sm: 20, xs: 16 },
+            }}
           />
         </span>
-      </div>
-      {/* Second Menu-Item Buttons */}
-      <ul className="grid grid-flow-col justify-start col-span-6 space-x-2 sm:space-x-6 md:space-x-8">
-        <Link to="/">
-          <li className="text-white  hover:scale-110 transition-all ease-in-out">
-            Home
+
+        <ul className="grid grid-flow-col justify-start m-2">
+          <Link to="/">
+            <li className="text-white  hover:scale-110 transition-all ease-in-out m-2">
+              Home
+            </li>
+          </Link>
+          <li className="text-white hover:scale-110 transition-all ease-in-out m-2">
+            Services
           </li>
-        </Link>
-        <li className="text-white hover:scale-110 transition-all ease-in-out">
-          Services
-        </li>
-      </ul>
-      <ul className="grid grid-flow-col justify-end space-x-4 col-span-4">
-        <li>
-          <button className="px-4 py-1.5 bg-slate-800 text-white rounded-lg hover:scale-110 transition-all ease-in-out">
-            Request a Demo
-          </button>
-        </li>
-        <li>
-          {user ? (
-            <button
-              onClick={handleSignOut}
-              className="px-4 py-1.5 bg-slate-800 text-white rounded-lg hover:scale-110 transition-all ease-in-out"
-            >
-              Logout
+        </ul>
+      </div>
+
+      {/* second Menu-Item Language-Icon*/}
+      <div className="grid grid-flow-col col-span-6 justify-end items-center">
+        <ul className="grid grid-flow-col justify-end">
+          <li>
+            <button className="p-2  m-2 bg-slate-800 text-white rounded-lg hover:scale-110 transition-all ease-in-out ">
+              Request A Demo
             </button>
-          ) : (
-            <Link to="/login">
-              <button className="px-4 py-1.5 bg-slate-800 text-white rounded-lg hover:scale-110 transition-all ease-in-out">
-                Login
-              </button>
-            </Link>
-          )}
-        </li>
-        {/* <li>
-          <button className="px-4 py-1.5 bg-slate-800 rounded-lg text-white hover:scale-110 transition-all ease-in-out">
-            Sign Up
-          </button>
-        </li> */}
-      </ul>
-      {/* Third Menu-Item Language-Icon*/}
-      <div className="grid col-span-1 justify-center">
-        <LanguageIcon
-          className="hover:scale-110 transition-all ease-in-out hover:shadow-md"
-          sx={{ color: "white", fontSize: { xs: 12, sm: 20, md: 28 } }}
-        />
+          </li>
+          <li>
+            <button
+              onClick={user ? handleSignOut : handleSignIn}
+              className="p-2 m-2 bg-slate-800 text-white rounded-lg hover:scale-110 transition-all ease-in-out"
+            >
+              {user ? "Logout" : "Login"}
+            </button>
+          </li>
+        </ul>
+        <div className="m-2">
+          <LanguageIcon
+            className="hover:scale-110 transition-all ease-in-out hover:shadow-md"
+            sx={{
+              color: "white",
+              fontSize: { xs: 16, sm: 20, md: 24, lg: 28 },
+            }}
+          />
+        </div>
       </div>
     </div>
   );
