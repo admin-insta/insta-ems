@@ -4,9 +4,9 @@ const EnquiryForm = () => {
   return (
     <div>
       <form className=" m-4 p-4">
-        <lable className="m-2 p-2 font-poppins text-gray-700 text-sm">
+        <label className="m-2 p-2 font-poppins text-gray-700 text-sm">
           Your Full Name
-        </lable>
+        </label>
         <p className="text-xs text-blue-500 mx-4">
           (Please enter your complete name in the provided field.)
         </p>
@@ -17,9 +17,9 @@ const EnquiryForm = () => {
             placeholder="Your Name"
           />
         </div>
-        <lable className="m-2 p-2 font-poppins text-sm  text-gray-700">
+        <label className="m-2 p-2 font-poppins text-sm  text-gray-700">
           Contact Number
-        </lable>
+        </label>
         <p className="text-xs text-blue-500 mx-4">
           (Your preferred call back number)
         </p>
@@ -30,9 +30,9 @@ const EnquiryForm = () => {
             placeholder="Contact Number"
           />
         </div>
-        <lable className="m-2 p-2 font-poppins text-sm  text-gray-700">
+        <label className="m-2 p-2 font-poppins text-sm  text-gray-700">
           Email Id
-        </lable>
+        </label>
         <p className="text-xs text-blue-500 mx-4">
           (Your Valid Email Id)
         </p>
