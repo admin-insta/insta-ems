@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
 import employeeList from "../../utils/mockData";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import { useSelector } from "react-redux";
 
 const People = () => {
+  // const selectedEmployee = useSelector((store)=>store.People || [])
   const [selectedEmployee, setSelectedEmployee] = useState(
     employeeList.length > 0 ? employeeList[0] : null
   );
+
   const [searchQuery, setSearchQuery] = useState("");
 
   const handleEmployeeClick = (employee) => {

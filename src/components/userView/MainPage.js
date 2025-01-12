@@ -10,6 +10,7 @@ import MoneyIcon from "@mui/icons-material/Money";
 import PrivacyTipOutlinedIcon from "@mui/icons-material/PrivacyTip";
 import People from "./people/People";
 import AttendanceInfo from "./attendance/AttendanceInfo";
+import ManagePeople from "./people/ManagePeople";
 
 const MainPage = () => {
   const [selectedTask, setSelectedTask] = useState(null); // Tracks the currently selected task
@@ -93,7 +94,7 @@ const MainPage = () => {
         {selectedTask === "home" && (
           <div className="text-2xl text-gray-600 p-4">Good Evening</div>
         )}
-        {selectedTask === "people" && <People />}
+        {selectedTask === "people" && <ManagePeople />}
         {selectedTask === "attendance" && <AttendanceInfo />}
         {selectedTask === "home" && <div>Welcome to the Home Page!</div>}
         {selectedTask === "leave" && <div>Leave Management</div>}
