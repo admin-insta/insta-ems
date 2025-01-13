@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import LanguageIcon from "@mui/icons-material/Language";
 import FitbitIcon from "@mui/icons-material/Fitbit";
 import MenuIcon from "@mui/icons-material/Menu";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { addUser, removeUser } from "./store/userSlice";
@@ -32,7 +32,6 @@ const Header = () => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        console.log("user in header is", user);
         const { uid, email, displayName, photoURL } = user;
         dispatch(
           addUser({

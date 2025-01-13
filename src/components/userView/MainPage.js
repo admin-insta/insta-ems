@@ -11,11 +11,14 @@ import PrivacyTipOutlinedIcon from "@mui/icons-material/PrivacyTip";
 import People from "./people/People";
 import AttendanceInfo from "./attendance/AttendanceInfo";
 import ManagePeople from "./people/ManagePeople";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import ManageSearchIcon from "@mui/icons-material/ManageSearch";
 
 const MainPage = () => {
   const [selectedTask, setSelectedTask] = useState(null); // Tracks the currently selected task
   const user = useSelector((store) => store?.user);
   const { name, photoUrl } = user || {};
+  const [showPeople, setShowPeople] = useState(false);
 
   return (
     <div className="bg-gray-100 h-screen grid grid-flow-col cols-span-12">
@@ -38,12 +41,27 @@ const MainPage = () => {
             <span className="mx-2">Home</span>
           </li>
           <li
-            onClick={() => setSelectedTask("people")}
+            // onClick={() => setSelectedTask("people")}
             className="m-2 hover:scale-105 transition-all ease-in-out rounded-md hover:bg-white cursor-pointer"
           >
             <PeopleAltIcon />
-            <span className="mx-2">People</span>
+            <span
+              onClick={() => (
+                setShowPeople(!showPeople), setSelectedTask("people")
+              )}
+              className="mx-2 p-2"
+            >
+              People <KeyboardArrowDownIcon />
+            </span>
           </li>
+          {showPeople && (
+            <p
+              onClick={() => setSelectedTask("managepeople")}
+              className="ml-10 p-1 text-sm hover:scale-105 transition-all ease-in-out rounded-md hover:bg-white cursor-pointer"
+            >
+              <ManageSearchIcon /> Manage Employees
+            </p>
+          )}
           <li
             onClick={() => setSelectedTask("attendance")}
             className="m-2 hover:scale-105 transition-all ease-in-out rounded-md hover:bg-white cursor-pointer"
@@ -94,7 +112,8 @@ const MainPage = () => {
         {selectedTask === "home" && (
           <div className="text-2xl text-gray-600 p-4">Good Evening</div>
         )}
-        {selectedTask === "people" && <ManagePeople />}
+        {selectedTask === "people" && <People />}
+        {selectedTask === "managepeople" && <ManagePeople />}
         {selectedTask === "attendance" && <AttendanceInfo />}
         {selectedTask === "home" && <div>Welcome to the Home Page!</div>}
         {selectedTask === "leave" && <div>Leave Management</div>}

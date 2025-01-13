@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import employeeList from "../../utils/mockData";
+// import people from "../../utils/mockData";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useSelector } from "react-redux";
 
 const People = () => {
-  // const selectedEmployee = useSelector((store)=>store.People || [])
+  const people = useSelector((store) => store.people || []);
   const [selectedEmployee, setSelectedEmployee] = useState(
-    employeeList.length > 0 ? employeeList[0] : null
+    people.length > 0 ? people[0] : null
   );
 
   const [searchQuery, setSearchQuery] = useState("");
@@ -15,8 +15,8 @@ const People = () => {
     setSelectedEmployee(employee);
   };
 
-  const filteredEmployees = employeeList.filter((employee) =>
-    employee.name.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredEmployees = people.filter((employee) =>
+    employee.firstName.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   useEffect(() => {
@@ -26,7 +26,9 @@ const People = () => {
     }
   }, [filteredEmployees, selectedEmployee]);
 
-  return (
+  return people === null ? (
+    <div>There are no employees in your organisation, Add Employee</div>
+  ) : (
     <div className="m-8 border border-gray-300 flex ">
       {/* Scrollable Employee List */}
       <div
@@ -44,12 +46,12 @@ const People = () => {
         {filteredEmployees.map((employee, index) => (
           <div
             className={`bg-clay p-1 mx-4 my-1 border border-gray-400 hover:bg-white rounded-sm cursor-pointer ${
-              selectedEmployee?.name === employee.name ? "bg-gray-200" : ""
+              selectedEmployee?.name === employee.firstName ? "bg-gray-200" : ""
             }`}
             key={index}
             onClick={() => handleEmployeeClick(employee)}
           >
-            {employee.name}
+            {employee.firstName}
             <p className="text-xs">{employee.designation}</p>
           </div>
         ))}
@@ -63,19 +65,22 @@ const People = () => {
               <AccountCircleIcon sx={{ fontSize: 72, color: "blue" }} />
             </p>
             <p>
-              <strong>Name:</strong> {selectedEmployee.name}
+              <strong>Name:</strong> {selectedEmployee.firstName}
             </p>
             <p>
               <strong>Contact:</strong> {selectedEmployee.contact}
             </p>
             <p>
+              <strong>Date of Birth:</strong> {selectedEmployee.dob}
+            </p>
+            <p>
               <strong>Designation:</strong> {selectedEmployee.designation}
             </p>
             <p>
-              <strong>Location:</strong> {selectedEmployee.location}
+              <strong>Location:</strong> {selectedEmployee.address}
             </p>
             <p>
-              <strong>Date of Birth:</strong> {selectedEmployee.dateOfBirth}
+              <strong>Date of Joining:</strong> {selectedEmployee.joiningDate}
             </p>
           </div>
         ) : (
