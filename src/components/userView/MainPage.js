@@ -1,18 +1,19 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import HomeOutlinedIcon from "@mui/icons-material/Home";
+import HomeIcon from '@mui/icons-material/HomeOutlined';
 import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
-import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
+import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
 import EventBusyIcon from "@mui/icons-material/EventBusy";
-import ArticleIcon from "@mui/icons-material/Article";
+import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined';
 import MoneyIcon from "@mui/icons-material/Money";
-import PrivacyTipOutlinedIcon from "@mui/icons-material/PrivacyTip";
-import People from "./people/People";
+import PrivacyTipIcon from '@mui/icons-material/PrivacyTipOutlined';
+import PeopleList from "./people/PeopleList";
 import AttendanceInfo from "./attendance/AttendanceInfo";
 import ManagePeople from "./people/ManagePeople";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import ManageSearchIcon from "@mui/icons-material/ManageSearch";
+import BadgeOutlinedIcon from '@mui/icons-material/BadgeOutlined';
 
 const MainPage = () => {
   const [selectedTask, setSelectedTask] = useState(null); // Tracks the currently selected task
@@ -21,7 +22,7 @@ const MainPage = () => {
   const [showPeople, setShowPeople] = useState(false);
 
   return (
-    <div className="bg-gray-100 h-screen grid grid-flow-col cols-span-12">
+    <div className="bg-clay-light h-screen grid grid-flow-col cols-span-12">
       {/* Sidebar */}
       <div
         className="pl-2 col-span-1 bg-clay shadow-lg text-gray-800 h-screen overflow-y-scroll"
@@ -37,31 +38,43 @@ const MainPage = () => {
             onClick={() => setSelectedTask("home")}
             className="m-2 hover:scale-105 transition-all ease-in-out rounded-md hover:bg-white cursor-pointer"
           >
-            <HomeOutlinedIcon sx={{ fontSize: 24 }} />
+            <HomeIcon sx={{ fontSize: 24 }} />
             <span className="mx-2">Home</span>
           </li>
           <li
             // onClick={() => setSelectedTask("people")}
             className="m-2 hover:scale-105 transition-all ease-in-out rounded-md hover:bg-white cursor-pointer"
           >
-            <PeopleAltIcon />
+            <PeopleAltOutlinedIcon />
             <span
               onClick={() => (
-                setShowPeople(!showPeople), setSelectedTask("people")
+                setShowPeople(!showPeople) 
               )}
-              className="mx-2 p-2"
+              className="mx-2 "
             >
               People <KeyboardArrowDownIcon />
             </span>
           </li>
+
+          {showPeople && (
+            <p
+              onClick={() => setSelectedTask("people")}
+              className="ml-6 p-1 text-sm hover:scale-105 transition-all ease-in-out rounded-md hover:bg-white cursor-pointer"
+            >
+              <ManageSearchIcon />  Employees List
+            </p>
+            
+          )}
           {showPeople && (
             <p
               onClick={() => setSelectedTask("managepeople")}
-              className="ml-10 p-1 text-sm hover:scale-105 transition-all ease-in-out rounded-md hover:bg-white cursor-pointer"
+              className="ml-6 p-1 text-sm hover:scale-105 transition-all ease-in-out rounded-md hover:bg-white cursor-pointer"
             >
-              <ManageSearchIcon /> Manage Employees
+              <BadgeOutlinedIcon /> Manage Employees
             </p>
+            
           )}
+         
           <li
             onClick={() => setSelectedTask("attendance")}
             className="m-2 hover:scale-105 transition-all ease-in-out rounded-md hover:bg-white cursor-pointer"
@@ -87,7 +100,7 @@ const MainPage = () => {
             onClick={() => setSelectedTask("documents")}
             className="m-2 hover:scale-105 transition-all ease-in-out rounded-md hover:bg-white cursor-pointer"
           >
-            <ArticleIcon />
+            <ArticleOutlinedIcon />
             <span className="mx-2">Document Center</span>
           </li>
           <li
@@ -101,7 +114,7 @@ const MainPage = () => {
             onClick={() => setSelectedTask("help")}
             className="m-2 hover:scale-105 transition-all ease-in-out rounded-md hover:bg-white cursor-pointer"
           >
-            <PrivacyTipOutlinedIcon />
+            <PrivacyTipIcon />
             <span className="mx-2">Help Desk</span>
           </li>
         </ul>
@@ -112,7 +125,7 @@ const MainPage = () => {
         {selectedTask === "home" && (
           <div className="text-2xl text-gray-600 p-4">Good Evening</div>
         )}
-        {selectedTask === "people" && <People />}
+        {selectedTask === "people" && <PeopleList />}
         {selectedTask === "managepeople" && <ManagePeople />}
         {selectedTask === "attendance" && <AttendanceInfo />}
         {selectedTask === "home" && <div>Welcome to the Home Page!</div>}

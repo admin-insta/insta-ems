@@ -8,8 +8,8 @@ module.exports = {
     extend: {
       colors: {
         clay: {
-          DEFAULT: '#d7d5c7', // Example clay color
-          light: '#D7A18B',   // Lighter shade
+          DEFAULT: '#d1cbc1', // Example clay color
+          light: '#f6f3e1',   // Lighter shade
           dark: '#8A4C38',    // Darker shade
         },
       }

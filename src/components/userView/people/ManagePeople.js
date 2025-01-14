@@ -103,34 +103,40 @@ const ManagePeople = () => {
         <div className="m-4 w-1/2 rounded-md border shadow-md">
           <h1 className="m-4 text-center font-semibold">Employee List</h1>
           <div>
-            {people.length === 0 ? <div>There no employee in your organisation </div>:
-               <div>
-                {people.map((person, id) => (
-                <div
-                  className="m-2 p-2 flex items-center justify-between border-b border-gray-200"
-                  key={id}
-                >
-                  <div className="flex-1">
-                    {person.firstName} {person.lastName}
-                  </div>
-                  <div className="flex-1 text-center">{person.designation}</div>
-                  <div className="flex-1 text-right cursor-pointer">
-                    <EditIcon
-                      className="cursor-pointer"
-                      onClick={() => handleEditEmployee(person)}
-                    />
-                  </div>
-                  <div className="flex-1 text-right cursor-pointer">
-                    <DeleteForeverIcon
-                      onClick={() => handleDeleteEmployee(person)}
-                      className="cursor-pointer"
-                    />
-                  </div>
-                </div>
-              ))}
+            {people.length === 0 ? (
+              <div className="m-4 font-semibold text-lg p-4 text-gray-600 text-center">
+                No employee information is available. Please add Employee
+                details.{" "}
               </div>
-            }
-         
+            ) : (
+              <div>
+                {people.map((person, id) => (
+                  <div
+                    className="m-2 p-2 flex items-center justify-between border-b border-gray-200"
+                    key={id}
+                  >
+                    <div className="flex-1">
+                      {person.firstName} {person.lastName}
+                    </div>
+                    <div className="flex-1 text-center">
+                      {person.designation}
+                    </div>
+                    <div className="flex-1 text-right cursor-pointer">
+                      <EditIcon
+                        className="cursor-pointer"
+                        onClick={() => handleEditEmployee(person)}
+                      />
+                    </div>
+                    <div className="flex-1 text-right cursor-pointer">
+                      <DeleteForeverIcon
+                        onClick={() => handleDeleteEmployee(person)}
+                        className="cursor-pointer"
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>

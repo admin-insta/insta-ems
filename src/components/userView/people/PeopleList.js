@@ -60,7 +60,7 @@ const People = () => {
       {/* Description Box */}
       <div className="w-2/3 p-4 relative">
         {selectedEmployee ? (
-          <div className="bg-gray-100 p-4 border border-clay rounded-md h-80">
+          <div className="bg-clay-light p-4 border border-clay rounded-md h-80">
             <p>
               <AccountCircleIcon sx={{ fontSize: 72, color: "blue" }} />
             </p>
