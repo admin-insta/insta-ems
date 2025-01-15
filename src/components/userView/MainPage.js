@@ -14,6 +14,7 @@ import ManagePeople from "./people/ManagePeople";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import ManageSearchIcon from "@mui/icons-material/ManageSearch";
 import BadgeOutlinedIcon from '@mui/icons-material/BadgeOutlined';
+import UserHome from "./UserHome";
 
 const MainPage = () => {
   const [selectedTask, setSelectedTask] = useState(null); // Tracks the currently selected task
@@ -123,12 +124,12 @@ const MainPage = () => {
       {/* Main Content */}
       <div className="col-span-11">
         {selectedTask === "home" && (
-          <div className="text-2xl text-gray-600 p-4">Good Evening</div>
+          <div className="text-2xl text-gray-600 p-4"><UserHome/></div>
         )}
         {selectedTask === "people" && <PeopleList />}
         {selectedTask === "managepeople" && <ManagePeople />}
         {selectedTask === "attendance" && <AttendanceInfo />}
-        {selectedTask === "home" && <div>Welcome to the Home Page!</div>}
+        {/* {selectedTask === "home" && <div>Welcome to the Home Page!</div>} */}
         {selectedTask === "leave" && <div>Leave Management</div>}
         {selectedTask === "salary" && <div>Salary Information</div>}
         {selectedTask === "documents" && <div>Document Center</div>}
