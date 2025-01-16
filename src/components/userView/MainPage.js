@@ -15,6 +15,7 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import ManageSearchIcon from "@mui/icons-material/ManageSearch";
 import BadgeOutlinedIcon from '@mui/icons-material/BadgeOutlined';
 import UserHome from "./UserHome";
+import Attendance from "./attendance/Attendance";
 
 const MainPage = () => {
   const [selectedTask, setSelectedTask] = useState(null); // Tracks the currently selected task
@@ -29,7 +30,7 @@ const MainPage = () => {
         className="pl-2 col-span-1 bg-clay shadow-lg text-gray-800 h-screen overflow-y-scroll"
         style={{ scrollbarWidth: "thin" }}
       >
-        <div className="font-semibold text-base flex items-center">
+        <div className="font-semibold text-base flex items-center ">
           {name}
           <img className="h-12 m-2 rounded-full" alt="/" src={photoUrl} />
         </div>
@@ -128,7 +129,7 @@ const MainPage = () => {
         )}
         {selectedTask === "people" && <PeopleList />}
         {selectedTask === "managepeople" && <ManagePeople />}
-        {selectedTask === "attendance" && <AttendanceInfo />}
+        {selectedTask === "attendance" && <Attendance />}
         {/* {selectedTask === "home" && <div>Welcome to the Home Page!</div>} */}
         {selectedTask === "leave" && <div>Leave Management</div>}
         {selectedTask === "salary" && <div>Salary Information</div>}

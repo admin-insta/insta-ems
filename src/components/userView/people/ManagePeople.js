@@ -89,9 +89,9 @@ const ManagePeople = () => {
     <>
       <div className="flex justify-around">
         <div className="m-4 rounded-md">
-          <h1 className="m-4 text-center font-semibold">
+          <h4 className="m-4 text-center font-semibold">
             Manage Your Employees
-          </h1>
+          </h4>
           <button
             onClick={handleAddClick}
             className="bg-gray-800 m-4 p-2 rounded-md text-white"
@@ -101,7 +101,7 @@ const ManagePeople = () => {
         </div>
 
         <div className="m-4 w-1/2 rounded-md border shadow-md">
-          <h1 className="m-4 text-center font-semibold">Employee List</h1>
+          <h4 className="m-4 text-center font-semibold">Employee List</h4>
           <div>
             {people.length === 0 ? (
               <div className="m-4 font-semibold text-lg p-4 text-gray-600 text-center">
