@@ -1,0 +1,38 @@
+export const mockAttendance ={
+    "userId": "1234",
+    "name":"Ashish Kumar",
+    "attendanceData": {
+      "2024-12-01": { "status": "present", "checkinTime": "09:00", "checkoutTime": "17:00" },
+      "2024-12-02": { "status": "present", "checkinTime": "09:00", "checkoutTime": "17:00" },
+      "2024-12-03": { "status": "absent", "checkinTime": "", "checkoutTime": "" },
+      "2024-12-04": { "status": "present", "checkinTime": "09:15", "checkoutTime": "17:15" },
+      "2024-12-05": { "status": "present", "checkinTime": "09:00", "checkoutTime": "17:00" },
+      "2024-12-06": { "status": "halfday", "checkinTime": "09:00", "checkoutTime": "13:00" },
+      "2024-12-07": { "status": "absent", "checkinTime": "", "checkoutTime": "" },
+      "2024-12-08": { "status": "present", "checkinTime": "09:00", "checkoutTime": "17:00" },
+      "2024-12-09": { "status": "present", "checkinTime": "09:00", "checkoutTime": "17:00" },
+      "2024-12-10": { "status": "present", "checkinTime": "09:30", "checkoutTime": "17:30" },
+      "2024-12-11": { "status": "absent", "checkinTime": "", "checkoutTime": "" },
+      "2024-12-12": { "status": "present", "checkinTime": "09:00", "checkoutTime": "17:00" },
+      "2024-12-13": { "status": "present", "checkinTime": "09:00", "checkoutTime": "17:00" },
+      "2024-12-14": { "status": "halfday", "checkinTime": "09:00", "checkoutTime": "13:00" },
+      "2024-12-15": { "status": "present", "checkinTime": "09:00", "checkoutTime": "17:00" },
+      "2024-12-16": { "status": "present", "checkinTime": "09:00", "checkoutTime": "17:00" },
+      "2024-12-17": { "status": "absent", "checkinTime": "", "checkoutTime": "" },
+      "2024-12-18": { "status": "present", "checkinTime": "09:00", "checkoutTime": "17:00" },
+      "2024-12-19": { "status": "present", "checkinTime": "09:00", "checkoutTime": "17:00" },
+      "2024-12-20": { "status": "halfday", "checkinTime": "09:00", "checkoutTime": "13:00" },
+      "2024-12-21": { "status": "absent", "checkinTime": "", "checkoutTime": "" },
+      "2024-12-22": { "status": "present", "checkinTime": "09:00", "checkoutTime": "17:00" },
+      "2024-12-23": { "status": "present", "checkinTime": "09:00", "checkoutTime": "17:00" },
+      "2024-12-24": { "status": "present", "checkinTime": "09:00", "checkoutTime": "17:00" },
+      "2024-12-25": { "status": "absent", "checkinTime": "", "checkoutTime": "" },
+      "2024-12-26": { "status": "present", "checkinTime": "09:00", "checkoutTime": "17:00" },
+      "2024-12-27": { "status": "present", "checkinTime": "09:00", "checkoutTime": "17:00" },
+      "2024-12-28": { "status": "halfday", "checkinTime": "09:00", "checkoutTime": "13:00" },
+      "2024-12-29": { "status": "present", "checkinTime": "09:00", "checkoutTime": "17:00" },
+      "2024-12-30": { "status": "present", "checkinTime": "09:00", "checkoutTime": "17:00" },
+      "2024-12-31": { "status": "present", "checkinTime": "09:00", "checkoutTime": "17:00" }
+    }
+  }
+  

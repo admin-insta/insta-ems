@@ -12,11 +12,11 @@ const DemoRequest = () => {
     <div className=" flex justify-between mt-6">
       <div className="w-1/2">
         <h1 className="m-2 p-2 text-xl text-gray-800 font-poppins font-semibold ">
-          Request A Quote Price - Please provide your details with confidence.
+          Please provide your details with confidence.
           Your information is fully{" "}
           <span className="text-blue-600">secure</span> and kept strictly{" "}
           <span className="text-blue-600">confidential.</span>{" "}
-          confidential.
+          
         </h1>
       </div>
       <div className="w-1/2 border shadow-lg m-2">

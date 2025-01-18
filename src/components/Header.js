@@ -117,9 +117,10 @@ const Header = () => {
             className="hover:scale-110 transition-all ease-in-out hover:shadow-md"
             sx={{
               color: "white",
-              fontSize: { xs: 16, sm: 20, md: 24, lg: 28 },
+              fontSize: { xs: 12, sm: 16, md: 20, lg: 24 },
             }}
           />
+          <p className="text-xs text-white text-center cursor-pointer">EN</p>
         </div>
       </div>
     </div>

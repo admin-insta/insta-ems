@@ -149,9 +149,9 @@ const ManagePeople = () => {
         aria-describedby="dialog-description"
       >
         <div className="m-2 p-2 font-semibold flex justify-center">
-          <h1 className="px-8 py-2 bg-red-600 rounded-md text-white">
+          <div className="px-8 py-2 bg-red-600 rounded-md text-white">
             {isEditing ? "Edit Employee" : "Add Employee"}
-          </h1>
+          </div>
         </div>
         <form className="m-2 border shadow-md" onSubmit={handleFormSubmit}>
           <div className="flex justify-between">
