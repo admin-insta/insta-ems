@@ -1,5 +1,9 @@
 import React, { useState } from "react";
 import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 import { useSelector, useDispatch } from "react-redux";
 import { addPeople, removePeople, editPeople } from "../../store/peopleSlice";
 import EditIcon from "@mui/icons-material/Edit";
@@ -10,6 +14,12 @@ const ManagePeople = () => {
   const dispatch = useDispatch();
 
   const [open, setOpen] = useState(false);
+  const [confirmDialog, setConfirmDialog] = useState({
+    open: false,
+    title: "",
+    message: "",
+    onConfirm: null,
+  });
   const [formData, setFormData] = useState({
     id: null,
     firstName: "",
@@ -23,13 +33,11 @@ const ManagePeople = () => {
   });
   const [isEditing, setIsEditing] = useState(false);
 
-  // Handle input changes
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Open dialog for adding a new employee
   const handleAddClick = () => {
     setFormData({
       id: null,
@@ -46,14 +54,32 @@ const ManagePeople = () => {
     setOpen(true);
   };
 
-  // Open dialog for editing an employee
   const handleEditEmployee = (employee) => {
-    setFormData(employee);
-    setIsEditing(true);
-    setOpen(true);
+    setConfirmDialog({
+      open: true,
+      title: "Confirm Edit",
+      message: "Are you sure you want to edit this employee's details?",
+      onConfirm: () => {
+        setFormData(employee);
+        setIsEditing(true);
+        setOpen(true);
+        setConfirmDialog({ open: false });
+      },
+    });
   };
 
-  // Handle form submission for adding or editing
+  const handleDeleteEmployee = (employee) => {
+    setConfirmDialog({
+      open: true,
+      title: "Confirm Delete",
+      message: "Are you sure you want to delete this employee?",
+      onConfirm: () => {
+        dispatch(removePeople(employee));
+        setConfirmDialog({ open: false });
+      },
+    });
+  };
+
   const handleFormSubmit = (e) => {
     e.preventDefault();
 
@@ -72,17 +98,12 @@ const ManagePeople = () => {
     }
 
     if (isEditing) {
-      dispatch(editPeople(formData)); // Dispatch edit action
+      dispatch(editPeople(formData));
     } else {
-      dispatch(addPeople({ ...formData, id: Date.now() })); // Dispatch add action
+      dispatch(addPeople({ ...formData, id: Date.now() }));
     }
 
     setOpen(false);
-  };
-
-  // Handle deleting an employee
-  const handleDeleteEmployee = (employee) => {
-    dispatch(removePeople(employee));
   };
 
   return (
@@ -106,7 +127,7 @@ const ManagePeople = () => {
             {people.length === 0 ? (
               <div className="m-4 font-semibold text-lg p-4 text-gray-600 text-center">
                 No employee information is available. Please add Employee
-                details.{" "}
+                details.
               </div>
             ) : (
               <div>
@@ -266,6 +287,31 @@ const ManagePeople = () => {
             </button>
           </div>
         </form>
+      </Dialog>
+
+      {/* Confirmation Dialog */}
+      <Dialog
+        open={confirmDialog.open}
+        onClose={() => setConfirmDialog({ ...confirmDialog, open: false })}
+      >
+        <DialogTitle>{confirmDialog.title}</DialogTitle>
+        <DialogContent>
+          <DialogContentText>{confirmDialog.message}</DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <button
+            onClick={confirmDialog.onConfirm}
+            className="m-2 p-2 bg-red-600 text-white rounded-md"
+          >
+            Confirm
+          </button>
+          <button
+            onClick={() => setConfirmDialog({ ...confirmDialog, open: false })}
+            className="m-2 p-2 bg-blue-600 text-white rounded-md"
+          >
+            Cancel
+          </button>
+        </DialogActions>
       </Dialog>
     </>
   );

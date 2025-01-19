@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.attendance-cell {
+    height: 20px; /* Adjust the height as needed */
+    line-height: 20px; /* Ensure text is vertically centered */
+    text-align: center; /* Center the text horizontally */
+  }
