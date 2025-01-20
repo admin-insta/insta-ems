@@ -79,23 +79,21 @@ const AttendanceInfo = ({ view }) => {
               />
             </div>
             <div className="col-span-4 border  py-6 px-2 shadow-md rounded-md">
-              <h5 className=" font-bold mb-4 text-green-700">
-                Selected Date Info
-              </h5>
-              <div className="p-2 border-b">
-                <strong className="text-red-600">Date:</strong>{" "}
-                {selectedDate || "None selected"}
+              <div className=" font-bold mb-4 text-green-700 text-base">
+                Selected Date - {selectedDate || "None selected"}
+               
               </div>
+
               <div className="p-2 border-b">
-                <strong className="text-red-600">Check-In Time:</strong>{" "}
+                <strong className="text-gray-700">Check-In Time:</strong>{" "}
                 {selectedData.checkinTime || "-"}
               </div>
               <div className="p-2 border-b">
-                <strong className="text-red-600">Check-Out Time:</strong>{" "}
+                <strong className="text-gray-700">Check-Out Time:</strong>{" "}
                 {selectedData.checkoutTime || "-"}
               </div>
               <div className="p-2 border-b">
-                <strong className="text-red-600">Total Working Hours:</strong>{" "}
+                <strong className="text-gray-700">Total Working Hours:</strong>{" "}
                 {selectedData.checkinTime && selectedData.checkoutTime
                   ? calculateWorkingHours(
                       selectedData.checkinTime,
@@ -104,7 +102,7 @@ const AttendanceInfo = ({ view }) => {
                   : "-"}
               </div>
               <div className="p-2 border-b">
-                <strong className="text-red-600">Status:</strong>{" "}
+                <strong className="text-gray-700">Status:</strong>{" "}
                 {selectedData.status
                   ? selectedData.status.charAt(0).toUpperCase() +
                     selectedData.status.slice(1)
@@ -115,18 +113,43 @@ const AttendanceInfo = ({ view }) => {
         </>
       ) : (
         <div className="bg-white shadow-lg rounded-md p-4">
-          <h2 className="text-lg font-bold mb-4 text-center">
-            Attendance List
-          </h2>
-          <div className="border border-gray-300 rounded-md overflow-hidden">
-            <div className="grid grid-cols-4 bg-gray-200 font-semibold text-center py-2 border-b border-gray-300">
+          <h2 className="text-lg font-bold mb-4 text-center">Attendance</h2>
+          {/* Add horizontal scrolling */}
+          <div className="border border-gray-300 rounded-sm text-center overflow-x-auto">
+            <div
+              className="grid grid-cols-[150px_150px_150px_150px_150px] bg-clay font-semibold p-2 border-b border-gray-300"
+              style={{ minWidth: "750px" }} // Ensures grid has a minimum width
+            >
               <div>Date</div>
               <div>Status</div>
               <div>Check-In Time</div>
               <div>Check-Out Time</div>
+              <div>Shortfall Hours</div>
             </div>
             {Object.entries(attendance).map(
               ([date, { status, checkinTime, checkoutTime }]) => {
+                const formatDateWithOrdinal = (dateString) => {
+                  const dateObj = new Date(dateString);
+                  const day = dateObj.getDate();
+                  const month = dateObj.toLocaleString("en-US", {
+                    month: "long",
+                  });
+                  const year = dateObj.getFullYear();
+
+                  const ordinal =
+                    day === 1 || day === 21 || day === 31
+                      ? "st"
+                      : day === 2 || day === 22
+                      ? "nd"
+                      : day === 3 || day === 23
+                      ? "rd"
+                      : "th";
+
+                  return `${day}${ordinal} ${month} ${year}`;
+                };
+
+                const formattedDate = formatDateWithOrdinal(date);
+
                 const statusText =
                   status === "present"
                     ? "Present"
@@ -139,10 +162,10 @@ const AttendanceInfo = ({ view }) => {
                 return (
                   <div
                     key={date}
-                    className="grid grid-cols-4 text-center py-2 border-b border-gray-200 last:border-b-0"
-                    style={{ lineHeight: "1.2rem" }}
+                    className="grid grid-cols-[150px_150px_150px_150px_150px] text-center py-2 border-b border-gray-200 last:border-b-0"
+                    style={{ minWidth: "750px" }}
                   >
-                    <div>{date}</div>
+                    <div>{formattedDate}</div>
                     <div
                       className={`${
                         status === "present"
@@ -156,6 +179,7 @@ const AttendanceInfo = ({ view }) => {
                     </div>
                     <div>{checkinTime || "-"}</div>
                     <div>{checkoutTime || "-"}</div>
+                    <div>0 Hours</div>
                   </div>
                 );
               }

@@ -12,7 +12,11 @@ module.exports = {
           light: '#f6f3e1',   // Lighter shade
           dark: '#8A4C38',    // Darker shade
         },
+        future : "#eeeeee"
       }
+    },
+    fontFamily: {
+      poppins: ['Poppins', 'sans-serif'], // Add Poppins font
     },
   },
   plugins: [],

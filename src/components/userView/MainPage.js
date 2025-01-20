@@ -13,15 +13,18 @@ import ManagePeople from "./people/ManagePeople";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import ManageSearchIcon from "@mui/icons-material/ManageSearch";
 import BadgeOutlinedIcon from "@mui/icons-material/BadgeOutlined";
+import AccountBalanceWalletOutlinedIcon from "@mui/icons-material/AccountBalanceWalletOutlined";
 import UserHome from "./UserHome";
 import Attendance from "./attendance/Attendance";
 import LeaveManagement from "./leave/LeaveManagement";
+import PaySlip from "./salary/PaySlip";
 
 const MainPage = () => {
   const [selectedTask, setSelectedTask] = useState("home"); // Tracks the currently selected task
   const user = useSelector((store) => store?.user);
   const { name, photoUrl } = user || {};
   const [showPeople, setShowPeople] = useState(false);
+  const [showPayslip, setShowPayslip] = useState(false);
 
   return (
     <div className="bg-clay-light h-screen grid grid-cols-12">
@@ -77,6 +80,7 @@ const MainPage = () => {
             <CalendarMonthIcon />
             <span className="mx-2">Attendance</span>
           </li>
+
           <li
             onClick={() => setSelectedTask("leave")}
             className="m-2 flex items-center hover:scale-105 transition-all ease-in-out rounded-md hover:bg-white cursor-pointer"
@@ -84,13 +88,23 @@ const MainPage = () => {
             <EventBusyIcon />
             <span className="mx-2">Leave</span>
           </li>
+
           <li
-            onClick={() => setSelectedTask("salary")}
+            onClick={() => setShowPayslip(!showPayslip)}
             className="m-2 flex items-center hover:scale-105 transition-all ease-in-out rounded-md hover:bg-white cursor-pointer"
           >
             <CurrencyRupeeIcon />
             <span className="mx-2">Salary</span>
           </li>
+          {showPayslip && (
+            <p
+              onClick={() => setSelectedTask("payslip")}
+              className="ml-6 p-1 text-sm hover:scale-105 transition-all ease-in-out rounded-md hover:bg-white cursor-pointer"
+            >
+              <AccountBalanceWalletOutlinedIcon /> Payslip
+            </p>
+          )}
+
           <li
             onClick={() => setSelectedTask("documents")}
             className="m-2 flex items-center hover:scale-105 transition-all ease-in-out rounded-md hover:bg-white cursor-pointer"
@@ -126,7 +140,7 @@ const MainPage = () => {
         {selectedTask === "managepeople" && <ManagePeople />}
         {selectedTask === "attendance" && <Attendance />}
         {selectedTask === "leave" && <LeaveManagement />}
-        {selectedTask === "salary" && <div>Salary Information</div>}
+        {selectedTask === "payslip" && <PaySlip />}
         {selectedTask === "documents" && <div>Document Center</div>}
         {selectedTask === "expenses" && <div>Expense Claims</div>}
         {selectedTask === "help" && <div>Help Desk</div>}
