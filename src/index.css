@@ -7,3 +7,7 @@
     line-height: 20px; /* Ensure text is vertically centered */
     text-align: center; /* Center the text horizontally */
   }
+
+  .custom-dropdown-item {
+    width: 200px;
+  }
