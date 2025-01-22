@@ -1,22 +1,25 @@
 import React from "react";
-import background from "../components/utils/images/background.jpg";
+import newback from "../components/utils/images/newback.jpg";
+import EastOutlinedIcon from "@mui/icons-material/EastOutlined";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const MainContainer = () => {
-  const user = useSelector((store)=>store?.user)
-  if(user){
+  const navigate = useNavigate();
+  const user = useSelector((store) => store?.user);
+  if (user) {
     return null;
   }
   return (
-    <div className="grid col-span-12 grid-flow-col  bg-blue-700 shadow-lg">
+    <div className="grid col-span-12 grid-flow-col  bg-purple-950 shadow-lg">
       {/*maain background image*/}
-      <div className="col-span-8">
-        <img className="lg:inline sm:hidden" alt="background" src={background} />
+      <div className="col-span-8 shadow-inner">
+        <img className="lg:inline sm:hidden" alt="background" src={newback} />
       </div>
 
       {/*main background description*/}
       <div className="col-span-4">
-        <div className=" lg:mt-10 md:mt-4 sm:mt-2  text-gray-100 text-center p-4 font-semibold">
+        <div className=" lg:mt-10 md:mt-4 sm:mt-2  text-gray-100 text-center p-4 ">
           <div className="lg:text-3xl md:text-xl sm:text-base">
             Simplify Workforce Management
           </div>
@@ -26,8 +29,11 @@ const MainContainer = () => {
           </div>
         </div>
         <div className="lg:m-4 md:m-2 sm:m-1 grid  justify-center">
-          <button className="bg-red-600 p-2  text-white rounded-md font-semibold lg:text-lg  md:text-sm sm:text-xs xs:text-xs">
-            Get Started for Free
+          <button
+            onClick={() => navigate("/login")}
+            className="bg-[#FF0000] px-4 py-2 text-white rounded-sm  lg:text-lg  md:text-sm sm:text-xs xs:text-xs hover:scale-105 transition-all ease-in-out"
+          >
+            Get Started for Free <EastOutlinedIcon sx={{ color: "white" }} />
           </button>
         </div>
       </div>

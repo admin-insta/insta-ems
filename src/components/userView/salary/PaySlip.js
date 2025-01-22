@@ -16,17 +16,17 @@ const PaySlip = () => {
         <div className="col-span-9 flex flex-col p-2 shadow-md">
           <div className="flex justify-around p-4">
             <div className="flex font-semibold font-poppins">
-              <div className="p-2 bg-blue-500 border cursor-pointer text-white">
+              <div className="p-2 bg-purple-950 border cursor-pointer text-white">
                 PAYSLIP
               </div>
-              <div className="p-2 bg-blue-500 border cursor-pointer text-white">
+              <div className="p-2 bg-purple-950 border cursor-pointer text-white">
                 {" "}
                 REIMBURSEMENT
               </div>
             </div>
 
             <div>
-              <Dropdown appearance="primary" title="SELECT MONTH">
+              <Dropdown title="SELECT MONTH">
                 <Dropdown.Item style={{ width: "100px", padding: "3px" }}>
                   JAN
                 </Dropdown.Item>
@@ -66,7 +66,7 @@ const PaySlip = () => {
               </Dropdown>
               <span className="mx-2">
                 <button className="bg-clay px-6 rounded-sm py-1">
-                  <FileDownloadOutlinedIcon sx={{ color: "blue" }} />
+                  <FileDownloadOutlinedIcon sx={{ color: "purple" }} />
                 </button>
               </span>
             </div>

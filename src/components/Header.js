@@ -54,7 +54,7 @@ const Header = () => {
   }, []);
 
   return (
-    <div className="grid grid-cols-12  z-10 sticky top-0 justify-center items-center lg:text-base md:text-sm sm:text-xs xs:text-xs bg-blue-700 font-semibold whitespace-nowrap">
+    <div className="grid grid-cols-12  z-10 sticky top-0 justify-center items-center lg:text-base md:text-sm sm:text-xs xs:text-xs bg-purple-950  whitespace-nowrap">
       {/* First Menu-Item sidebar and Logo*/}
       <div className="grid grid-flow-col justify-start items-center col-span-6">
         <span className="lg:mx-4 md:mx-2 sm:m-1">
@@ -98,7 +98,7 @@ const Header = () => {
           <li>
             <button
               onClick={() => navigate("/demorequest")}
-              className="p-2  m-2 bg-slate-800 text-white rounded-lg hover:scale-110 transition-all ease-in-out "
+              className="p-2  m-2 bg-yellow-400 text-white rounded-sm hover:scale-110 transition-all ease-in-out "
             >
               Request A Demo
             </button>
@@ -106,7 +106,7 @@ const Header = () => {
           <li>
             <button
               onClick={user ? handleSignOut : handleSignIn}
-              className="p-2 m-2 bg-slate-800 text-white rounded-lg hover:scale-110 transition-all ease-in-out"
+              className="p-2 m-2 bg-neutral-800 text-white rounded-sm hover:scale-110 transition-all ease-in-out"
             >
               {user ? "Logout" : "Login"}
             </button>

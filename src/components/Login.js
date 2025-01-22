@@ -70,7 +70,7 @@ const Login = () => {
         <img className="" alt="background" src={loginbg} />
       </div>
       <div className=" my-4 mx-16 p-8 w-2/5">
-        <form className="bg-blue-700 rounded-2xl flex flex-col  justify-center p-4  w-full">
+        <form className="bg-purple-950 rounded-2xl flex flex-col  justify-center p-4  w-full">
           <span className="text-center text-white font-semibold text-lg">
             <LockOpenIcon sx={{ fontSize: 60 }} />
           </span>

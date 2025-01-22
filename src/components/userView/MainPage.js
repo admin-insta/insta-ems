@@ -8,6 +8,7 @@ import EventBusyIcon from "@mui/icons-material/EventBusy";
 import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
 import MoneyIcon from "@mui/icons-material/Money";
 import PrivacyTipIcon from "@mui/icons-material/PrivacyTipOutlined";
+import ThumbUpAltOutlinedIcon from "@mui/icons-material/ThumbUpAltOutlined";
 import PeopleList from "./people/PeopleList";
 import ManagePeople from "./people/ManagePeople";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
@@ -18,6 +19,7 @@ import UserHome from "./UserHome";
 import Attendance from "./attendance/Attendance";
 import LeaveManagement from "./leave/LeaveManagement";
 import PaySlip from "./salary/PaySlip";
+import Feedback from "./feedback/Feedback";
 
 const MainPage = () => {
   const [selectedTask, setSelectedTask] = useState("home"); // Tracks the currently selected task
@@ -126,6 +128,13 @@ const MainPage = () => {
             <PrivacyTipIcon />
             <span className="mx-2">Help Desk</span>
           </li>
+          <li
+            onClick={() => setSelectedTask("feedback")}
+            className="m-2 flex items-center hover:scale-105 transition-all ease-in-out rounded-md hover:bg-white cursor-pointer"
+          >
+            <ThumbUpAltOutlinedIcon />
+            <span className="mx-2"> Feedback</span>
+          </li>
         </ul>
       </div>
 
@@ -144,6 +153,7 @@ const MainPage = () => {
         {selectedTask === "documents" && <div>Document Center</div>}
         {selectedTask === "expenses" && <div>Expense Claims</div>}
         {selectedTask === "help" && <div>Help Desk</div>}
+        {selectedTask === "feedback" && <Feedback />}
       </div>
     </div>
   );
