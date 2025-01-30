@@ -2,6 +2,8 @@ import React, { useRef, useState } from "react";
 import loginbg from "../components/utils/images/loginbg.png";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import { auth } from "../components/utils/firebase";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -10,6 +12,7 @@ import {
 const Login = () => {
   const [alreadyUser, setAlreadyUser] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
+  const [showPassword, setShowPassword] = useState(false);
   console.log(alreadyUser);
   const email = useRef();
   const password = useRef();
@@ -111,10 +114,17 @@ const Login = () => {
 
           <input
             className="mx-2 my-3 p-2 border border-gray-700 rounded-md"
-            type="password"
+            type={showPassword ? "text" : "password"}
             placeholder="Password"
             ref={password}
+            // value={password}
           />
+          <span
+            className="absolute right-32 top-80    cursor-pointer"
+            onClick={() => setShowPassword(!showPassword)}
+          >
+            {showPassword ?  <VisibilityOffIcon />:<VisibilityIcon /> }
+          </span>
 
           <span className="text-white mx-2">
             Forgot Your Password{" "}

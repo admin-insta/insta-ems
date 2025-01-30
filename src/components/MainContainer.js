@@ -11,7 +11,7 @@ const MainContainer = () => {
     return null;
   }
   return (
-    <div className="grid col-span-12 grid-flow-col  bg-purple-950 shadow-lg">
+    <div className="grid col-span-12 grid-flow-col   shadow-lg font-semibold">
       {/*maain background image*/}
       <div className="col-span-8 shadow-inner">
         <img className="lg:inline sm:hidden" alt="background" src={newback} />
@@ -19,7 +19,7 @@ const MainContainer = () => {
 
       {/*main background description*/}
       <div className="col-span-4">
-        <div className=" lg:mt-10 md:mt-4 sm:mt-2  text-gray-100 text-center p-4 ">
+        <div className=" lg:mt-10 md:mt-4 sm:mt-2  text-gray-900 text-center p-4 ">
           <div className="lg:text-3xl md:text-xl sm:text-base">
             Simplify Workforce Management
           </div>

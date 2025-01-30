@@ -54,14 +54,14 @@ const Header = () => {
   }, []);
 
   return (
-    <div className="grid grid-cols-12  z-10 sticky top-0 justify-center items-center lg:text-base md:text-sm sm:text-xs xs:text-xs bg-purple-950  whitespace-nowrap">
+    <div className="grid grid-cols-12  font-nunito font-semibold  z-10 sticky top-0 justify-center items-center lg:text-base md:text-sm sm:text-xs xs:text-xs   whitespace-nowrap shadow-md bg-white">
       {/* First Menu-Item sidebar and Logo*/}
       <div className="grid grid-flow-col justify-start items-center col-span-6">
         <span className="lg:mx-4 md:mx-2 sm:m-1">
           <MenuIcon
             className="hover:scale-110 transition-all ease-in-out hover:shadow-md"
             sx={{
-              color: "white",
+              
               fontSize: { lg: 28, md: 24, sm: 20, xs: 16 },
             }}
           />
@@ -70,7 +70,7 @@ const Header = () => {
           <FitbitIcon
             className="hover:scale-110 transition-all ease-in-out hover:shadow-md"
             sx={{
-              color: "white",
+              
               fontSize: { lg: 28, md: 24, sm: 20, xs: 16 },
             }}
           />
@@ -81,12 +81,12 @@ const Header = () => {
             onClick={() => {
               user ? navigate("/userview") : navigate("/");
             }}
-            className="text-white  hover:scale-110 transition-all ease-in-out m-2 cursor-pointer"
+            className="hover:scale-110 transition-all ease-in-out m-2 cursor-pointer"
           >
             Home
           </li>
 
-          <li className="text-white hover:scale-110 transition-all ease-in-out m-2">
+          <li className=" hover:scale-110 transition-all ease-in-out m-2">
             Services
           </li>
         </ul>
@@ -98,7 +98,7 @@ const Header = () => {
           <li>
             <button
               onClick={() => navigate("/demorequest")}
-              className="p-2  m-2 bg-yellow-400 text-white rounded-sm hover:scale-110 transition-all ease-in-out "
+              className="p-2  m-2 bg-[#ffd801] rounded-sm hover:scale-110 transition-all ease-in-out "
             >
               Request A Demo
             </button>
@@ -106,7 +106,7 @@ const Header = () => {
           <li>
             <button
               onClick={user ? handleSignOut : handleSignIn}
-              className="p-2 m-2 bg-neutral-800 text-white rounded-sm hover:scale-110 transition-all ease-in-out"
+              className="p-2 m-2 bg-purple-600 text-white  rounded-sm hover:scale-110 transition-all ease-in-out"
             >
               {user ? "Logout" : "Login"}
             </button>
@@ -116,11 +116,10 @@ const Header = () => {
           <LanguageIcon
             className="hover:scale-110 transition-all ease-in-out hover:shadow-md"
             sx={{
-              color: "white",
               fontSize: { xs: 12, sm: 16, md: 20, lg: 24 },
             }}
           />
-          <p className="text-xs text-white text-center cursor-pointer">EN</p>
+          <p className="text-xs  text-center cursor-pointer">EN</p>
         </div>
       </div>
     </div>
