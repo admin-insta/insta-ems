@@ -1,16 +1,14 @@
 import React from "react";
 import { Dropdown } from "rsuite";
 import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
+import EmployeeList from "../EmployeeList";
 const PaySlip = () => {
   return (
     <>
-      <div className="grid grid-cols-12 gap-4 m-4 h-screen">
+      <div className="grid grid-cols-12 gap-4 m-4 h-screen border-gray-300">
         {/* Employee List Section */}
-        <div className="col-span-3 p-4 bg-clay shadow-md rounded-md  ">
-          <h2 className="text-lg font-bold">Employee List</h2>
-          <ul className="mt-2">
-            <li className="p-2 bg-white rounded-sm m-1 text-base">Employee</li>
-          </ul>
+        <div className="col-span-3  rounded-md bg-clay-light ">
+          <EmployeeList />
         </div>
 
         <div className="col-span-9 flex flex-col p-2 shadow-md">

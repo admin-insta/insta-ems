@@ -3,6 +3,7 @@ import AttendanceInfo from "./AttendanceInfo";
 import { mockAttendance } from "../../utils/mockAttendance";
 import ListIcon from "@mui/icons-material/List";
 import GridViewIcon from "@mui/icons-material/GridView";
+import EmployeeList from "../EmployeeList";
 
 const Attendance = () => {
   const [view, setView] = useState("grid"); // Default view is grid
@@ -14,13 +15,8 @@ const Attendance = () => {
   return (
     <div className="grid grid-cols-12 gap-4 m-4 h-screen">
       {/* Employee List Section */}
-      <div className="col-span-3 p-4 bg-clay shadow-md rounded-md ">
-        <h2 className="text-lg font-bold">Employee List</h2>
-        <ul className="mt-2">
-          <li className="p-2 bg-white rounded-sm m-1 text-base">
-            {mockAttendance.name}
-          </li>
-        </ul>
+      <div className="col-span-3   rounded-md bg-clay-light ">
+        <EmployeeList />
       </div>
 
       {/* Attendance Info Section */}

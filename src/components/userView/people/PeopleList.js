@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 // import people from "../../utils/mockData";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useSelector } from "react-redux";
+import EmployeeList from "../EmployeeList";
 
 const People = () => {
   const people = useSelector((store) => store.people || []);
@@ -10,10 +11,6 @@ const People = () => {
   );
 
   const [searchQuery, setSearchQuery] = useState("");
-
-  const handleEmployeeClick = (employee) => {
-    setSelectedEmployee(employee);
-  };
 
   const filteredEmployees = people.filter((employee) =>
     employee.firstName.toLowerCase().includes(searchQuery.toLowerCase())
@@ -29,36 +26,14 @@ const People = () => {
   return people === null ? (
     <div>There are no employees in your organisation, Add Employee</div>
   ) : (
-    <div className="m-8 border border-gray-300 flex ">
+    <div className="m-4 gap-4 border border-gray-300  grid grid-cols-12 h-screen">
       {/* Scrollable Employee List */}
-      <div
-        className="overflow-y-auto max-h-96 border-r border-gray-300 w-1/3"
-        style={{ scrollbarWidth: "thin" }}
-      >
-        <h1 className="text-lg mx-4 my-2">Employee List</h1>
-        <input
-          type="text"
-          placeholder="Search by name"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          className="block w-11/12 mx-auto my-2 p-2 border border-gray-300 rounded-sm"
-        />
-        {filteredEmployees.map((employee, index) => (
-          <div
-            className={`bg-clay p-1 mx-4 my-1 border border-gray-400 hover:bg-white rounded-sm cursor-pointer ${
-              selectedEmployee?.name === employee.firstName ? "bg-gray-200" : ""
-            }`}
-            key={index}
-            onClick={() => handleEmployeeClick(employee)}
-          >
-            {employee.firstName}
-            <p className="text-xs">{employee.designation}</p>
-          </div>
-        ))}
+      <div className="col-span-3">
+        <EmployeeList />
       </div>
 
       {/* Description Box */}
-      <div className="w-2/3 p-4 relative">
+      <div className=" p-4 relative col-span-9 ">
         {selectedEmployee ? (
           <div className="bg-clay-light p-4 border border-clay rounded-md h-80">
             <p>
