@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 // import people from "../../utils/mockData";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useSelector } from "react-redux";
@@ -10,18 +10,8 @@ const People = () => {
     people.length > 0 ? people[0] : null
   );
 
-  const [searchQuery, setSearchQuery] = useState("");
 
-  const filteredEmployees = people.filter((employee) =>
-    employee.firstName.toLowerCase().includes(searchQuery.toLowerCase())
-  );
 
-  useEffect(() => {
-    // Set the first employee in the filtered list only if no employee is selected
-    if (!selectedEmployee && filteredEmployees.length > 0) {
-      setSelectedEmployee(filteredEmployees[0]);
-    }
-  }, [filteredEmployees, selectedEmployee]);
 
   return people === null ? (
     <div>There are no employees in your organisation, Add Employee</div>

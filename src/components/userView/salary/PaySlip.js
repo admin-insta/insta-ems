@@ -7,11 +7,11 @@ const PaySlip = () => {
     <>
       <div className="grid grid-cols-12 gap-4 m-4 h-screen border-gray-300">
         {/* Employee List Section */}
-        <div className="col-span-3  rounded-md bg-clay-light ">
+        <div className="col-span-3 my-4 rounded-md bg-clay-light ">
           <EmployeeList />
         </div>
 
-        <div className="col-span-9 flex flex-col p-2 shadow-md">
+        <div className="col-span-9 flex flex-col p-2 shadow-md m-4">
           <div className="flex justify-around p-4">
             <div className="flex font-semibold font-poppins">
               <div className="p-2 bg-purple-950 border cursor-pointer text-white">
