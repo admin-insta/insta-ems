@@ -8,6 +8,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { addPeople, removePeople, editPeople } from "../../store/peopleSlice";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import Button from "../../utils/theme/Button";
 
 const ManagePeople = () => {
   const people = useSelector((store) => store.people);
@@ -113,19 +114,16 @@ const ManagePeople = () => {
           <h4 className="m-4 text-center font-semibold">
             Manage Your Employees
           </h4>
-          <button
-            onClick={handleAddClick}
-            className="bg-gray-800 m-4 p-2 rounded-md text-white"
-          >
+          <Button onClick={handleAddClick}>
             Add People to your organisation
-          </button>
+          </Button>
         </div>
 
         <div className="m-4 w-1/2 rounded-md border shadow-md">
           <h4 className="m-4 text-center font-semibold">Employee List</h4>
           <div>
             {people.length === 0 ? (
-              <div className="m-4 font-semibold text-lg p-4 text-gray-600 text-center">
+              <div className="m-4 font-semibold text-lg p-4  text-center">
                 No employee information is available. Please add Employee
                 details.
               </div>
@@ -272,19 +270,12 @@ const ManagePeople = () => {
           </div>
 
           <div className="flex justify-center items-center">
-            <button
-              type="submit"
-              className="m-2 p-2 bg-red-600 text-white rounded-md"
-            >
-              {isEditing ? "Update" : "Submit"}
-            </button>
-            <button
-              type="button"
-              onClick={() => setOpen(false)}
-              className="m-2 p-2 bg-blue-600 text-white rounded-md"
-            >
+            <div className="mx-2">
+              <Button type="submit">{isEditing ? "Update" : "Submit"}</Button>
+            </div>
+            <Button variant="secondary" onClick={() => setOpen(false)}>
               Cancel
-            </button>
+            </Button>
           </div>
         </form>
       </Dialog>
@@ -299,18 +290,19 @@ const ManagePeople = () => {
           <DialogContentText>{confirmDialog.message}</DialogContentText>
         </DialogContent>
         <DialogActions>
-          <button
+          <Button
             onClick={confirmDialog.onConfirm}
             className="m-2 p-2 bg-red-600 text-white rounded-md"
           >
             Confirm
-          </button>
-          <button
+          </Button>
+          <Button
+            variant="secondary"
             onClick={() => setConfirmDialog({ ...confirmDialog, open: false })}
             className="m-2 p-2 bg-blue-600 text-white rounded-md"
           >
             Cancel
-          </button>
+          </Button>
         </DialogActions>
       </Dialog>
     </>
