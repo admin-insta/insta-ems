@@ -2,6 +2,7 @@ import React from "react";
 import track from "../utils/images/track.jpg";
 import reviewsbg from "../utils/images/reviewsbg.jpg";
 import holidays from "../utils/images/holidays.jpg";
+import Button from "../utils/theme/Button";
 const UserHome = () => {
   return (
     <div>
@@ -11,7 +12,7 @@ const UserHome = () => {
         <div className="flex text-center p-4 text-lg"> 
         Opening doors to infinite potential.
         </div>
-        <div className="text-base"><button className="bg-gray-800 text-white p-2 rounded-md">Explore</button></div>
+        <div className="text-base"><Button >Explore</Button></div>
       </div>
       <div className="flex flex-row m-4 p-4">
         <div className="m-2 p-4 rounded-lg shadow-md bg-white text-lg w-72">

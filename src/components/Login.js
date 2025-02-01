@@ -120,10 +120,10 @@ const Login = () => {
             // value={password}
           />
           <span
-            className="absolute right-32 top-80    cursor-pointer"
+            className="absolute right-32 top-[332px]   cursor-pointer"
             onClick={() => setShowPassword(!showPassword)}
           >
-            {showPassword ?  <VisibilityOffIcon />:<VisibilityIcon /> }
+            {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
           </span>
 
           <span className="text-white mx-2">

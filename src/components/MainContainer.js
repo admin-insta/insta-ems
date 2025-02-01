@@ -3,6 +3,7 @@ import newback from "../components/utils/images/newback.jpg";
 import EastOutlinedIcon from "@mui/icons-material/EastOutlined";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import Button from "./utils/theme/Button";
 
 const MainContainer = () => {
   const navigate = useNavigate();
@@ -28,13 +29,14 @@ const MainContainer = () => {
             to make Work Easier and More Efficient.
           </div>
         </div>
-        <div className="lg:m-4 md:m-2 sm:m-1 grid  justify-center">
-          <button
+        <div className="lg:m-4 md:m-2 sm:m-1 grid  justify-center lg:text-lg  md:text-sm sm:text-xs xs:text-xs hover:scale-105 transition-all ease-in-out">
+          <Button
+            variant="secondary"
             onClick={() => navigate("/login")}
-            className="bg-[#FF0000] px-4 py-2 text-white rounded-sm  lg:text-lg  md:text-sm sm:text-xs xs:text-xs hover:scale-105 transition-all ease-in-out"
+            // className="bg-[#FF0000] px-4 py-2 text-white rounded-sm  "
           >
             Get Started for Free <EastOutlinedIcon sx={{ color: "white" }} />
-          </button>
+          </Button>
         </div>
       </div>
     </div>

@@ -94,12 +94,12 @@ const Header = () => {
       {/* second Menu-Item Language-Icon*/}
       <div className="grid grid-flow-col col-span-6 justify-end">
         <ul className="pt-2 grid grid-flow-col  justify-end items-center">
-          <li className=" p-2 ">
+          <li className=" p-2 hover:scale-105 transition-all ease-in-out ">
             <Button onClick={() => navigate("/demorequest")}>
               Request A Demo
             </Button>
           </li>
-          <li className="p-2">
+          <li className="p-2 hover:scale-105 transition-all ease-in-out ">
             <Button onClick={user ? handleSignOut : handleSignIn}>
               {user ? "Logout" : "Login"}
             </Button>
