@@ -20,6 +20,7 @@ import Attendance from "./attendance/Attendance";
 import LeaveManagement from "./leave/LeaveManagement";
 import PaySlip from "./salary/PaySlip";
 import Feedback from "./feedback/Feedback";
+import DocumentCenter from "./document/DocumentCenter";
 
 const MainPage = () => {
   const [selectedTask, setSelectedTask] = useState("home"); // Tracks the currently selected task
@@ -40,7 +41,7 @@ const MainPage = () => {
           <img className="h-10 m-2 rounded-full" alt="/" src={photoUrl} />
         </div>
 
-        <ul className="mt-4">
+        <ul className="mt-4 ">
           <li
             onClick={() => setSelectedTask("home")}
             className="m-2 flex items-center hover:scale-105 transition-all ease-in-out rounded-md hover:bg-white cursor-pointer"
@@ -96,7 +97,7 @@ const MainPage = () => {
             className="m-2 flex items-center hover:scale-105 transition-all ease-in-out rounded-md hover:bg-white cursor-pointer"
           >
             <CurrencyRupeeIcon />
-            <span className="mx-2">Salary</span>
+            <span className="mx-2">Salary <KeyboardArrowDownIcon /></span>
           </li>
           {showPayslip && (
             <p
@@ -112,7 +113,7 @@ const MainPage = () => {
             className="m-2 flex items-center hover:scale-105 transition-all ease-in-out rounded-md hover:bg-white cursor-pointer"
           >
             <ArticleOutlinedIcon />
-            <span className="mx-2">Document Center</span>
+            <span className="mx-2">Documents</span>
           </li>
           <li
             onClick={() => setSelectedTask("expenses")}
@@ -150,7 +151,7 @@ const MainPage = () => {
         {selectedTask === "attendance" && <Attendance />}
         {selectedTask === "leave" && <LeaveManagement />}
         {selectedTask === "payslip" && <PaySlip />}
-        {selectedTask === "documents" && <div>Document Center</div>}
+        {selectedTask === "documents" && <DocumentCenter />}
         {selectedTask === "expenses" && <div>Expense Claims</div>}
         {selectedTask === "help" && <div>Help Desk</div>}
         {selectedTask === "feedback" && <Feedback />}
