@@ -1,7 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import LanguageIcon from "@mui/icons-material/Language";
 import FitbitIcon from "@mui/icons-material/Fitbit";
 import MenuIcon from "@mui/icons-material/Menu";
+import ChevronRightOutlinedIcon from "@mui/icons-material/ChevronRightOutlined";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { onAuthStateChanged, signOut } from "firebase/auth";
@@ -13,6 +14,7 @@ const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((store) => store?.user);
+  const [showProduct, setShowProduct] = useState(false);
 
   //Login
   const handleSignIn = () => {
@@ -84,10 +86,30 @@ const Header = () => {
           >
             Home
           </li>
-
           <li className=" hover:scale-110 transition-all ease-in-out m-2">
-            Services
+            Resources
           </li>
+          <li className=" hover:scale-110 transition-all ease-in-out m-2">
+            Pricing
+          </li>
+
+          <div
+            className="relative"
+            onMouseEnter={() => setShowProduct(true)}
+            onMouseLeave={() => setShowProduct(false)}
+          >
+            <li className="group hover:scale-110 transition-all ease-in-out m-2 flex items-center duration-300 cursor-pointer">
+              Products
+              <ChevronRightOutlinedIcon
+                className={`transition-transform duration-5000 ease-in-out transform  ${
+                  showProduct ? "rotate-90" : "rotate-0"
+                }`}
+              />
+            </li>
+
+            {/* Show Product Menu */}
+            {showProduct && <ProductMenu />}
+          </div>
         </ul>
       </div>
 
@@ -121,3 +143,30 @@ const Header = () => {
 };
 
 export default Header;
+
+export const ProductMenu = () => {
+  return (
+    <div className="absolute top-10 left-0 bg-white shadow-lg p-4 rounded-md w-48 md:w-56 lg:w-64 z-50">
+      <ul className="text-sm">
+        <li className="p-4 hover:scale-105  transition-all ease-in-out cursor-pointer">
+          HRMS
+        </li>
+        <li className="p-4 hover:scale-105 transition-all ease-in-out  cursor-pointer">
+          Payroll System
+        </li>
+        <li className="p-4 hover:scale-105  transition-all ease-in-out cursor-pointer">
+          Leave Management
+        </li>
+        <li className="p-4 hover:scale-105 transition-all ease-in-out cursor-pointer">
+          Attendance Management
+        </li>
+        <li className="p-4 hover:scale-105 transition-all ease-in-out cursor-pointer">
+          Employee Engagement
+        </li>
+        <li className="p-4 hover:scale-105 transition-all ease-in-out cursor-pointer">
+          Performance Management
+        </li>
+      </ul>
+    </div>
+  );
+};
