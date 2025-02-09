@@ -1,85 +1,59 @@
 import React, { useRef, useState } from "react";
 import loginbg from "../components/utils/images/loginbg.png";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
-import { auth } from "../components/utils/firebase";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  updateProfile,
-} from "firebase/auth";
+import { login } from "../api/auth";
+import { useNavigate } from "react-router-dom";
+
 const Login = () => {
+  const navigate = useNavigate();
   const [alreadyUser, setAlreadyUser] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
-  console.log(alreadyUser);
+
   const email = useRef();
   const password = useRef();
   const companyName = useRef();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("submit called");
-    console.log(email.current.value, password.current.value);
-    //Signup a new user
-    if (alreadyUser === true) {
-      createUserWithEmailAndPassword(
-        auth,
-        email.current.value,
-        password.current.value
-      )
-        .then((userCredential) => {
-          const user = userCredential.user;
-          console.log("registred user is", user);
-          updateProfile(user, {
-            displayName: companyName.current.value,
-            photoURL: "https://avatars.githubusercontent.com/u/112201248?v=4",
-          }).catch((error) => {
-            //An Error Occured
-          });
-        })
-        .catch((error) => {
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          console.log("registration fail", errorCode, errorMessage);
-          // ..
-        });
-    }
-    //sign in with an already user
-    else {
-      signInWithEmailAndPassword(
-        auth,
-        email.current.value,
-        password.current.value
-      )
-        .then((userCredential) => {
-          // Signed in
-          const user = userCredential.user;
-          console.log("already user is", user);
-          setErrorMessage(null);
-        })
-        .catch((error) => {
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          console.log("registration fail", errorCode, errorMessage);
-          setErrorMessage("Not A Registered user, Please Sign Up");
-        });
+    const emailValue = email.current.value;
+    const passwordValue = password.current.value;
+
+    const response = await login(emailValue, passwordValue);
+
+    if (response.success) {
+      navigate("/userview");
+    } else {
+      setErrorMessage(response.message);
     }
   };
+
   return (
-    <div className="flex flex-row ">
-      <div className="w-1/2">
-        <img className="" alt="background" src={loginbg} />
+    <div className="flex flex-col md:flex-row items-center justify-center min-h-screen bg-gray-100">
+      {/* Left Side Image - Hidden on Mobile */}
+      <div className="hidden md:block md:w-1/2">
+        <img
+          className="w-full h-screen object-cover"
+          alt="background"
+          src={loginbg}
+        />
       </div>
-      <div className=" my-4 mx-16 p-8 w-2/5">
-        <form className="bg-purple-950 rounded-2xl flex flex-col  justify-center p-4  w-full">
+
+      {/* Right Side Form */}
+      <div className="w-full md:w-1/2 flex justify-center">
+        <form className="bg-blue-700 rounded-2xl flex flex-col p-6 w-full max-w-sm shadow-lg">
           <span className="text-center text-white font-semibold text-lg">
             <LockOpenIcon sx={{ fontSize: 60 }} />
           </span>
-          <div className="m-2 p-2 bg-gray-900 rounded-md">
-            <span className="text-white mx-2 text-lg">
-              New here? Sign up to get started!{" "}
+
+          {/* Toggle Sign-in / Sign-up */}
+          <div className=" p-2 bg-gray-900 rounded-md text-center w-full">
+            <span className="text-white text-sm md:text-lg">
+              {alreadyUser
+                ? "Already have an account? "
+                : "New here? Sign up to get started! "}
               <span
                 className="cursor-pointer underline"
                 onClick={() => setAlreadyUser(!alreadyUser)}
@@ -89,57 +63,59 @@ const Login = () => {
             </span>
           </div>
 
-          {/* <input
-            className="m-2 p-2 border border-gray-700 rounded-md"
-            type="text"
-            placeholder=""
-            aria-label="Enter Phone Number"
-
-          /> */}
-          {/* <label className="text-center text-white">OR</label> */}
+          {/* Company Name Input (only for new users) */}
           {alreadyUser && (
             <input
-              className="m-2 p-2 border border-gray-700 rounded-md"
+              className="my-2 p-2 border border-gray-700 rounded-md text-sm md:text-base"
               type="text"
               placeholder="Your Company Name"
               ref={companyName}
             />
           )}
+
+          {/* Email Input */}
           <input
-            className="m-2 p-2 border border-gray-700 rounded-md"
+            className=" my-2 p-2 border border-gray-700 rounded-md text-sm md:text-base w-full"
             type="email"
             placeholder="Email Id"
             ref={email}
           />
 
-          <input
-            className="mx-2 my-3 p-2 border border-gray-700 rounded-md"
-            type={showPassword ? "text" : "password"}
-            placeholder="Password"
-            ref={password}
-            // value={password}
-          />
-          <span
-            className="absolute right-32 top-[332px]   cursor-pointer"
-            onClick={() => setShowPassword(!showPassword)}
-          >
-            {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
-          </span>
+          {/* Password Input */}
+          <div className="relative">
+            <input
+              className="my-2  p-2 border border-gray-700 rounded-md w-full text-sm md:text-base"
+              type={showPassword ? "text" : "password"}
+              placeholder="Password"
+              ref={password}
+            />
+            <span
+              className="absolute right-4 top-4 text-gray-400 cursor-pointer"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+            </span>
+          </div>
 
-          <span className="text-white mx-2">
-            Forgot Your Password{" "}
+          {/* Forgot Password */}
+          <span className="my-2 text-white text-sm md:text-base">
+            Forgot Your Password?{" "}
             <span className="cursor-pointer underline hover:text-gray-950">
               Click Here
             </span>
           </span>
 
-          <span className="text-white mx-2 font-bold">{errorMessage}</span>
+          {/* Error Message */}
+          {errorMessage && (
+            <span className="text-red-400 text-sm mx-2">{errorMessage}</span>
+          )}
 
+          {/* Submit Button */}
           <button
             onClick={handleSubmit}
-            className="my-4 mx-2 p-2 text-lg   bg-gray-900 rounded-md text-white"
+            className="my-2 p-2 text-lg bg-gray-900 rounded-md text-white hover:bg-gray-800 transition-all w-full"
           >
-            Sign-In
+            {alreadyUser ? "Sign Up" : "Sign In"}
           </button>
         </form>
       </div>

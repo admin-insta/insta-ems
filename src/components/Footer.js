@@ -19,7 +19,7 @@ const Footer = () => {
   return (
     <>
       <div className="flex flex-col">
-        <div className=" bg-purple-950 border-b">
+        <div className=" bg-blue-700 border-b">
           <span className="font-semibold lg:text-lg md:text-sm sm:text-xs text-white p-4">
             Connect To Us
           </span>
@@ -79,7 +79,7 @@ const Footer = () => {
         </div>
         {/* <img alt="/" src={footer}/> */}
       </div>
-      <div className="text-right md:text-sm sm:text-xs  bg-purple-950 text-white p-2 ">
+      <div className="text-right md:text-sm sm:text-xs  bg-blue-700 text-white p-2 ">
         © 2025 InstaEms. All Rights Reserved.
       </div>
     </>

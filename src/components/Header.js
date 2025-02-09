@@ -5,60 +5,54 @@ import MenuIcon from "@mui/icons-material/Menu";
 import ChevronRightOutlinedIcon from "@mui/icons-material/ChevronRightOutlined";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { onAuthStateChanged, signOut } from "firebase/auth";
 import { addUser, removeUser } from "./store/userSlice";
-import { auth } from "./utils/firebase";
+import { setCookie, getCookie, deleteCookie } from "../cookieStorage/cookie"; // Assuming you have cookie utility functions
 import Button from "../components/utils/theme/Button";
 
 const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const user = useSelector((store) => store?.user);
+  const [user, setUser] = useState(null); // Local state to store user
   const [showProduct, setShowProduct] = useState(false);
 
-  //Login
+  // Check user authentication based on cookies when the component mounts
+  useEffect(() => {
+    const token = getCookie("authToken");
+    console.log("token is", token)
+    if (token) {
+      // You can decode the token and get user info if needed
+      const userInfo = JSON.parse(atob(token.split('.')[1])); // Assuming JWT token is used
+      setUser(userInfo); // Set user from decoded token
+      dispatch(
+        addUser({
+          uid: userInfo.uid,
+          email: userInfo.email,
+          name: userInfo.name,
+          photoUrl: userInfo.photoUrl,
+        })
+      );
+    } else {
+      setUser(null);
+      dispatch(removeUser());
+    }
+  }, [dispatch]);
+
+  // Handle Sign In
   const handleSignIn = () => {
     navigate("/login");
   };
-  //SignOut
+
+  // Handle Sign Out
   const handleSignOut = () => {
-    signOut(auth)
-      .then(() => {
-        dispatch(removeUser()); // Clear user from Redux store
-      })
-      .catch((error) => {
-        console.error("Error during sign out:", error.message);
-      });
+    deleteCookie("authToken"); // Remove the cookie on logout
+    setUser(null); // Reset user state
+    dispatch(removeUser()); // Clear user from Redux store
+    navigate("/"); // Redirect to home
   };
 
-  //On auth state changed
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        const { uid, email, displayName, photoURL } = user;
-        dispatch(
-          addUser({
-            uid: uid,
-            email: email,
-            name: displayName,
-            photoUrl: photoURL,
-          })
-        );
-        // Navigate to /userview only if not already on it
-        navigate("/userview");
-      } else {
-        dispatch(removeUser());
-        navigate("/");
-        // Navigate to login only if not already on it
-      }
-    });
-
-    return () => unsubscribe(); // Cleanup on component unmount
-  }, []);
-
   return (
-    <div className="grid grid-cols-12  font-nunito   z-10 sticky top-0 justify-center items-center lg:text-base md:text-sm sm:text-xs xs:text-xs   whitespace-nowrap shadow-md bg-white">
-      {/* First Menu-Item sidebar and Logo*/}
+    <div className="grid grid-cols-12 font-nunito z-10 sticky top-0 justify-center items-center lg:text-base md:text-sm sm:text-xs xs:text-xs whitespace-nowrap shadow-md bg-white">
+      {/* First Menu-Item sidebar and Logo */}
       <div className="grid grid-flow-col justify-start items-center col-span-6">
         <span className="lg:mx-4 md:mx-2 sm:m-1">
           <MenuIcon
@@ -113,7 +107,7 @@ const Header = () => {
         </ul>
       </div>
 
-      {/* second Menu-Item Language-Icon*/}
+      {/* second Menu-Item Language-Icon */}
       <div className="grid grid-flow-col col-span-6 justify-end">
         <ul className="pt-2 grid grid-flow-col  justify-end items-center">
           <li className=" p-2 hover:scale-105 transition-all ease-in-out ">
@@ -127,14 +121,13 @@ const Header = () => {
             </Button>
           </li>
           <li className="p-2">
-            {" "}
             <LanguageIcon
               className="hover:scale-110 transition-all ease-in-out hover:shadow-md"
               sx={{
                 fontSize: { xs: 12, sm: 16, md: 20, lg: 24 },
               }}
             />
-            <p className="text-xs  text-center cursor-pointer">EN</p>
+            <p className="text-xs text-center cursor-pointer">EN</p>
           </li>
         </ul>
       </div>
