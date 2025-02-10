@@ -81,9 +81,9 @@ const ManagePeople = () => {
     });
   };
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
-
+    console.log("submit called");
     if (
       !formData.firstName ||
       !formData.lastName ||
@@ -101,6 +101,22 @@ const ManagePeople = () => {
     if (isEditing) {
       dispatch(editPeople(formData));
     } else {
+      try {
+        const response = await fetch(
+          "https://instaems-backend.onrender.com/api/users/users",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(formData),
+          }
+        );
+        console.log(response);
+      } catch (error) {
+        console.error(" Error in adding:", error);
+        // setErrorMessage("Something went wrong. Please try again.");
+      }
       dispatch(addPeople({ ...formData, id: Date.now() }));
     }
 
@@ -292,7 +308,7 @@ const ManagePeople = () => {
 
             {/* Buttons */}
             <div className="flex justify-center items-center mt-6 gap-4">
-              <Button type="submit">{isEditing ? "Update" : "Submit"}</Button>
+              <Button onClick={handleFormSubmit} type="submit">{isEditing ? "Update" : "Submit"}</Button>
               <Button variant="secondary" onClick={() => setOpen(false)}>
                 Cancel
               </Button>
