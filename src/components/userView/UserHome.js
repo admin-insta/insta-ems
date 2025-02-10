@@ -5,16 +5,18 @@ import holidays from "../utils/images/holidays.jpg";
 import Button from "../utils/theme/Button";
 const UserHome = () => {
   return (
-    <div>
+    <div className="">
       <p className="text-2xl text-gray-600 p-4">Good Evening</p>
 
       <div className="border rounded-lg bg-gradient-to-r from-clay to-gray-200 h-20 mx-32 flex justify-center items-center">
-        <div className="flex text-center p-4 text-lg"> 
-        Opening doors to infinite potential.
+        <div className="flex text-center p-4 text-lg">
+          Opening doors to infinite potential.
         </div>
-        <div className="text-base"><Button >Explore</Button></div>
+        <div className="text-base">
+          <Button>Explore</Button>
+        </div>
       </div>
-      <div className="flex flex-row m-4 p-4">
+      <div className="flex lg:flex-row m-4 p-4 sm:flex-col xs:flex-col">
         <div className="m-2 p-4 rounded-lg shadow-md bg-white text-lg w-72">
           Track
           <div className="flex justify-center">

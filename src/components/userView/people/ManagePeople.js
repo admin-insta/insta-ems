@@ -164,120 +164,141 @@ const ManagePeople = () => {
       <Dialog
         open={open}
         onClose={() => setOpen(false)}
-        aria-labelledby="dialog-title"
-        aria-describedby="dialog-description"
+        maxWidth={false}
+        PaperProps={{
+          className:
+            "w-full lg:w-2/3 max-w-5xl mx-auto p-6 rounded-lg shadow-lg bg-white",
+        }}
       >
-        <div className="m-2 p-2 flex justify-center">
-          <Button variant="secondary">
-            {isEditing ? "Edit Employee" : "Add Employee"}
-          </Button>
-        </div>
-        <form className="m-2 border shadow-md" onSubmit={handleFormSubmit}>
-          <div className="flex justify-between">
-            <div className="m-2">
-              <label className="text-xs text-blue-600 p-1">First Name</label>
-              <input
-                className="border p-1 m-1 shadow-inner w-64"
-                type="text"
-                name="firstName"
-                value={formData.firstName}
-                onChange={handleInputChange}
-                placeholder="First Name"
-              />
-            </div>
-            <div className="m-2">
-              <label className="text-xs text-blue-600 p-1">Last Name</label>
-              <input
-                className="border p-1 m-1 shadow-inner w-64"
-                type="text"
-                name="lastName"
-                value={formData.lastName}
-                onChange={handleInputChange}
-                placeholder="Last Name"
-              />
-            </div>
-          </div>
-
-          <div className="flex justify-between">
-            <div className="m-2">
-              <label className="text-xs text-blue-600 p-1">Email</label>
-              <input
-                className="border p-1 m-1 shadow-inner w-64"
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleInputChange}
-                placeholder="Email"
-              />
-            </div>
-            <div className="m-2">
-              <label className="text-xs text-blue-600 p-1">Contact</label>
-              <input
-                className="border p-1 m-1 shadow-inner w-64"
-                type="text"
-                name="contact"
-                value={formData.contact}
-                onChange={handleInputChange}
-                placeholder="Phone Number"
-              />
-            </div>
-          </div>
-
-          <div className="flex justify-between">
-            <div className="m-2">
-              <label className="text-xs text-blue-600 p-1">Date of Birth</label>
-              <input
-                className="border p-1 m-1 shadow-inner w-64"
-                type="date"
-                name="dob"
-                value={formData.dob}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div className="m-2">
-              <label className="text-xs text-blue-600 p-1">Designation</label>
-              <input
-                className="border p-1 m-1 shadow-inner w-64"
-                type="text"
-                name="designation"
-                value={formData.designation}
-                onChange={handleInputChange}
-                placeholder="Designation"
-              />
-            </div>
-          </div>
-
-          <div className="m-2">
-            <label className="text-xs text-blue-600 p-1">Joining Date</label>
-            <input
-              className="border p-1 m-1 shadow-inner w-64"
-              type="date"
-              name="joiningDate"
-              value={formData.joiningDate}
-              onChange={handleInputChange}
-            />
-          </div>
-
-          <div className="m-2">
-            <label className="text-xs text-blue-600 p-1">Address</label>
-            <textarea
-              className="border p-1 m-1 shadow-inner w-full"
-              name="address"
-              value={formData.address}
-              onChange={handleInputChange}
-              placeholder="Address"
-            />
-          </div>
-
-          <div className="flex justify-center items-center">
-            <div className="mx-2">
-              <Button type="submit">{isEditing ? "Update" : "Submit"}</Button>
-            </div>
-            <Button variant="secondary" onClick={() => setOpen(false)}>
-              Cancel
+        <div className="flex flex-col items-center justify-center p-6 ">
+          <div className="mb-4 text-xl font-semibold text-center">
+            <Button variant="secondary">
+              {isEditing ? "Edit Employee" : "Add Employee"}
             </Button>
           </div>
-        </form>
+
+          <form
+            className="w-full max-w-3xl bg-white shadow-lg rounded-lg p-6"
+            onSubmit={handleFormSubmit}
+          >
+            <div className="grid grid-cols-2 gap-4">
+              {/* First Name */}
+              <div className="flex flex-col">
+                <label className="text-xs text-blue-600 mb-1">First Name</label>
+                <input
+                  className="border p-2 rounded-md w-full"
+                  type="text"
+                  name="firstName"
+                  value={formData.firstName}
+                  onChange={handleInputChange}
+                  placeholder="First Name"
+                />
+              </div>
+
+              {/* Last Name */}
+              <div className="flex flex-col">
+                <label className="text-xs text-blue-600 mb-1">Last Name</label>
+                <input
+                  className="border p-2 rounded-md w-full"
+                  type="text"
+                  name="lastName"
+                  value={formData.lastName}
+                  onChange={handleInputChange}
+                  placeholder="Last Name"
+                />
+              </div>
+
+              {/* Email */}
+              <div className="flex flex-col">
+                <label className="text-xs text-blue-600 mb-1">Email</label>
+                <input
+                  className="border p-2 rounded-md w-full"
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  placeholder="Email"
+                />
+              </div>
+
+              {/* Contact */}
+              <div className="flex flex-col">
+                <label className="text-xs text-blue-600 mb-1">Contact</label>
+                <input
+                  className="border p-2 rounded-md w-full"
+                  type="text"
+                  name="contact"
+                  value={formData.contact}
+                  onChange={handleInputChange}
+                  placeholder="Phone Number"
+                />
+              </div>
+
+              {/* Date of Birth */}
+              <div className="flex flex-col">
+                <label className="text-xs text-blue-600 mb-1">
+                  Date of Birth
+                </label>
+                <input
+                  className="border p-2 rounded-md w-full"
+                  type="date"
+                  name="dob"
+                  value={formData.dob}
+                  onChange={handleInputChange}
+                />
+              </div>
+
+              {/* Designation */}
+              <div className="flex flex-col">
+                <label className="text-xs text-blue-600 mb-1">
+                  Designation
+                </label>
+                <input
+                  className="border p-2 rounded-md w-full"
+                  type="text"
+                  name="designation"
+                  value={formData.designation}
+                  onChange={handleInputChange}
+                  placeholder="Designation"
+                />
+              </div>
+
+              {/* Joining Date */}
+              <div className="flex flex-col">
+                <label className="text-xs text-blue-600 mb-1">
+                  Joining Date
+                </label>
+                <input
+                  className="border p-2 rounded-md w-full"
+                  type="date"
+                  name="joiningDate"
+                  value={formData.joiningDate}
+                  onChange={handleInputChange}
+                />
+              </div>
+            </div>
+
+            {/* Address */}
+            <div className="mt-4">
+              <label className="text-xs text-blue-600 mb-1">Address</label>
+              <textarea
+                className="border p-2 rounded-md w-full"
+                name="address"
+                value={formData.address}
+                onChange={handleInputChange}
+                placeholder="Address"
+              ></textarea>
+            </div>
+
+            {/* Buttons */}
+            <div className="flex justify-center items-center mt-6 gap-4">
+              <Button type="submit">{isEditing ? "Update" : "Submit"}</Button>
+              <Button variant="secondary" onClick={() => setOpen(false)}>
+                Cancel
+              </Button>
+            </div>
+          </form>
+        </div>
       </Dialog>
 
       {/* Confirmation Dialog */}

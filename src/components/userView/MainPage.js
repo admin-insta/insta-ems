@@ -25,11 +25,12 @@ import DocumentCenter from "./document/DocumentCenter";
 const MainPage = () => {
   const [selectedTask, setSelectedTask] = useState("home"); // Tracks the currently selected task
   const user = useSelector((store) => store?.user);
-  const { name, photoUrl } = user || {};
+  const { name } = user || {};
   const [showPeople, setShowPeople] = useState(false);
   const [showPayslip, setShowPayslip] = useState(false);
-
+// if (!user) return;
   return (
+    
     <div className="bg-clay-light h-screen grid grid-cols-12">
       {/* Sidebar */}
       <div
@@ -38,7 +39,7 @@ const MainPage = () => {
       >
         <div className="font-semibold text-sm flex items-center p-4">
           {name}
-          <img className="h-10 m-2 rounded-full" alt="/" src={photoUrl} />
+          <img className="h-10 m-2 rounded-full" alt="" src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png" />
         </div>
 
         <ul className="mt-4 ">
@@ -140,7 +141,7 @@ const MainPage = () => {
       </div>
 
       {/* Main Content */}
-      <div className="col-span-10">
+      <div className="col-span-10 ">
         {selectedTask === "home" && (
           <div className="text-2xl text-gray-600 p-4">
             <UserHome />

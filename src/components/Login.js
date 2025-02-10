@@ -1,13 +1,17 @@
 import React, { useRef, useState } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { login } from "../api/auth";
+import { setCookie } from "../cookieStorage/cookie";
+import { addUser } from "./store/userSlice"; // Import the Redux action
 import loginbg from "../components/utils/images/loginbg.png";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import { login } from "../api/auth";
-import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch(); // Redux Dispatch
   const [alreadyUser, setAlreadyUser] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
@@ -21,12 +25,30 @@ const Login = () => {
     const emailValue = email.current.value;
     const passwordValue = password.current.value;
 
-    const response = await login(emailValue, passwordValue);
+    try {
+      const data = await login(emailValue, passwordValue); // Login API Call
+      console.log("User data is:", data);
 
-    if (response.success) {
-      navigate("/userview");
-    } else {
-      setErrorMessage(response.message);
+      if (data.token) {
+        setCookie("authToken", data.token, 1); // Store token in cookie for 1 day
+
+        // ✅ Dispatch user details to Redux
+        dispatch(
+          addUser({
+            uid: data.user._id, // Unique ID
+            email: data.user.email,
+            name: data.user.name || "No Name",
+            photoUrl: data.user.photoUrl || "",
+          })
+        );
+
+        navigate("/userview"); // ✅ Navigate after Redux update
+      } else {
+        setErrorMessage("Invalid credentials or missing token.");
+      }
+    } catch (error) {
+      console.error("Login Error:", error);
+      setErrorMessage("Something went wrong. Please try again.");
     }
   };
 
@@ -42,15 +64,15 @@ const Login = () => {
       </div>
 
       {/* Right Side Form */}
-      <div className="w-full md:w-1/2 flex justify-center">
-        <form className="bg-blue-700 rounded-2xl flex flex-col p-6 w-full max-w-sm shadow-lg">
+      <div className="w-full md:w-1/2  sm:w-1/2 xs:w-3/4 flex justify-center">
+        <form className="bg-blue-700 rounded-2xl flex flex-col p-6 w-full xs:w-1/2 max-w-sm shadow-lg">
           <span className="text-center text-white font-semibold text-lg">
             <LockOpenIcon sx={{ fontSize: 60 }} />
           </span>
 
           {/* Toggle Sign-in / Sign-up */}
-          <div className=" p-2 bg-gray-900 rounded-md text-center w-full">
-            <span className="text-white text-sm md:text-lg">
+          <div className="p-2 bg-gray-900 rounded-md text-center w-full">
+            <span className="text-white text-sm md:text-lg xs:text-xs">
               {alreadyUser
                 ? "Already have an account? "
                 : "New here? Sign up to get started! "}
@@ -66,7 +88,7 @@ const Login = () => {
           {/* Company Name Input (only for new users) */}
           {alreadyUser && (
             <input
-              className="my-2 p-2 border border-gray-700 rounded-md text-sm md:text-base"
+              className="my-2 p-2 border border-gray-700 rounded-md text-sm md:text-base xs:text-xs"
               type="text"
               placeholder="Your Company Name"
               ref={companyName}
@@ -75,7 +97,7 @@ const Login = () => {
 
           {/* Email Input */}
           <input
-            className=" my-2 p-2 border border-gray-700 rounded-md text-sm md:text-base w-full"
+            className="my-2 p-2 border border-gray-700 rounded-md text-sm md:text-base w-full"
             type="email"
             placeholder="Email Id"
             ref={email}
@@ -84,7 +106,7 @@ const Login = () => {
           {/* Password Input */}
           <div className="relative">
             <input
-              className="my-2  p-2 border border-gray-700 rounded-md w-full text-sm md:text-base"
+              className="my-2 p-2 border border-gray-700 rounded-md w-full text-sm md:text-base"
               type={showPassword ? "text" : "password"}
               placeholder="Password"
               ref={password}
@@ -113,7 +135,7 @@ const Login = () => {
           {/* Submit Button */}
           <button
             onClick={handleSubmit}
-            className="my-2 p-2 text-lg bg-gray-900 rounded-md text-white hover:bg-gray-800 transition-all w-full"
+            className="my-2 p-2 lg:text-lg sm:text-xs xs:text-xs bg-gray-900 rounded-md text-white hover:bg-gray-800 transition-all w-full"
           >
             {alreadyUser ? "Sign Up" : "Sign In"}
           </button>
