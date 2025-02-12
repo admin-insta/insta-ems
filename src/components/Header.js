@@ -20,13 +20,14 @@ const Header = () => {
 
   useEffect(() => {
     const token = getCookie("authToken");
-    if (token) {
+    if (token) {      
+      navigate("/userview")
       setUser(userData);
     } else {
       setUser(null);
       dispatch(removeUser());
     }
-  }, [userData, dispatch]);
+  },[userData, dispatch]);
 
   // Handle Sign In
   const handleSignIn = () => {

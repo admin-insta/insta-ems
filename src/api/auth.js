@@ -1,8 +1,7 @@
 // /src/api/auth.js
 
 export const login = async (email, password) => {
-    const loginData = { email, password };
-    
+    const loginData = { email, password };    
     try {
       const response = await fetch("https://instaems-backend.onrender.com/api/auth/login", {
         method: "POST",
@@ -22,6 +21,31 @@ export const login = async (email, password) => {
       }
     } catch (error) {
       console.error("Error during login:", error);
+      return { success: false, message: "Something went wrong. Please try again." };
+    }
+  };
+  
+//Signup API
+  export const signup = async (name, email, password) => {
+    const signupData = { name, email, password };
+    try {
+      const response = await fetch("https://instaems-backend.onrender.com/api/auth/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(signupData),
+      });
+  
+      const data = await response.json();
+  
+      if (data.msg === "User registered successfully") {
+        return { success: true, message: data.msg }; // Send success message without token
+      } else {
+        return { success: false, message: data.message || "Signup failed" };
+      }
+    } catch (error) {
+      console.error("Error during signup:", error);
       return { success: false, message: "Something went wrong. Please try again." };
     }
   };

@@ -1,5 +1,5 @@
 import "./index.css";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom";
 import Home from "./components/Home";
 import Login from "./components/Login";
 import MainContainer from "./components/MainContainer";
@@ -10,7 +10,16 @@ import MainPage from "./components/userView/MainPage";
 import { Provider } from "react-redux";
 import appStore from "./components/store/appStore";
 import DemoRequest from "./components/DemoRequest";
-function App() {
+import { getCookie } from "./cookieStorage/cookie";
+
+
+// Protected Route Component
+const ProtectedRoute = ({ children }) => {
+  const token = getCookie("authToken"); // Get token from cookies
+  return token ? children : <Navigate to="/" replace />;
+};
+
+function App() {  
   const appRouter = createBrowserRouter([
     {
       path: "/",
@@ -37,7 +46,11 @@ function App() {
         },
         {
           path: "/userview",
-          element: <MainPage />,
+          element: (
+            <ProtectedRoute>
+              <MainPage />
+            </ProtectedRoute>
+          ),
         },
        
       ],

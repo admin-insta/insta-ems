@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { login } from "../api/auth";
+import { login, signup } from "../api/auth";
 import { setCookie } from "../cookieStorage/cookie";
 import { addUser } from "./store/userSlice"; // Import the Redux action
 import loginbg from "../components/utils/images/loginbg.png";
@@ -18,36 +18,58 @@ const Login = () => {
 
   const email = useRef();
   const password = useRef();
-  const companyName = useRef();
+  const company = useRef();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const emailValue = email.current.value;
     const passwordValue = password.current.value;
+    const companyName = company.current ? company.current.value : ""; // Safe check for company input
 
     try {
-      const data = await login(emailValue, passwordValue); // Login API Call
-      console.log("User data is:", data);
+      let data;
 
-      if (data.token) {
-        setCookie("authToken", data.token, 1); // Store token in cookie for 1 day
+      if (!alreadyUser) {
+        // 🔹 Login Flow
+        data = await login(emailValue, passwordValue);
+        if (data?.token) {
+          setCookie("authToken", data.token, 1); // Store token in cookie for 1 day
 
-        // ✅ Dispatch user details to Redux
-        dispatch(
-          addUser({
-            uid: data.user._id, // Unique ID
-            email: data.user.email,
-            name: data.user.name || "No Name",
-            photoUrl: data.user.photoUrl || "",
-          })
-        );
+          // ✅ Dispatch user details to Redux
+          dispatch(
+            addUser({
+              uid: data.user._id,
+              email: data.user.email,
+              name: data.user.name || "No Name",
+              photoUrl: data.user.photoUrl || "",
+            })
+          );
 
-        navigate("/userview"); // ✅ Navigate after Redux update
+          navigate("/userview"); // Navigate after Redux update
+        } else {
+          setErrorMessage("Invalid credentials or missing token.");
+        }
       } else {
-        setErrorMessage("Invalid credentials or missing token.");
+        // 🔹 Signup Flow
+        data = await signup(emailValue, passwordValue, companyName);
+        if (data?.success === true) {
+          email.current.value = "";
+          password.current.value = "";
+          company.current.value = "";
+          setAlreadyUser(false);
+          setErrorMessage(
+            "Signup successful! Please Login with Your Credentials..."
+          );
+
+          setTimeout(() => {
+            navigate("/login");
+          }, 1500);
+        } else {
+          setErrorMessage("Signup failed. Please try again.");
+        }
       }
     } catch (error) {
-      console.error("Login Error:", error);
+      console.error("Error during authentication:", error);
       setErrorMessage("Something went wrong. Please try again.");
     }
   };
@@ -91,7 +113,7 @@ const Login = () => {
               className="my-2 p-2 border border-gray-700 rounded-md text-sm md:text-base xs:text-xs"
               type="text"
               placeholder="Your Company Name"
-              ref={companyName}
+              ref={company}
             />
           )}
 
