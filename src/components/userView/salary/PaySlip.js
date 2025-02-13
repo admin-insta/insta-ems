@@ -3,7 +3,6 @@ import { Dropdown } from "rsuite";
 import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
 import EmployeeList from "../EmployeeList";
 import Button from "../../utils/theme/Button";
-import { colors } from "@mui/material";
 const PaySlip = () => {
   return (
     <div className="grid grid-cols-12 gap-4 m-4 h-screen border-gray-300 bg-clay-light ">

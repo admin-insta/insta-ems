@@ -25,7 +25,7 @@ const EmployeeList = () => {
   }, [filteredEmployees, selectedEmployee]);
   return (
     <div
-      className="overflow-y-auto max-h-96 border-r border-gray-300  "
+      className="overflow-y-auto   "
       style={{ scrollbarWidth: "thin" }}
     >
       <h1 className="text-lg mx-4 my-2">Employee List</h1>

@@ -3,8 +3,10 @@ const theme = {
       primary: "#1976d2", // Blue
       secondary: "#FF0000", // Red
       background: "#f5f5f5", // Light Gray
-      textPrimary: "#333",
-      textSecondary: "#666",
+      textPrimary: "#000000",
+      textSecondary: "#FFFFFF",
+      cardPrimary:"#aed6f1",
+      cardSecondary: "#a2d9ce "
     },
     typography: {
       fontFamily: "'Poppins', sans-serif",

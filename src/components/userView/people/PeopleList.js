@@ -14,11 +14,11 @@ const People = () => {
 
 
   return people === null ? (
-    <div>There are no employees in your organisation, Add Employee</div>
+    <div className="m-4 gap-4 border border-gray-300 ">There are no employees in your organisation, Add Employee</div>
   ) : (
     <div className="m-4 gap-4 border border-gray-300  grid grid-cols-12 h-screen">
       {/* Scrollable Employee List */}
-      <div className="col-span-3">
+      <div className="col-span-3 border border-gray-400">
         <EmployeeList />
       </div>
 

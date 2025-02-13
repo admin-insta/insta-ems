@@ -151,7 +151,7 @@ const Login = () => {
 
           {/* Error Message */}
           {errorMessage && (
-            <span className="text-red-400 text-sm mx-2">{errorMessage}</span>
+            <span className="text-white text-sm mx-2">{errorMessage}</span>
           )}
 
           {/* Submit Button */}

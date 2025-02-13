@@ -125,17 +125,17 @@ const ManagePeople = () => {
 
   return (
     <>
-      <div className="flex justify-around">
+      <div className="flex justify-around m-4">
         <div className="m-4 rounded-md">
-          <h4 className="m-4 text-center font-semibold">
-            Manage Your Employees
-          </h4>
-          <Button onClick={handleAddClick}>
-            Add People to your organisation
-          </Button>
+          <h5 className=" text-center font-semibold">Manage Your Employees</h5>
+          <div className="my-4">
+            <Button onClick={handleAddClick}>
+              Add People to your organisation
+            </Button>
+          </div>
         </div>
 
-        <div className="m-4 w-1/2 rounded-md border shadow-md">
+        <div className="m-4 rounded-md ">
           <h4 className="m-4 text-center font-semibold">Employee List</h4>
           <div>
             {people.length === 0 ? (
@@ -308,7 +308,9 @@ const ManagePeople = () => {
 
             {/* Buttons */}
             <div className="flex justify-center items-center mt-6 gap-4">
-              <Button onClick={handleFormSubmit} type="submit">{isEditing ? "Update" : "Submit"}</Button>
+              <Button onClick={handleFormSubmit} type="submit">
+                {isEditing ? "Update" : "Submit"}
+              </Button>
               <Button variant="secondary" onClick={() => setOpen(false)}>
                 Cancel
               </Button>
