@@ -13,14 +13,13 @@ const StyledCard = styled.div`
   padding: 4px;
   transition: all 0.3s ease-in-out;
   width: 100%;
-  max-width: 400px;
   cursor: pointer;
 
   /* Full Screen Option */
   ${(props) =>
-    props.fullScreen &&
+    props.$fullScreen &&
     `
-      height: 100vh; /* Full screen height */
+      height: 100vh; /* Full screen height */      
       display: flex;
       flex-direction: column;
     `}
@@ -66,14 +65,12 @@ const CardTitle = styled.h3`
   font-weight: bold;
   color: ${theme.colors.textPrimary};
   padding: 2px;
-  
 `;
 
 const CardDescription = styled.div`
   font-size: 1rem;
   color: ${theme.colors.textPrimary};
   padding: 2px;
-  
 `;
 
 // Card Component
@@ -86,7 +83,7 @@ const Card = ({
   fullScreen = false, // New prop for full-screen functionality
 }) => {
   return (
-    <StyledCard $variant={variant} onClick={onClick} fullScreen={fullScreen}>
+    <StyledCard $variant={variant} onClick={onClick} $fullScreen={fullScreen}>
       {image && <CardImage src={image} alt={title} />}
       <CardContent>
         <CardTitle $variant={variant}>{title}</CardTitle>

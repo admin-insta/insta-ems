@@ -65,7 +65,7 @@ const AttendanceInfo = ({ view }) => {
 
   return (
     <div className="p-4">
-      {view === "grid" ? (
+      {view === "grid" ? ( 
         <>
           <div className="grid grid-cols-12 gap-4">
             <div className="col-span-8 bg-white shadow-lg rounded-md">

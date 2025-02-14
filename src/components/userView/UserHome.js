@@ -4,12 +4,16 @@ import reviewsbg from "../utils/images/reviewsbg.jpg";
 import holidays from "../utils/images/holidays.jpg";
 import Button from "../utils/theme/Button";
 import Card from "../utils/theme/Cards";
+import WbSunnyOutlinedIcon from "@mui/icons-material/WbSunnyOutlined";
 
 const UserHome = () => {
   return (
-    <div className="">
-      <div className="text-2xl text-black px-8 py-4">Good Evening</div>
-      <div className="border rounded-lg bg-[#abebc6] h-20 mx-8 flex justify-between items-center">
+    <div className="p-2">
+      <div className="text-2xl text-black  ">
+        Good Evening{" "}
+        <WbSunnyOutlinedIcon />
+      </div>
+      <div className="border rounded-lg bg-[#abebc6] my-2  h-20 flex justify-between items-center">
         <div className="flex text-center p-2 text-lg text-black">
           Opening doors to infinite potential.
         </div>
@@ -17,7 +21,7 @@ const UserHome = () => {
           <Button>Explore</Button>
         </div>
       </div>
-      <div className="flex lg:flex-row gap-4 mx-4 my-2 p-4 sm:flex-col xs:flex-col">
+      <div className="flex lg:flex-row gap-4 sm:flex-col xs:flex-col">
         <Card
           variant="primary"
           title="Track"
