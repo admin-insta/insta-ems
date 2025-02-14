@@ -10,15 +10,14 @@ const People = () => {
     people.length > 0 ? people[0] : null
   );
 
-
-
-
   return people === null ? (
-    <div className="m-4 gap-4 border border-gray-300 ">There are no employees in your organisation, Add Employee</div>
+    <div className="m-4 gap-4  ">
+      There are no employees in your organisation, Add Employee
+    </div>
   ) : (
-    <div className="m-4 gap-4 border border-gray-300  grid grid-cols-12 h-screen">
+    <div className=" gap-4   grid grid-cols-12 h-screen">
       {/* Scrollable Employee List */}
-      <div className="col-span-3 border border-gray-400">
+      <div className="col-span-3 ">
         <EmployeeList />
       </div>
 

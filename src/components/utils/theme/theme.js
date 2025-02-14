@@ -6,7 +6,7 @@ const theme = {
       textPrimary: "#000000",
       textSecondary: "#FFFFFF",
       cardPrimary:"#aed6f1",
-      cardSecondary: "#a2d9ce "
+      cardSecondary: "#abebc6  "
     },
     typography: {
       fontFamily: "'Poppins', sans-serif",

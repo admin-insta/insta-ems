@@ -5,9 +5,9 @@ import EmployeeList from "../EmployeeList";
 import Button from "../../utils/theme/Button";
 const PaySlip = () => {
   return (
-    <div className="grid grid-cols-12 gap-4 m-4 h-screen border-gray-300 bg-clay-light ">
+    <div className="grid grid-cols-12 gap-4 h-screen border-gray-300 bg-clay-light ">
       {/* Employee List Section */}
-      <div className="col-span-3 p-2 rounded-md bg-clay-light ">
+      <div className="col-span-3 ">
         <EmployeeList />
       </div>
 
@@ -24,7 +24,7 @@ const PaySlip = () => {
           </div>
 
           <div>
-            <Dropdown sx={{color:"red"}}  title="Select Month" >
+            <Dropdown sx={{ color: "red" }} title="Select Month">
               <Dropdown.Item style={{ width: "100px", padding: "3px" }}>
                 JAN
               </Dropdown.Item>

@@ -13,9 +13,9 @@ const Attendance = () => {
   };
 
   return (
-    <div className="grid grid-cols-12 gap-4 m-4 h-screen">
+    <div className="grid grid-cols-12 gap-4  h-screen">
       {/* Employee List Section */}
-      <div className="col-span-3 my-4 rounded-md bg-clay-light ">
+      <div className="col-span-3  bg-clay-light ">
         <EmployeeList />
       </div>
 

@@ -44,7 +44,7 @@ const MainPage = () => {
   // if (!user) return;
   return (
     <>
-      <div className="h-screen grid grid-flow-col grid-cols-12">
+      <div className="h-screen bg-clay-light grid grid-flow-col grid-cols-12">
         {/* Sidebar */}
         <div
           className="col-span-2 bg-clay shadow-lg text-gray-800 h-screen overflow-y-scroll"

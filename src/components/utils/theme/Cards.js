@@ -16,6 +16,15 @@ const StyledCard = styled.div`
   max-width: 400px;
   cursor: pointer;
 
+  /* Full Screen Option */
+  ${(props) =>
+    props.fullScreen &&
+    `
+      height: 100vh; /* Full screen height */
+      display: flex;
+      flex-direction: column;
+    `}
+
   /* Responsive Styles */
   @media (max-width: 768px) {
     padding: 12px;
@@ -40,7 +49,6 @@ const CardImage = styled.img`
   width: 100%;
   height: auto;
   padding: 4px;
-  //   object-fit: cover;
   max-height: 200px; /* Adjust height based on your preference */
   margin-bottom: 8px;
   object-position: center;
@@ -57,13 +65,15 @@ const CardTitle = styled.h3`
   font-size: 1.25rem;
   font-weight: bold;
   color: ${theme.colors.textPrimary};
-  padding: 4px;
+  padding: 2px;
+  
 `;
 
-const CardDescription = styled.p`
+const CardDescription = styled.div`
   font-size: 1rem;
   color: ${theme.colors.textPrimary};
-  padding: 4px;
+  padding: 2px;
+  
 `;
 
 // Card Component
@@ -73,9 +83,10 @@ const Card = ({
   description,
   image, // Optional image prop
   onClick,
+  fullScreen = false, // New prop for full-screen functionality
 }) => {
   return (
-    <StyledCard $variant={variant} onClick={onClick}>
+    <StyledCard $variant={variant} onClick={onClick} fullScreen={fullScreen}>
       {image && <CardImage src={image} alt={title} />}
       <CardContent>
         <CardTitle $variant={variant}>{title}</CardTitle>

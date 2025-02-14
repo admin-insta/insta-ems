@@ -3,9 +3,9 @@ import docCenter from "../../utils/images/docCenter.png";
 import EmployeeList from "../EmployeeList";
 const DocumentCenter = () => {
   return (
-    <div className="grid grid-cols-12 gap-4 m-4 h-screen">
+    <div className="grid grid-cols-12 gap-4 h-screen">
       {/* Employee List Section */}
-      <div className="col-span-3 my-4 rounded-md bg-clay-light ">
+      <div className="col-span-3 ">
         <EmployeeList />
       </div>
       <div className="col-span-9 p-4 bg-white shadow-md rounded-md overflow-y-scroll">

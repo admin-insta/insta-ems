@@ -8,8 +8,8 @@ import Card from "../utils/theme/Cards";
 const UserHome = () => {
   return (
     <div className="">
-      <p className="text-2xl text-black px-8 py-4">Good Evening</p>
-      <div className="border rounded-lg bg-[#a2d9ce] h-20 mx-8 flex justify-between items-center">
+      <div className="text-2xl text-black px-8 py-4">Good Evening</div>
+      <div className="border rounded-lg bg-[#abebc6] h-20 mx-8 flex justify-between items-center">
         <div className="flex text-center p-2 text-lg text-black">
           Opening doors to infinite potential.
         </div>
