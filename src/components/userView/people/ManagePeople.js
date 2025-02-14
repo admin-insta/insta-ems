@@ -7,6 +7,8 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { useSelector, useDispatch } from "react-redux";
 import { addPeople, removePeople, editPeople } from "../../store/peopleSlice";
 import EditIcon from "@mui/icons-material/Edit";
+import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
+import PersonRemoveOutlinedIcon from "@mui/icons-material/PersonRemoveOutlined";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import Button from "../../utils/theme/Button";
 import Card from "../../utils/theme/Cards";
@@ -135,7 +137,8 @@ const ManagePeople = () => {
             description={
               <div className="flex justify-between mx-4 my-2">
                 <h5 className=" flex  font-semibold">
-                  <ManageAccountsOutlinedIcon />{"  "} <span>Manage Your Organisation</span>
+                  <ManageAccountsOutlinedIcon />
+                  {"  "} <span>Manage Your Organisation</span>
                 </h5>
                 <div className="">
                   <Button variant="secondary" onClick={handleAddClick}>
@@ -152,6 +155,12 @@ const ManagePeople = () => {
           description={
             <div className=" -my-4">
               <h4 className="m-4 font-semibold border-b">Employee List</h4>
+              <div className="m-2 p-2 flex items-center font-semibold justify-between border-b border-white">
+                <div className="flex-1">Full Name</div>
+                <div className="flex-1 ">Designation</div>
+                <div className="flex-1 text-right cursor-pointer">Edit</div>
+                <div className="flex-1 text-right cursor-pointer">Remove</div>
+              </div>
               <div>
                 {people.length === 0 ? (
                   <div className="m-4 font-semibold text-lg p-4  text-center">
@@ -162,7 +171,7 @@ const ManagePeople = () => {
                   <div>
                     {people.map((person, id) => (
                       <div
-                        className="m-2 p-2 flex items-center justify-between border-b border-gray-200"
+                        className="m-2 p-2 flex items-center justify-between border-b border-white"
                         key={id}
                       >
                         <div className="flex-1">
@@ -170,13 +179,13 @@ const ManagePeople = () => {
                         </div>
                         <div className="flex-1 ">{person.designation}</div>
                         <div className="flex-1 text-right cursor-pointer">
-                          <EditIcon
+                          <BorderColorOutlinedIcon
                             className="cursor-pointer"
                             onClick={() => handleEditEmployee(person)}
                           />
                         </div>
                         <div className="flex-1 text-right cursor-pointer">
-                          <DeleteForeverIcon
+                          <PersonRemoveOutlinedIcon
                             onClick={() => handleDeleteEmployee(person)}
                             className="cursor-pointer"
                           />

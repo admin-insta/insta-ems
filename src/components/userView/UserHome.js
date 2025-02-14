@@ -1,6 +1,6 @@
 import React from "react";
-import track from "../utils/images/track.jpg";
-import reviewsbg from "../utils/images/reviewsbg.jpg";
+import reviewHome from "../utils/images/reviewHome.jpg";
+import trackList from "../utils/images/trackList.jpg";
 import holidays from "../utils/images/holidays.jpg";
 import Button from "../utils/theme/Button";
 import Card from "../utils/theme/Cards";
@@ -10,10 +10,9 @@ const UserHome = () => {
   return (
     <div className="p-2">
       <div className="text-2xl text-black  ">
-        Good Evening{" "}
-        <WbSunnyOutlinedIcon />
+        Good Evening <WbSunnyOutlinedIcon />
       </div>
-      <div className="border rounded-lg bg-[#abebc6] my-2  h-20 flex justify-between items-center">
+      <div className="border rounded-lg bg-[#abebc6] my-2  h-20 flex justify-between items-center hover:shadow-lg hover:-translate-y-1 transition-all ease-in-out">
         <div className="flex text-center p-2 text-lg text-black">
           Opening doors to infinite potential.
         </div>
@@ -25,7 +24,7 @@ const UserHome = () => {
         <Card
           variant="primary"
           title="Track"
-          image={track}
+          image={trackList}
           description={
             <div className="">
               "We're good to go! Nothing new to track for now."
@@ -35,9 +34,9 @@ const UserHome = () => {
         <Card
           variant="secondary"
           title="Reviews"
-          image={reviewsbg}
+          image={reviewHome}
           description={
-            <div className="">"Hurrah! NWe have nothing to Review."</div>
+            <div className="">"Hurrah! you have nothing to Review."</div>
           }
         />
         <Card
@@ -46,8 +45,8 @@ const UserHome = () => {
           image={holidays}
           description={
             <div className="">
-              <p>26th JAN</p>
-              <p>Republic Day</p>
+              <div>26th JAN</div>
+              <div>Republic Day</div>
             </div>
           }
         />

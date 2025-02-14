@@ -119,7 +119,7 @@ const LeaveManagement = () => {
   };
 
   return (
-    <div className="grid grid-cols-12 gap-4  h-screen border-gray-300 bg-clay-light ">
+    <div className="grid grid-cols-12 gap-2  h-screen border-gray-300 bg-clay-light ">
       {/* Employee List Section */}
       <div className="col-span-3  bg-clay-light ">
         <EmployeeList onSelectEmployee={setSelectedEmployee} />

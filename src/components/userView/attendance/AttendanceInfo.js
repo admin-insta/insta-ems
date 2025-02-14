@@ -64,10 +64,10 @@ const AttendanceInfo = ({ view }) => {
   const selectedData = attendance[selectedDate] || {}; // Get data for the selected date
 
   return (
-    <div className="p-4">
-      {view === "grid" ? ( 
+    <div className="p-2">
+      {view === "grid" ? (
         <>
-          <div className="grid grid-cols-12 gap-4">
+          <div className="grid grid-cols-12 gap-2">
             <div className="col-span-8 bg-white shadow-lg rounded-md">
               <Calendar
                 style={{ lineHeight: "0.5rem" }}
@@ -78,22 +78,21 @@ const AttendanceInfo = ({ view }) => {
                 onChange={handleDateChange} // Handle date selection
               />
             </div>
-            <div className="col-span-4 border  py-6 px-2 shadow-md rounded-md">
-              <div className=" font-bold mb-4 text-green-700 text-base">
+            <div className="col-span-4 border bg-white  py-6 px-2 shadow-md rounded-md">
+              <div className=" font-bold p-2 mb-4 text-base">
                 Selected Date - {selectedDate || "None selected"}
-               
               </div>
 
               <div className="p-2 border-b">
-                <strong className="text-gray-700">Check-In Time:</strong>{" "}
+                <strong className="">Check-In Time:</strong>{" "}
                 {selectedData.checkinTime || "-"}
               </div>
               <div className="p-2 border-b">
-                <strong className="text-gray-700">Check-Out Time:</strong>{" "}
+                <strong className="">Check-Out Time:</strong>{" "}
                 {selectedData.checkoutTime || "-"}
               </div>
               <div className="p-2 border-b">
-                <strong className="text-gray-700">Total Working Hours:</strong>{" "}
+                <strong className="">Total Working Hours:</strong>{" "}
                 {selectedData.checkinTime && selectedData.checkoutTime
                   ? calculateWorkingHours(
                       selectedData.checkinTime,
@@ -102,7 +101,7 @@ const AttendanceInfo = ({ view }) => {
                   : "-"}
               </div>
               <div className="p-2 border-b">
-                <strong className="text-gray-700">Status:</strong>{" "}
+                <strong className="">Status:</strong>{" "}
                 {selectedData.status
                   ? selectedData.status.charAt(0).toUpperCase() +
                     selectedData.status.slice(1)
