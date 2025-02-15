@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { removeUser } from "./store/userSlice";
 import { deleteCookie, getCookie } from "../cookieStorage/cookie";
@@ -13,6 +13,7 @@ import CloseIcon from "@mui/icons-material/Close";
 const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
   const userData = useSelector((state) => state.user);
   const [user, setUser] = useState(null);
   const [showProduct, setShowProduct] = useState(false);
@@ -42,8 +43,9 @@ const Header = () => {
     navigate("/"); // Redirect to home page
   };
 
+  const isUserviewRoute = location.pathname === "/userview";
   return (
-    !user && (
+    !isUserviewRoute && (
       <header className="sticky top-0 z-50 bg-white shadow-md">
         <div className="container mx-auto px-4 lg:px-8">
           <div className="flex items-center justify-between py-4">
@@ -68,7 +70,7 @@ const Header = () => {
             {/* Desktop Navigation */}
 
             {!user && (
-              <nav className="hidden lg:flex space-x-6">
+              <nav className="hidden lg:flex space-x-6 text-base">
                 <span
                   onClick={() => (user ? navigate("/userview") : navigate("/"))}
                   className="cursor-pointer hover:text-blue-700 transition-all"

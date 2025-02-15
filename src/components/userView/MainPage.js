@@ -25,6 +25,7 @@ import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 import { deleteCookie } from "../../cookieStorage/cookie";
 import { removeUser } from "../store/userSlice";
 import { useNavigate } from "react-router-dom";
+import HelpDesk from "./helpDesk/HelpDesk";
 const MainPage = () => {
   const [selectedTask, setSelectedTask] = useState("home"); // Tracks the currently selected task
   const userData = useSelector((store) => store?.user);
@@ -47,7 +48,7 @@ const MainPage = () => {
       <div className="h-screen bg-clay-light grid grid-flow-col grid-cols-12">
         {/* Sidebar */}
         <div
-          className="col-span-2 bg-clay shadow-lg text-gray-800 h-screen overflow-y-scroll"
+          className="lg:col-span-2 md:col-span-3 sm:col-span-3 xs:col-span-3  bg-clay shadow-lg text-gray-800 h-screen overflow-y-scroll"
           style={{ scrollbarWidth: "thin" }}
         >
           <div className="font-semibold text-sm flex items-center p-4">
@@ -164,7 +165,7 @@ const MainPage = () => {
         </div>
 
         {/* Main Content */}
-        <div className="col-span-10 ">
+        <div className="lg:col-span-10 md:col-span-9 sm:col-span-9 xs:col-span-9">
           {selectedTask === "home" && (
             <div className="text-2xl text-gray-600 p-4">
               <UserHome />
@@ -177,7 +178,7 @@ const MainPage = () => {
           {selectedTask === "payslip" && <PaySlip />}
           {selectedTask === "documents" && <DocumentCenter />}
           {selectedTask === "expenses" && <div>Expense Claims</div>}
-          {selectedTask === "help" && <div>Help Desk</div>}
+          {selectedTask === "help" && <HelpDesk />}
           {selectedTask === "feedback" && <Feedback />}
         </div>
       </div>

@@ -47,12 +47,12 @@ const EmployeeList = ({ onSelectEmployee }) => {
               className="block p-2 border border-gray-300 rounded-md bg-white w-full"
             />
             <div className="flex flex-col">
-              {filteredEmployees.map((employee) => (
+              {filteredEmployees.map((employee, index) => (
                 <div
                   className={`bg-clay p-1.5 my-1 border border-gray-400 hover:bg-white rounded-md cursor-pointer ${
                     selectedEmployee?.id === employee.id ? "bg-gray-200" : ""
                   }`}
-                  key={employee.id}
+                  key={index}
                   onClick={() => handleEmployeeClick(employee)}
                 >
                   <div className="font-semibold">

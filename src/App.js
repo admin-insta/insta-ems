@@ -16,7 +16,11 @@ import { getCookie } from "./cookieStorage/cookie";
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
   const token = getCookie("authToken"); // Get token from cookies
-  return token ? children : <Navigate to="/" replace />;
+  console.log("token when app starts", token)
+  if (!token || token === "undefined" || token === "null") {
+    return <Navigate to="/" replace />;
+  }
+  return children
 };
 
 function App() {  
