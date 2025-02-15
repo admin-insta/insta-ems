@@ -19,8 +19,10 @@ const EmployeeList = ({ onSelectEmployee }) => {
     onSelectEmployee(employee);
   };
 
+  //const filteredEmployees = people; //temporarily removed search functionality
+  //console.log(filteredEmployees, "filteredEmployees");
   const filteredEmployees = people.filter((employee) =>
-    employee.firstName.toLowerCase().includes(searchQuery.toLowerCase())
+    employee.email.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (
@@ -56,7 +58,7 @@ const EmployeeList = ({ onSelectEmployee }) => {
                   onClick={() => handleEmployeeClick(employee)}
                 >
                   <div className="font-semibold">
-                    {employee.firstName} {employee.lastName}
+                    {employee.email} {employee.phoneNumber}
                   </div>
                   <div className="text-xs ">{employee.designation}</div>
                 </div>

@@ -1,14 +1,29 @@
 import React, { useEffect, useState } from "react";
-// import people from "../../utils/mockData";
+import { useDispatch, useSelector } from "react-redux";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { useSelector } from "react-redux";
 import EmployeeList from "../EmployeeList";
 import Card from "../../utils/theme/Cards";
 import SettingsAccessibilityOutlinedIcon from '@mui/icons-material/SettingsAccessibilityOutlined';
+import { fetchUsers } from "../../../api/users";
+import { addPeople } from "../../store/peopleSlice";
 
 const People = () => {
+  const dispatch = useDispatch();
   const people = useSelector((store) => store.people || []);
   const [selectedEmployee, setSelectedEmployee] = useState(null);
+
+  useEffect(() => {
+    const getUsers = async () => {
+      const result = await fetchUsers();
+      if (result.success) {
+        result.users.forEach(user => dispatch(addPeople(user)));
+      } else {
+        console.error(result.message);
+      }
+    };
+
+    getUsers();
+  }, []);
 
   useEffect(() => {
     if (people.length > 0 && !selectedEmployee) {
@@ -16,19 +31,19 @@ const People = () => {
     }
   }, [people, selectedEmployee]);
 
-  return people === null ? (
-    <div className="m-4 gap-4  ">
+  return people.length === 0 ? (
+    <div className="m-4 gap-4">
       There are no employees in your organisation, Add Employee
     </div>
   ) : (
-    <div className=" gap-2   grid grid-cols-12 h-screen">
+    <div className="gap-2 grid grid-cols-12 h-screen">
       {/* Scrollable Employee List */}
-      <div className="col-span-3 ">
+      <div className="col-span-3">
         <EmployeeList onSelectEmployee={setSelectedEmployee} />
       </div>
 
       {/* Description Box */}
-      <div className="col-span-9  ">
+      <div className="col-span-9">
         <Card
           variant="secondary"
           fullScreen="true"
@@ -38,7 +53,7 @@ const People = () => {
             </span>
           }
           description={
-            <div className=" p-4">
+            <div className="p-4">
               {selectedEmployee ? (
                 <div className="bg-clay-light p-4 border border-clay rounded-md">
                   <p>

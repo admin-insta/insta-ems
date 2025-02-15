@@ -2,19 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const peopleSlice = createSlice({
   name: "people",
-  initialState: [{
-    firstName: "Ashish",
-    lastName : "Kumar",
-    designation: "SDE"
-  },
-  {
-    firstName: "Anand ",
-    lastName : "Kumar",
-    designation: "Backend Devloper"
-  },
-
-    
-], // Start with an empty array
+  initialState: [], // Start with an empty array
   reducers: {
     addPeople: (state, action) => {
       state.push(action.payload); // Add a new person to the array

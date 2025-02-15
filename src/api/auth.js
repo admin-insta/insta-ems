@@ -1,9 +1,9 @@
-// /src/api/auth.js
+const BASE_URL = process.env.REACT_APP_API_BASE_URL || "http://localhost:5000";
 
 export const login = async (email, password) => {
     const loginData = { email, password };    
     try {
-      const response = await fetch("https://instaems-backend.onrender.com/api/auth/login", {
+      const response = await fetch(`${BASE_URL}/api/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -29,7 +29,7 @@ export const login = async (email, password) => {
   export const signup = async (name, email, password) => {
     const signupData = { name, email, password };
     try {
-      const response = await fetch("https://instaems-backend.onrender.com/api/auth/signup", {
+      const response = await fetch(`${BASE_URL}/api/auth/signup`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -49,4 +49,3 @@ export const login = async (email, password) => {
       return { success: false, message: "Something went wrong. Please try again." };
     }
   };
-  
