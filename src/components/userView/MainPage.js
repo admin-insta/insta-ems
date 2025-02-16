@@ -43,6 +43,9 @@ const MainPage = () => {
     navigate("/"); // Redirect to home page
   };
   // if (!user) return;
+  
+  
+
   return (
     <>
       <div className="h-screen bg-clay-light grid grid-flow-col grid-cols-12">

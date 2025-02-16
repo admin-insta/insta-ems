@@ -13,6 +13,7 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import Button from "../../utils/theme/Button";
 import Card from "../../utils/theme/Cards";
 import ManageAccountsOutlinedIcon from "@mui/icons-material/ManageAccountsOutlined";
+import { addUser } from "../../../api/users";
 
 const ManagePeople = () => {
   const people = useSelector((store) => store.people);
@@ -102,26 +103,21 @@ const ManagePeople = () => {
       return;
     }
 
+    formData.name = `${formData.firstName} ${formData.lastName}`;
+
     if (isEditing) {
       dispatch(editPeople(formData));
     } else {
       try {
-        const response = await fetch(
-          "https://instaems-backend.onrender.com/api/users/users",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(formData),
-          }
-        );
-        console.log(response);
+        const result = await addUser(formData);
+        if (result.success) {
+          dispatch(addPeople(result.user));
+        } else {
+          console.error(result.message);
+        }
       } catch (error) {
-        console.error(" Error in adding:", error);
-        // setErrorMessage("Something went wrong. Please try again.");
+        console.error("Error in adding:", error);
       }
-      dispatch(addPeople({ ...formData, id: Date.now() }));
     }
 
     setOpen(false);
