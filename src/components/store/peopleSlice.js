@@ -1,11 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const peopleSlice = createSlice({
+const peopleSlice = createSlice({ 
   name: "people",
   initialState: [], // Start with an empty array
   reducers: {
     addPeople: (state, action) => {
-      state.push(action.payload); // Add a new person to the array
+      if (Array.isArray(action.payload)) {
+        return [...state, ...action.payload]; // Add multiple people at once
+      } else {
+        state.push(action.payload); // Add a single person
+      }
     },
     editPeople: (state, action) => {
       const index = state.findIndex((person) => person.id === action.payload.id);

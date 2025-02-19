@@ -25,10 +25,9 @@ const Login = () => {
     const emailValue = email.current.value;
     const passwordValue = password.current.value;
     const companyName = company.current ? company.current.value : ""; // Safe check for company input
- 
+
     try {
       let data;
-
       if (!alreadyUser) {
         // 🔹 Login Flow
         data = await login(emailValue, passwordValue);
@@ -51,7 +50,7 @@ const Login = () => {
         }
       } else {
         // 🔹 Signup Flow
-        data = await signup(companyName, emailValue, passwordValue );
+        data = await signup(companyName, emailValue, passwordValue);
         if (data?.success === true) {
           email.current.value = "";
           password.current.value = "";

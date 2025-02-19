@@ -19,9 +19,14 @@ const StyledCard = styled.div`
   ${(props) =>
     props.$fullScreen &&
     `
-      height: 100vh; /* Full screen height */      
-      display: flex;
-      flex-direction: column;
+       min-height: 100vh; /* Minimum height for full screen */
+    max-height: 100vh; /* Prevent overflow beyond screen height */
+    overflow-y: auto;  /* Enable vertical scrolling */
+    display: flex;
+    flex-direction: column;
+       /* Thin Scrollbar */
+    scrollbar-width: thin; /* Firefox */
+    // scrollbar-color: #b0b0b0 transparent; /* Firefox */
     `}
 
   /* Responsive Styles */
@@ -61,7 +66,7 @@ const CardContent = styled.div`
 `;
 
 const CardTitle = styled.h3`
-  font-size: 1.25rem;
+  font-size: 1.1rem;
   font-weight: bold;
   color: ${theme.colors.textPrimary};
   padding: 2px;
@@ -71,6 +76,7 @@ const CardDescription = styled.div`
   font-size: 1rem;
   color: ${theme.colors.textPrimary};
   padding: 2px;
+  height: auto;
 `;
 
 // Card Component

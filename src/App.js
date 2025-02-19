@@ -11,11 +11,10 @@ import InfoCards from "./components/InfoCards";
 import UserType from "./components/UserType";
 import Reviews from "./components/Reviews";
 import MainPage from "./components/userView/MainPage";
-import PeopleList from "./components/userView/people/PeopleList";
+import EmployeeInfo from "./components/userView/employeeInfo/EmployeeInfo";
 import { Provider } from "react-redux";
 import appStore from "./components/store/appStore";
 import DemoRequest from "./components/DemoRequest";
-import { getCookie } from "./cookieStorage/cookie";
 import Attendance from "./components/userView/attendance/Attendance";
 import LeaveManagement from "./components/userView/leave/LeaveManagement";
 import PaySlip from "./components/userView/salary/PaySlip";
@@ -23,20 +22,6 @@ import DocumentCenter from "./components/userView/document/DocumentCenter";
 import Feedback from "./components/userView/feedback/Feedback";
 import UserHome from "./components/userView/UserHome";
 import HelpDesk from "./components/userView/helpDesk/HelpDesk";
-
-const ProtectedRoute = ({ children }) => {
-  const token = getCookie("authToken");
-  if (!token) {
-    return <Navigate to="/" replace />;
-  }
-  return children;
-};
-
-const UserLayout = () => (
-  <ProtectedRoute>
-    <MainPage />
-  </ProtectedRoute>
-);
 
 function App() {
   const appRouter = createBrowserRouter([
@@ -61,10 +46,12 @@ function App() {
     },
     {
       path: "/userview",
-      element: <UserLayout />,
+      element: <MainPage />,
       children: [
+        // This will redirect from "/userview" to "/userview/userHome"
+        { path: "", element: <Navigate to="userHome" /> },
         { path: "userHome", element: <UserHome /> },
-        { path: "employeeInfo", element: <PeopleList /> },
+        { path: "employeeInfo", element: <EmployeeInfo /> },
         { path: "AttendanceInfo", element: <Attendance /> },
         { path: "leaveManagement", element: <LeaveManagement /> },
         { path: "salaryInfo", element: <PaySlip /> },

@@ -9,9 +9,8 @@ import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
 import MoneyIcon from "@mui/icons-material/Money";
 import PrivacyTipIcon from "@mui/icons-material/PrivacyTipOutlined";
 import ThumbUpAltOutlinedIcon from "@mui/icons-material/ThumbUpAltOutlined";
-import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 
-const SideBar = ({ name, handleSignOut }) => {
+const SideBar = ({ name }) => {
   return (
     <div className="lg:col-span-2 md:col-span-3 sm:col-span-4 bg-clay shadow-lg text-gray-800 h-screen overflow-y-scroll">
       {/* User Profile */}
@@ -22,9 +21,7 @@ const SideBar = ({ name, handleSignOut }) => {
           alt="Profile"
           src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
         />
-        <button onClick={handleSignOut} className="ml-2">
-          <PowerSettingsNewIcon />
-        </button>
+       
       </div>
 
       {/* Sidebar Navigation */}

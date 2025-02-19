@@ -8,7 +8,7 @@ import WbSunnyOutlinedIcon from "@mui/icons-material/WbSunnyOutlined";
 
 const UserHome = () => {
   return (
-    <div className="p-2">
+    <div className="">
       <div className="text-2xl text-black  ">
         Good Evening <WbSunnyOutlinedIcon />
       </div>
