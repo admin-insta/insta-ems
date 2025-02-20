@@ -2,7 +2,7 @@ const BASE_URL = process.env.REACT_APP_API_BASE_URL || "http://localhost:5000";
 
 export const fetchUsers = async () => {
   try {
-    const response = await fetch(`${BASE_URL}/api/users/users`, {
+    const response = await fetch(`${BASE_URL}/api/users/getAllUsers`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -31,7 +31,7 @@ export const fetchUsers = async () => {
 
 export const addUser = async (userData) => {
   try {
-    const response = await fetch(`${BASE_URL}/api/users/users`, {
+    const response = await fetch(`${BASE_URL}/api/users/createUser`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

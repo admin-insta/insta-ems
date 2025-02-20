@@ -49,3 +49,28 @@ export const login = async (email, password) => {
       return { success: false, message: "Something went wrong. Please try again." };
     }
   };
+
+
+//Signout API
+export const logout = async () => {
+  try {
+    const response = await fetch(`${BASE_URL}/api/auth/logout`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include", // Ensures cookies are included
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      return { success: true, message: data.msg || "Logged out successfully" };
+    } else {
+      return { success: false, message: data.msg || "Failed to log out" };
+    }
+  } catch (error) {
+    console.error("Error during logout:", error);
+    return { success: false, message: "Something went wrong. Please try again." };
+  }
+};

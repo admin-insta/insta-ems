@@ -9,12 +9,12 @@ import FitbitIcon from "@mui/icons-material/Fitbit";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronRightOutlinedIcon from "@mui/icons-material/ChevronRightOutlined";
 import CloseIcon from "@mui/icons-material/Close";
+import { logout } from "../api/auth";
 
 const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const userData = useSelector((state) => state.user);
-  console.log("userdata from store", userData);
   const [user, setUser] = useState(null);
   const [showProduct, setShowProduct] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -24,33 +24,20 @@ const Header = () => {
     if (token) {
       // navigate("/userview")
       setUser(userData);
-
     }
   }, [userData]);
-
-  // useEffect(() => {
-  //   const token = getCookie("authToken");
-  //   if (token ) {
-  //     navigate("/userview");
-  //     setUser(userData);
-  //   } else {
-  //     setUser(null);
-  //     dispatch(removeUser());
-  //   }
-  // }, [userData, dispatch]);
-
-  // Handle Sign In
 
   const handleSignIn = () => {
     navigate("/login");
   };
 
   // Handle Sign Out
-  const handleSignOut = () => {
-    deleteCookie("authToken"); // Remove the cookie on logout
-    setUser(null); // Reset local user state
-    dispatch(removeUser()); // Clear Redux store user data
-    navigate("/"); // Redirect to home page
+  const handleSignOut = async () => {
+    const result = await logout();
+    if (result.success) {
+      dispatch(removeUser());
+      navigate("/");
+    }
   };
 
   return (

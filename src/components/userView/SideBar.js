@@ -18,7 +18,7 @@ const SideBar = ({ name }) => {
     <div className=" bg-clay shadow-lg text-gray-800 min-h-screen  overflow-y-scroll">
       {/* User Profile */}
       <div className=" flex items-center justify-around p-4">
-        <span>{user.name}</span>
+        <span>{user?.name|| null}</span>
         <span><AccountCircleIcon/> </span>   
       </div>
 
