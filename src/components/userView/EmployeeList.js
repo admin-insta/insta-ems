@@ -5,18 +5,18 @@ import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 
 
 const EmployeeList = ({ onSelectEmployee, handleAddEmployee }) => {
-  const people = useSelector((store) => store.people || []);
+  const employee = useSelector((store) => store.employee || []);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedEmployee, setSelectedEmployee] = useState(null);
 
   // Select first employee if none is selected
   useEffect(() => {
-    if (people.length > 0 && !selectedEmployee) {
-      const firstEmployee = people[0];
+    if (employee.length > 0 && !selectedEmployee) {
+      const firstEmployee = employee[0];
       setSelectedEmployee(firstEmployee);
       onSelectEmployee(firstEmployee);
     }
-  }, [people, selectedEmployee, onSelectEmployee]);
+  }, [employee]);
 
   const handleEmployeeClick = (employee) => {
     setSelectedEmployee(employee);
@@ -24,7 +24,7 @@ const EmployeeList = ({ onSelectEmployee, handleAddEmployee }) => {
   };
 
   // Filter employees by email or name (case-insensitive)
-  const filteredEmployees = people.filter((employee) =>
+  const filteredEmployees = employee.filter((employee) =>
     employee.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
     (employee.firstName &&
       employee.firstName.toLowerCase().includes(searchQuery.toLowerCase()))
@@ -67,7 +67,7 @@ const EmployeeList = ({ onSelectEmployee, handleAddEmployee }) => {
               {filteredEmployees.length > 0 ? (
                 filteredEmployees.map((employee) => (
                   <div
-                    key={employee.id}
+                    key={employee._id}
                     className={`p-2 m-1 border border-gray-400 rounded-md cursor-pointer transition hover:bg-white ${
                       selectedEmployee?.id === employee.id
                         ? "bg-gray-200"

@@ -1,27 +1,27 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const peopleSlice = createSlice({ 
-  name: "people",
+const employeeSlice = createSlice({ 
+  name: "employee",
   initialState: [], // Start with an empty array
   reducers: {
-    addPeople: (state, action) => {
+    addEmployee: (state, action) => { 
       if (Array.isArray(action.payload)) {
-        return [...state, ...action.payload]; // Add multiple people at once
+        return [...state, ...action.payload]; // Add multiple employee at once
       } else {
         state.push(action.payload); // Add a single person
       }
     },
-    editPeople: (state, action) => {
+    editEmployee: (state, action) => {
       const index = state.findIndex((person) => person.id === action.payload.id);
       if (index !== -1) {
         state[index] = action.payload; // Update the existing person
       }
     },
-    removePeople: (state, action) => {
+    removeEmployee: (state, action) => {
       return state.filter((person) => person.id !== action.payload.id); // Remove the person
     },
   },
 });
 
-export const { addPeople, editPeople, removePeople } = peopleSlice.actions;
-export default peopleSlice.reducer;
+export const { addEmployee, editEmployee, removeEmployee } = employeeSlice.actions;
+export default employeeSlice.reducer;

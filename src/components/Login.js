@@ -23,7 +23,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const emailValue = email.current.value;
-    const passwordValue = password.current.value;
+    const passwordValue = password.current.value; 
     const companyName = company.current ? company.current.value : ""; // Safe check for company input
 
     try {

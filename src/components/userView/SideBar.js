@@ -9,19 +9,17 @@ import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
 import MoneyIcon from "@mui/icons-material/Money";
 import PrivacyTipIcon from "@mui/icons-material/PrivacyTipOutlined";
 import ThumbUpAltOutlinedIcon from "@mui/icons-material/ThumbUpAltOutlined";
-
+import { useSelector } from "react-redux";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 const SideBar = ({ name }) => {
+  
+  const user = useSelector((store)=>store?.user)
   return (
-    <div className="lg:col-span-2 md:col-span-3 sm:col-span-4 bg-clay shadow-lg text-gray-800 h-screen overflow-y-scroll">
+    <div className=" bg-clay shadow-lg text-gray-800 min-h-screen  overflow-y-scroll">
       {/* User Profile */}
-      <div className="font-semibold text-sm flex items-center p-4">
-        {name}
-        <img
-          className="h-10 m-2 rounded-full"
-          alt="Profile"
-          src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
-        />
-       
+      <div className=" flex items-center justify-around p-4">
+        <span>{user.name}</span>
+        <span><AccountCircleIcon/> </span>   
       </div>
 
       {/* Sidebar Navigation */}

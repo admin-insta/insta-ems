@@ -1,34 +1,15 @@
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Outlet, useNavigate } from "react-router-dom";
-
-import { deleteCookie } from "../../cookieStorage/cookie";
-import { removeUser } from "../store/userSlice";
+import React from "react";
+import { Outlet } from "react-router-dom";
 import Header from "../Header";
 import SideBar from "./SideBar";
 
 const MainPage = () => {
-  const userData = useSelector((store) => store?.user);
-  const [user, setUser] = useState(userData);
-  const { name } = user || {};
-
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  const handleSignOut = () => {
-    deleteCookie("authToken"); // Remove the cookie on logout
-    setUser(null); // Reset local user state
-    dispatch(removeUser()); // Clear Redux store user data
-    navigate("/"); // Redirect to home page
-  };
-
   return (
     <>
-     
-      <div className="h-screen bg-clay-light grid grid-cols-12">
+      <div className="grid grid-cols-12">
         {/* Sidebar */}
         <div className="col-span-2">
-          <SideBar name={name} handleSignOut={handleSignOut} />
+          <SideBar />
         </div>
 
         {/* Main Content Area */}

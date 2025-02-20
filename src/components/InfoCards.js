@@ -3,13 +3,7 @@ import cities from "../components/utils/images/cities.png";
 import firms from "../components/utils/images/firms.png";
 
 import users from "../components/utils/images/users.png";
-import { useSelector } from "react-redux";
 const InfoCards = () => {
-  const user = useSelector((store) => store?.user);
-
-  if (user) {
-    return null;
-  }
   return (
     <div className=" m-8 grid grid-flow-col col-span-12 justify-around items-center  lg:text-xl md:text-base sm:text-sm font-bold text-gray-800 ">
       {/*City Card*/}

@@ -9,14 +9,14 @@ import Card from "../../utils/theme/Cards";
 
 const Attendance = () => {
   const [view, setView] = useState("grid"); // Default view is grid
-  const people = useSelector((store) => store.people || []);
+  const employee = useSelector((store) => store.employee || []);
   const [selectedEmployee, setSelectedEmployee] = useState(null);
 
   useEffect(() => {
-    if (people.length > 0 && !selectedEmployee) {
-      setSelectedEmployee(people[0]);
+    if (employee.length > 0 && !selectedEmployee) {
+      setSelectedEmployee(employee[0]);
     }
-  }, [people, selectedEmployee]);
+  }, [employee, selectedEmployee]);
   const toggleView = (viewType) => {
     setView(viewType);
   };

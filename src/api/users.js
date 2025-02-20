@@ -7,7 +7,7 @@ export const fetchUsers = async () => {
       headers: {
         "Content-Type": "application/json",
       },
-      // credentials: "include", // Include credentials in the request
+      credentials: "include", // Include credentials in the request
     });
 
     const data = await response.json();

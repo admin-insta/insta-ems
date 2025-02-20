@@ -3,14 +3,18 @@ import React, { useState } from "react";
 import Button from "../../utils/theme/Button";
 import InputField from "../../utils/theme/InputField";
 import TextareaField from "../../utils/theme/TextareaField";
+import { addUser } from "../../../api/users";
+import { addEmployee } from "../../store/employeeSlice";
+import { useDispatch } from "react-redux";
 
 const AddEmployee = ({ openDialog, setOpenDialog, onAddEmployee }) => { 
+  const dispatch = useDispatch();
   const [isEditForm, setIsEditForm] = useState(false);
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
     email: "",
-    contact: "",
+    phoneNumber: "",
     dob: "",
     designation: "",
     joiningDate: "",
@@ -22,8 +26,41 @@ const AddEmployee = ({ openDialog, setOpenDialog, onAddEmployee }) => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
+    console.log("submit called");
+    if (
+      !formData.firstName ||
+      !formData.lastName ||
+      !formData.email ||
+      !formData.phoneNumber ||
+      !formData.dob ||
+      !formData.designation ||
+      !formData.joiningDate ||
+      !formData.address
+    ) {
+      alert("Please fill out all fields.");
+      return;
+    }
+
+    formData.name = `${formData.firstName} ${formData.lastName}`;
+    const fixedFormData = {
+      ...formData,
+      joiningDate: new Date(formData.joiningDate), // Convert string to Date
+      dob: new Date(formData.dob), // Convert string to Date
+    };
+    
+    try{
+      const response = await addUser(fixedFormData);
+      if (response.success) {
+        dispatch(addEmployee(response.user));
+      } else {
+        console.error(response.message);
+      }
+    }catch(error){
+      console.error("Error adding user")
+    }  
+    
     if (onAddEmployee) {
       onAddEmployee(formData);
     }
@@ -32,7 +69,7 @@ const AddEmployee = ({ openDialog, setOpenDialog, onAddEmployee }) => {
       firstName: "",
       lastName: "",
       email: "",
-      contact: "",
+      phoneNumber: "",
       dob: "",
       designation: "",
       joiningDate: "",
@@ -63,7 +100,7 @@ const AddEmployee = ({ openDialog, setOpenDialog, onAddEmployee }) => {
               <InputField label="First Name" name="firstName" value={formData.firstName} onChange={handleInputChange} />
               <InputField label="Last Name" name="lastName" value={formData.lastName} onChange={handleInputChange} />
               <InputField label="Email" type="email" name="email" value={formData.email} onChange={handleInputChange} />
-              <InputField label="Contact" name="contact" value={formData.contact} onChange={handleInputChange} />
+              <InputField label="Contact" name="phoneNumber" value={formData.phoneNumber} onChange={handleInputChange} />
               <InputField label="Date of Birth" type="date" name="dob" value={formData.dob} onChange={handleInputChange} />
               <InputField label="Designation" name="designation" value={formData.designation} onChange={handleInputChange} />
               <InputField label="Joining Date" type="date" name="joiningDate" value={formData.joiningDate} onChange={handleInputChange} />
@@ -72,7 +109,7 @@ const AddEmployee = ({ openDialog, setOpenDialog, onAddEmployee }) => {
             <TextareaField label="Address" name="address" value={formData.address} onChange={handleInputChange} />
             
             <div className="flex justify-center items-center mt-6 gap-4">
-              <Button type="submit">{isEditForm ? "Update" : "Submit"}</Button>
+              <Button onClick={handleFormSubmit} type="submit">{isEditForm ? "Update" : "Submit"}</Button>
               <Button variant="secondary" onClick={() => setOpenDialog(false)}>Cancel</Button>
             </div>
           </form>

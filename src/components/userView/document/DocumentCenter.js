@@ -5,14 +5,14 @@ import { useSelector } from "react-redux";
 import Card from "../../utils/theme/Cards";
 import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
 const DocumentCenter = () => {
-  const people = useSelector((store) => store.people || []);
+  const employee = useSelector((store) => store.employee || []);
   const [selectedEmployee, setSelectedEmployee] = useState(null);
 
   useEffect(() => {
-    if (people.length > 0 && !selectedEmployee) {
-      setSelectedEmployee(people[0]);
+    if (employee.length > 0 && !selectedEmployee) {
+      setSelectedEmployee(employee[0]);
     }
-  }, [people, selectedEmployee]);
+  }, [employee, selectedEmployee]);
   return (
     <div className="grid grid-cols-12 gap-4 h-screen">
       {/* Employee List Section */}

@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import userReducer from "./userSlice";
-import peopleReducer from "./peopleSlice"
+import employeeReducer from "./employeeSlice"
 const appStore = configureStore({
-  reducer: { user: userReducer, people : peopleReducer},
+  reducer: { user: userReducer, employee : employeeReducer},
 });
 export default appStore;

@@ -14,6 +14,7 @@ const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const userData = useSelector((state) => state.user);
+  console.log("userdata from store", userData);
   const [user, setUser] = useState(null);
   const [showProduct, setShowProduct] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -22,7 +23,6 @@ const Header = () => {
     const token = getCookie("authToken");
     if (token) {
       // navigate("/userview")
-
       setUser(userData);
 
     }

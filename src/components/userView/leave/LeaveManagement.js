@@ -5,14 +5,14 @@ import { useSelector } from "react-redux";
 import Card from "../../utils/theme/Cards";
 import BeachAccessOutlinedIcon from "@mui/icons-material/BeachAccessOutlined";
 const LeaveManagement = () => {
-  const people = useSelector((store) => store.people || []);
+  const employee = useSelector((store) => store.employee || []);
   const [selectedEmployee, setSelectedEmployee] = useState(null);
 
   useEffect(() => {
-    if (people.length > 0 && !selectedEmployee) {
-      setSelectedEmployee(people[0]);
+    if (employee.length > 0 && !selectedEmployee) {
+      setSelectedEmployee(employee[0]);
     }
-  }, [people, selectedEmployee]);
+  }, [employee, selectedEmployee]);
 
   const mockLeaveApplications = [
     {

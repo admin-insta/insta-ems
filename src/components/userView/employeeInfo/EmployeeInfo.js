@@ -6,41 +6,40 @@ import Card from "../../utils/theme/Cards";
 import SettingsAccessibilityOutlinedIcon from "@mui/icons-material/SettingsAccessibilityOutlined";
 import { DeleteForever } from "@mui/icons-material";
 import { fetchUsers } from "../../../api/users";
-import { addPeople } from "../../store/peopleSlice";
+import { addEmployee } from "../../store/employeeSlice";
 import AddEmployee from "./AddEmployee";
 
-const People = () => {
+const EmployeeInfo = () => {
   const dispatch = useDispatch();
-  const people = useSelector((store) => store.people || []);
-  console.log("poeple from store is", people);
+  const employee = useSelector((store) => store.employee || []);
+  console.log("poeple from store is", employee);
   const [selectedEmployee, setSelectedEmployee] = useState(null);
   const [openDialog, setOpenDialog] = useState(false);
   const handleAddEmployee = () => {
     console.log("Add employee called");
     setOpenDialog(true);
   };
-
   useEffect(() => {
     const getUsers = async () => {
-      if (people.length > 0) return; // Prevents fetching if users already exist
+      if (employee.length > 0) return; // Prevents fetching if users already exist
 
       const result = await fetchUsers();
       if (result.success) {
-        dispatch(addPeople(result.users)); // Batch add users
+        dispatch(addEmployee(result.users)); // Batch add users
       } else {
         console.error(result.message);
       }
     };
     getUsers();
-  }, [dispatch, people.length]); // Dependency includes 'people.length' to track changes
+  }, [dispatch, employee.length]); // Dependency includes 'employee.length' to track changes
 
   useEffect(() => {
-    if (people.length > 0 && !selectedEmployee) {
-      setSelectedEmployee(people[0]);
+    if (employee.length > 0 && !selectedEmployee) {
+      setSelectedEmployee(employee[0]);
     }
-  }, [people, selectedEmployee]);
+  }, [employee, selectedEmployee]);
 
-  return people.length === 0 ? (
+  return employee.length === 0 ? (
     <div className="m-4 gap-4">
       There are no employees in your organisation, Add Employee
     </div>
@@ -55,7 +54,6 @@ const People = () => {
           setOpenDialog={setOpenDialog}
         />
       </div>
-
       {/* Description Box */}
       <div className="col-span-9">
         <Card
@@ -119,4 +117,4 @@ const People = () => {
   );
 };
 
-export default People;
+export default EmployeeInfo;
