@@ -11,6 +11,11 @@ const employeeSlice = createSlice({
         state.push(action.payload); // Add a single person
       }
     },
+    setEmployees: (state, action) => { 
+      if (Array.isArray(action.payload)) {
+        return [...action.payload]; 
+      }
+    },
     editEmployee: (state, action) => {
       const index = state.findIndex((person) => person.id === action.payload.id);
       if (index !== -1) {
@@ -23,5 +28,5 @@ const employeeSlice = createSlice({
   },
 });
 
-export const { addEmployee, editEmployee, removeEmployee } = employeeSlice.actions;
+export const { addEmployee, editEmployee, removeEmployee, setEmployees } = employeeSlice.actions;
 export default employeeSlice.reducer;

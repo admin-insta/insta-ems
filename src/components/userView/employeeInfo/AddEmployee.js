@@ -55,7 +55,7 @@ const AddEmployee = ({ openDialog, setOpenDialog, onAddEmployee }) => {
       if (response.success) {
         dispatch(addEmployee(response.user));
       } else {
-        console.error(response.message);
+        console.error(response.message); 
       }
     }catch(error){
       console.error("Error adding user")

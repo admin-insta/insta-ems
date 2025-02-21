@@ -24,12 +24,12 @@ const EmployeeList = ({ onSelectEmployee, handleAddEmployee }) => {
   };
 
   // Filter employees by email or name (case-insensitive)
-  const filteredEmployees = employee.filter((employee) =>
-    employee.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    (employee.firstName &&
-      employee.firstName.toLowerCase().includes(searchQuery.toLowerCase()))
+  const filteredEmployees = employee?.filter((employee) =>
+    employee?.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    (employee?.firstName &&
+      employee?.firstName.toLowerCase().includes(searchQuery.toLowerCase()))
   );
-
+ 
   return (
     <div style={{ scrollbarWidth: "thin", height: "auto" }}>
       <Card
@@ -67,16 +67,16 @@ const EmployeeList = ({ onSelectEmployee, handleAddEmployee }) => {
               {filteredEmployees.length > 0 ? (
                 filteredEmployees.map((employee) => (
                   <div
-                    key={employee._id}
+                    key={employee?._id}
                     className={`p-2 m-1 border border-gray-400 rounded-md cursor-pointer transition hover:bg-white ${
-                      selectedEmployee?.id === employee.id
+                      selectedEmployee?.id === employee?.id
                         ? "bg-gray-200"
                         : "bg-white hover:bg-gray-100"
                     }`}
                     onClick={() => handleEmployeeClick(employee)}
                   >
-                    <div className="">{employee.name||"No Name"}</div>
-                    <div className="text-xs">{employee.email}</div>
+                    <div className="">{employee?.name||"No Name"}</div>
+                    <div className="text-xs">{employee?.email}</div>
                   </div>
                 ))
               ) : (

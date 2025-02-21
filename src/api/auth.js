@@ -17,7 +17,7 @@ export const login = async (email, password) => {
         localStorage.setItem("authToken", data.token);
         return { success: true, token: data.token, user: data.user };
       } else {
-        return { success: false, message: "Invalid credentials" };
+        return { success: false, message: "Invalid Credentials" };
       }
     } catch (error) {
       console.error("Error during login:", error);

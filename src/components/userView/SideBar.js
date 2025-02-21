@@ -15,7 +15,7 @@ const SideBar = ({ name }) => {
   
   const user = useSelector((store)=>store?.user)
   return (
-    <div className=" bg-clay shadow-lg text-gray-800 min-h-screen  overflow-y-scroll">
+    <div className=" bg-clay shadow-lg text-gray-800 min-h-screen fixed overflow-y-scroll">
       {/* User Profile */}
       <div className=" flex items-center justify-around p-4">
         <span>{user?.name|| null}</span>

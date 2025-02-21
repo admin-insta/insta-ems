@@ -5,20 +5,22 @@ import EmployeeList from "../EmployeeList";
 import Card from "../../utils/theme/Cards";
 import SettingsAccessibilityOutlinedIcon from "@mui/icons-material/SettingsAccessibilityOutlined";
 import { DeleteForever } from "@mui/icons-material";
-import { fetchUsers } from "../../../api/users";
-import { addEmployee } from "../../store/employeeSlice";
+import { deleteUser, fetchUsers } from "../../../api/users";
+import { addEmployee, setEmployees } from "../../store/employeeSlice";
 import AddEmployee from "./AddEmployee";
 
 const EmployeeInfo = () => {
   const dispatch = useDispatch();
   const employee = useSelector((store) => store.employee || []);
-  console.log("poeple from store is", employee);
+  console.log("employee list from store is", employee);
   const [selectedEmployee, setSelectedEmployee] = useState(null);
   const [openDialog, setOpenDialog] = useState(false);
+
   const handleAddEmployee = () => {
     console.log("Add employee called");
     setOpenDialog(true);
   };
+
   useEffect(() => {
     const getUsers = async () => {
       if (employee.length > 0) return; // Prevents fetching if users already exist
@@ -34,11 +36,42 @@ const EmployeeInfo = () => {
   }, [dispatch, employee.length]); // Dependency includes 'employee.length' to track changes
 
   useEffect(() => {
-    if (employee.length > 0 && !selectedEmployee) {
+    if (employee.length === 0) {
+      // If there are no employees left, clear selection
+      setSelectedEmployee(null);
+    } else if (!selectedEmployee || !employee.some(emp => emp._id === selectedEmployee._id)) {
+      // If selectedEmployee is deleted or null, pick the first available employee
       setSelectedEmployee(employee[0]);
     }
-  }, [employee, selectedEmployee]);
+  }, [employee]); // ✅ Only depend on employees, NOT selectedEmployee
+  
 
+  //Deleteing an Employee
+  const handleDeleteEmployee = async (selectedEmployee) => {
+    console.log("Delete employee called", selectedEmployee);
+    try {
+      const result = await deleteUser(selectedEmployee._id);
+      console.log("result is", result); 
+      if (result.success) {
+        console.log("Employee deleted successfully");
+        console.log("updated list if user is", result.updatedUsers);
+        // ✅ Update the Redux store first
+        dispatch(setEmployees(result.updatedUsers));
+  
+        // ✅ Select the first employee *from the updated state*
+        if (result.updatedUsers.length > 0) {
+          setSelectedEmployee(result.updatedUsers[0]); // Ensure the first available employee is selected
+        } else {
+          setSelectedEmployee(null); // No employees left, clear selection
+        }
+      } else {
+        console.log(result.message);
+      }
+    } catch (error) {
+      console.error("Error deleting employee:", error);
+    }
+  };
+  
   return employee.length === 0 ? (
     <div className="m-4 gap-4">
       There are no employees in your organisation, Add Employee
@@ -46,7 +79,7 @@ const EmployeeInfo = () => {
   ) : (
     <div className="gap-2 grid grid-cols-12 h-screen">
       {/* Scrollable Employee List */}
-      <div className="col-span-3"> 
+      <div className="col-span-3">
         <EmployeeList
           onSelectEmployee={setSelectedEmployee}
           handleAddEmployee={handleAddEmployee}
@@ -73,7 +106,10 @@ const EmployeeInfo = () => {
                       <AccountCircleIcon sx={{ fontSize: 48, color: "blue" }} />
                     </span>
                     <span>
-                      <DeleteForever sx={{ fontSize: 28, color: "red" }} />
+                      <DeleteForever
+                        onClick={() => handleDeleteEmployee(selectedEmployee)}
+                        sx={{ fontSize: 28, color: "red" }}
+                      />
                     </span>
                   </div>
 

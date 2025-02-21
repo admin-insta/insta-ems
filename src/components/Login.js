@@ -8,11 +8,12 @@ import loginbg from "../components/utils/images/loginbg.png";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import { checkValidateData } from "./utils/validate";
 
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch(); // Redux Dispatch
-  const [alreadyUser, setAlreadyUser] = useState(false);
+  const [isSignInForm, setIsSignInForm] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
 
@@ -23,12 +24,19 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const emailValue = email.current.value;
-    const passwordValue = password.current.value; 
+    const passwordValue = password.current.value;
     const companyName = company.current ? company.current.value : ""; // Safe check for company input
 
+    // 🔹 Validate Email and Password
+    const validateError = checkValidateData(emailValue, passwordValue);
+    if (validateError) {
+      // If validation error exists
+      setErrorMessage(validateError); // Set error message
+      return; // Exit function
+    }
     try {
       let data;
-      if (!alreadyUser) {
+      if (isSignInForm) {
         // 🔹 Login Flow
         data = await login(emailValue, passwordValue);
         if (data?.token) {
@@ -46,7 +54,9 @@ const Login = () => {
 
           navigate("/userview"); // Navigate after Redux update
         } else {
-          setErrorMessage("Invalid credentials or missing token.");
+          setErrorMessage(
+            "Invalid Credentials, Please Enter a valid Email and Password"
+          );
         }
       } else {
         // 🔹 Signup Flow
@@ -55,7 +65,7 @@ const Login = () => {
           email.current.value = "";
           password.current.value = "";
           company.current.value = "";
-          setAlreadyUser(false);
+          setIsSignInForm(true);
           setErrorMessage(
             "Signup successful! Please Login with Your Credentials..."
           );
@@ -85,7 +95,7 @@ const Login = () => {
       </div>
 
       {/* Right Side Form */}
-      <div className="w-full md:w-1/2  sm:w-1/2 xs:w-3/4 flex justify-center">
+      <div className="w-full md:w-1/2 sm:w-1/2 xs:w-3/4 flex justify-center">
         <form className="bg-blue-700 rounded-2xl flex flex-col p-6 w-full xs:w-1/2 max-w-sm shadow-lg">
           <span className="text-center text-white font-semibold text-lg">
             <LockOpenIcon sx={{ fontSize: 60 }} />
@@ -94,24 +104,24 @@ const Login = () => {
           {/* Toggle Sign-in / Sign-up */}
           <div className="p-2 bg-gray-900 rounded-md text-center w-full">
             <span className="text-white text-sm md:text-lg xs:text-xs">
-              {alreadyUser
-                ? "Already have an account? "
-                : "New here? Sign up to get started! "}
+              {isSignInForm
+                ? "New here? Sign up to get started! "
+                : "Already have an account? "}
               <span
                 className="cursor-pointer underline"
-                onClick={() => setAlreadyUser(!alreadyUser)}
+                onClick={() => setIsSignInForm(!isSignInForm)}
               >
                 Click Here
               </span>
             </span>
           </div>
 
-          {/* Company Name Input (only for new users) */}
-          {alreadyUser && (
+          {/* Name Input (only for new users) */}
+          {!isSignInForm && (
             <input
               className="my-2 p-2 border border-gray-700 rounded-md text-sm md:text-base xs:text-xs"
               type="text"
-              placeholder="Your Company Name"
+              placeholder="Your Name"
               ref={company}
             />
           )}
@@ -139,6 +149,10 @@ const Login = () => {
               {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
             </span>
           </div>
+          {/* Error Message */}
+          {errorMessage && (
+            <span className="text-white ">{errorMessage}</span>
+          )}
 
           {/* Forgot Password */}
           <span className="my-2 text-white text-sm md:text-base">
@@ -148,17 +162,12 @@ const Login = () => {
             </span>
           </span>
 
-          {/* Error Message */}
-          {errorMessage && (
-            <span className="text-white text-sm mx-2">{errorMessage}</span>
-          )}
-
           {/* Submit Button */}
           <button
             onClick={handleSubmit}
             className="my-2 p-2 lg:text-lg sm:text-xs xs:text-xs bg-gray-900 rounded-md text-white hover:bg-gray-800 transition-all w-full"
           >
-            {alreadyUser ? "Sign Up" : "Sign In"}
+            {isSignInForm ? "Sign In" : "Sign Up"}
           </button>
         </form>
       </div>
