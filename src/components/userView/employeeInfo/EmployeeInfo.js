@@ -8,6 +8,14 @@ import { DeleteForever } from "@mui/icons-material";
 import { deleteUser, fetchUsers } from "../../../api/users";
 import { addEmployee, setEmployees } from "../../store/employeeSlice";
 import AddEmployee from "./AddEmployee";
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+} from "@mui/material";
+import Button from "../../utils/theme/Button";
 
 const EmployeeInfo = () => {
   const dispatch = useDispatch();
@@ -15,6 +23,7 @@ const EmployeeInfo = () => {
   console.log("employee list from store is", employee);
   const [selectedEmployee, setSelectedEmployee] = useState(null);
   const [openDialog, setOpenDialog] = useState(false);
+  const [confirmDialog, setConfirmDialog] = useState(false);
 
   const handleAddEmployee = () => {
     console.log("Add employee called");
@@ -23,46 +32,40 @@ const EmployeeInfo = () => {
 
   useEffect(() => {
     const getUsers = async () => {
-      if (employee.length > 0) return; // Prevents fetching if users already exist
-
+      if (employee.length > 0) return;
       const result = await fetchUsers();
       if (result.success) {
-        dispatch(addEmployee(result.users)); // Batch add users
+        dispatch(addEmployee(result.users));
       } else {
         console.error(result.message);
       }
     };
     getUsers();
-  }, [dispatch, employee.length]); // Dependency includes 'employee.length' to track changes
+  }, [dispatch, employee.length]);
 
   useEffect(() => {
     if (employee.length === 0) {
-      // If there are no employees left, clear selection
       setSelectedEmployee(null);
-    } else if (!selectedEmployee || !employee.some(emp => emp._id === selectedEmployee._id)) {
-      // If selectedEmployee is deleted or null, pick the first available employee
+    } else if (
+      !selectedEmployee ||
+      !employee.some((emp) => emp._id === selectedEmployee._id)
+    ) {
       setSelectedEmployee(employee[0]);
     }
-  }, [employee]); // ✅ Only depend on employees, NOT selectedEmployee
-  
+  }, [employee]);
 
-  //Deleteing an Employee
-  const handleDeleteEmployee = async (selectedEmployee) => {
+  const handleDeleteEmployee = async () => {
     console.log("Delete employee called", selectedEmployee);
     try {
       const result = await deleteUser(selectedEmployee._id);
-      console.log("result is", result); 
+      console.log("result is", result);
       if (result.success) {
         console.log("Employee deleted successfully");
-        console.log("updated list if user is", result.updatedUsers);
-        // ✅ Update the Redux store first
         dispatch(setEmployees(result.updatedUsers));
-  
-        // ✅ Select the first employee *from the updated state*
         if (result.updatedUsers.length > 0) {
-          setSelectedEmployee(result.updatedUsers[0]); // Ensure the first available employee is selected
+          setSelectedEmployee(result.updatedUsers[0]);
         } else {
-          setSelectedEmployee(null); // No employees left, clear selection
+          setSelectedEmployee(null);
         }
       } else {
         console.log(result.message);
@@ -70,15 +73,15 @@ const EmployeeInfo = () => {
     } catch (error) {
       console.error("Error deleting employee:", error);
     }
+    setConfirmDialog(false);
   };
-  
+
   return employee.length === 0 ? (
     <div className="m-4 gap-4">
       There are no employees in your organisation, Add Employee
     </div>
   ) : (
     <div className="gap-2 grid grid-cols-12 h-screen">
-      {/* Scrollable Employee List */}
       <div className="col-span-3">
         <EmployeeList
           onSelectEmployee={setSelectedEmployee}
@@ -87,7 +90,6 @@ const EmployeeInfo = () => {
           setOpenDialog={setOpenDialog}
         />
       </div>
-      {/* Description Box */}
       <div className="col-span-9">
         <Card
           variant="secondary"
@@ -107,12 +109,11 @@ const EmployeeInfo = () => {
                     </span>
                     <span>
                       <DeleteForever
-                        onClick={() => handleDeleteEmployee(selectedEmployee)}
-                        sx={{ fontSize: 28, color: "red" }}
+                        onClick={() => setConfirmDialog(true)}
+                        sx={{ fontSize: 28, color: "red", cursor: "pointer" }}
                       />
                     </span>
                   </div>
-
                   <div className=" flex justify-between m-4 border-b">
                     <span className="font-semibold">Employee Name:</span>{" "}
                     <span>{selectedEmployee.name}</span>
@@ -121,7 +122,6 @@ const EmployeeInfo = () => {
                     <span className="font-semibold">Phone Number:</span>{" "}
                     <span>{selectedEmployee.phoneNumber}</span>
                   </div>
-
                   <div className=" flex justify-between m-4 border-b">
                     <span className="font-semibold">Date of Birth:</span>{" "}
                     <span>{selectedEmployee.dob}</span>
@@ -149,6 +149,28 @@ const EmployeeInfo = () => {
       {openDialog && (
         <AddEmployee openDialog={openDialog} setOpenDialog={setOpenDialog} />
       )}
+      <Dialog
+        open={confirmDialog}
+        onClose={() => setConfirmDialog(false)}
+        maxWidth="xs"
+        fullWidth
+      >
+        <DialogTitle>Confirm Delete</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Are you sure you want to delete this employee? This action cannot be
+            undone.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setConfirmDialog(false)} variant="secondary">
+            Cancel
+          </Button>
+          <Button onClick={handleDeleteEmployee} variant="primary">
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };

@@ -16,16 +16,19 @@ const Login = () => {
   const [isSignInForm, setIsSignInForm] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
+  const [otp, setOtp] = useState(false);
 
   const email = useRef();
   const password = useRef();
   const company = useRef();
+  const otpValue = useRef();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const emailValue = email.current.value;
     const passwordValue = password.current.value;
     const companyName = company.current ? company.current.value : ""; // Safe check for company input
+
 
     // 🔹 Validate Email and Password
     const validateError = checkValidateData(emailValue, passwordValue);
@@ -59,9 +62,13 @@ const Login = () => {
           );
         }
       } else {
+        setOtp(true);
         // 🔹 Signup Flow
         data = await signup(companyName, emailValue, passwordValue);
         if (data?.success === true) {
+          
+           
+          
           email.current.value = "";
           password.current.value = "";
           company.current.value = "";
@@ -84,7 +91,7 @@ const Login = () => {
   };
 
   return (
-    <div className="flex flex-col md:flex-row items-center justify-center min-h-screen bg-gray-100">
+    <div className="flex flex-col md:flex-row items-center justify-center min-h-screen bg-gray-100 ">
       {/* Left Side Image - Hidden on Mobile */}
       <div className="hidden md:block md:w-1/2">
         <img
@@ -133,8 +140,11 @@ const Login = () => {
             placeholder="Email Id"
             ref={email}
           />
-
-          {/* Password Input */}
+          {errorMessage === "Email not valid" && (
+            <span className="text-white ">
+              Email ID is not valid. Please enter a valid email address
+            </span>
+          )}
           <div className="relative">
             <input
               className="my-2 p-2 border border-gray-700 rounded-md w-full text-sm md:text-base"
@@ -149,9 +159,20 @@ const Login = () => {
               {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
             </span>
           </div>
+
+          {otp && <div>
+          <input
+              className="my-2 p-2 border border-gray-700 rounded-md w-full text-sm md:text-base"
+              type={showPassword ? "text" : "OTP"}
+              placeholder="Enter Your OTP"
+              ref={otpValue}
+            />
+          </div>}
           {/* Error Message */}
           {errorMessage && (
-            <span className="text-white ">{errorMessage}</span>
+            <span className="text-white ">
+              {errorMessage === "Email not valid" ? null : errorMessage}
+            </span>
           )}
 
           {/* Forgot Password */}
