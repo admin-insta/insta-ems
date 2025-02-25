@@ -16,6 +16,7 @@ import {
   DialogTitle,
 } from "@mui/material";
 import Button from "../../utils/theme/Button";
+import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
 
 const EmployeeInfo = () => {
   const dispatch = useDispatch();
@@ -105,37 +106,48 @@ const EmployeeInfo = () => {
                 <div className="bg-clay-light p-4 border border-clay rounded-md">
                   <div className="flex justify-between mx-2">
                     <span>
-                      <AccountCircleIcon sx={{ fontSize: 48, color: "blue" }} />
+                      <AccountCircleIcon sx={{ fontSize: 72, color: "blue" }} />
                     </span>
-                    <span>
-                      <DeleteForever
-                        onClick={() => setConfirmDialog(true)}
-                        sx={{ fontSize: 28, color: "red", cursor: "pointer" }}
-                      />
-                    </span>
+                    <div className="m-2 flex flex-col">
+                      <span className="">
+                        <DeleteForever
+                          onClick={() => setConfirmDialog(true)}
+                          sx={{ fontSize: 24, color: "red", cursor: "pointer" }}
+                        />
+                      </span>
+                      <span className="my-2">
+                        <BorderColorOutlinedIcon
+                          sx={{
+                            fontSize: 24,
+                            color: "blue",
+                            cursor: "pointer",
+                          }}
+                        />
+                      </span>
+                    </div>
                   </div>
                   <div className=" flex justify-between m-4 border-b">
-                    <span className="font-semibold">Employee Name:</span>{" "}
+                    <span className="">Employee Name:</span>{" "}
                     <span>{selectedEmployee.name}</span>
                   </div>
                   <div className=" flex justify-between m-4 border-b">
-                    <span className="font-semibold">Phone Number:</span>{" "}
+                    <span className="">Phone Number:</span>{" "}
                     <span>{selectedEmployee.phoneNumber}</span>
                   </div>
                   <div className=" flex justify-between m-4 border-b">
-                    <span className="font-semibold">Date of Birth:</span>{" "}
+                    <span className="">Date of Birth:</span>{" "}
                     <span>{selectedEmployee.dob}</span>
                   </div>
                   <div className=" flex justify-between m-4 border-b">
-                    <span className="font-semibold">Designation:</span>{" "}
+                    <span className="">Designation:</span>{" "}
                     <span>{selectedEmployee.designation}</span>
                   </div>
                   <div className=" flex justify-between m-4 border-b">
-                    <span className="font-semibold">Email Id:</span>{" "}
+                    <span className="">Email Id:</span>{" "}
                     <span>{selectedEmployee.email}</span>
                   </div>
                   <div className=" flex justify-between m-4 border-b">
-                    <span className="font-semibold">Date of Joining:</span>{" "}
+                    <span className="">Date of Joining:</span>{" "}
                     <span>{selectedEmployee.joiningDate}</span>
                   </div>
                 </div>
