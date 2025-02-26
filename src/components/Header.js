@@ -27,7 +27,7 @@ const Header = () => {
     } else {
       setUser(null);
       dispatch(removeUser());  // Ensure Redux state is cleared when token is missing
-      navigate("/");
+      // navigate("/");
     }
   }, [getCookie("authToken")]); // Dependency includes userData & authToken
   
