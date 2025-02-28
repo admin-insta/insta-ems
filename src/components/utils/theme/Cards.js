@@ -13,7 +13,7 @@ const StyledCard = styled.div`
   padding: 4px;
   transition: all 0.3s ease-in-out;
   width: 100%;
-  cursor: pointer;
+ 
 
   /* Full Screen Option */
   ${(props) =>

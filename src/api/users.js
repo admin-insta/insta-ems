@@ -85,3 +85,30 @@ export const deleteUser = async (id) => {
   }
 };
 
+export const updateUser = async (id, userData) => { 
+  try {
+    const response = await fetch(`${BASE_URL}/api/users/updateUser/${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include", // Include credentials in the request
+      body: JSON.stringify(userData),
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      return { success: true, user: data.user };
+    } else {
+      return { success: false, message: data.message || "Failed to update user" };
+    }
+  } catch (error) {
+    console.error("Error updating user:", error);
+    return {
+      success: false,
+      message: "Something went wrong. Please try again.",
+    };
+  }
+}
+

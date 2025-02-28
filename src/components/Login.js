@@ -99,7 +99,7 @@ const Login = () => {
       </div>
 
       {/* Right Side Form */}
-      <div className="lg:w-full md:w-1/2 sm:w-1/2 xs:w-3/4 flex justify-center">
+      <div className="w-full md:w-1/2 sm:w-1/2 xs:w-3/4 flex justify-center">
         <form className="bg-blue-700 rounded-2xl flex flex-col p-6 lg:w-full xs:w-1/2 max-w-sm shadow-lg">
           <span className="text-center text-white font-semibold text-lg">
             <LockOpenIcon sx={{ fontSize: 60 }} />

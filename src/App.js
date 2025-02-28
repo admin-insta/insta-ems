@@ -51,8 +51,7 @@ function App() {
       element: <MainPage />,
       children: [
         // This will redirect from "/userview" to "/userview/userHome"
-        { path: "/", element: <Navigate to="userHome" /> },
-        
+        { path: "", element: <Navigate to="userHome" /> },        
         { path: "userHome", element: <UserHome /> },
         { path: "employeeInfo", element: <EmployeeInfo /> },
         { path: "AttendanceInfo", element: <Attendance /> },

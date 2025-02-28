@@ -21,15 +21,11 @@ import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
 const EmployeeInfo = () => {
   const dispatch = useDispatch();
   const employee = useSelector((store) => store.employee || []);
-  console.log("employee list from store is", employee);
   const [selectedEmployee, setSelectedEmployee] = useState(null);
   const [openDialog, setOpenDialog] = useState(false);
   const [confirmDialog, setConfirmDialog] = useState(false);
-
-  const handleAddEmployee = () => {
-    console.log("Add employee called");
-    setOpenDialog(true);
-  };
+  const [dialogAction, setDialogAction] = useState(null);
+  const [editingEmployee, setEditingEmployee] = useState(null);
 
   useEffect(() => {
     const getUsers = async () => {
@@ -47,14 +43,24 @@ const EmployeeInfo = () => {
   useEffect(() => {
     if (employee.length === 0) {
       setSelectedEmployee(null);
-    } else if (
-      !selectedEmployee ||
-      !employee.some((emp) => emp._id === selectedEmployee._id)
-    ) {
-      setSelectedEmployee(employee[0]);
+    } else {
+      const updatedEmployee = employee.find(
+        (emp) => emp._id === selectedEmployee?._id
+      );
+      setSelectedEmployee(updatedEmployee || employee[0]);
     }
   }, [employee]);
 
+  const handleAddEmployee = () => {
+    console.log("Add employee called");
+    setEditingEmployee(null);
+    setOpenDialog(true);
+  };
+
+  const handleEditEmployee = () => {
+    setEditingEmployee(selectedEmployee);
+    setOpenDialog(true);
+  };
   const handleDeleteEmployee = async () => {
     console.log("Delete employee called", selectedEmployee);
     try {
@@ -87,6 +93,7 @@ const EmployeeInfo = () => {
         <EmployeeList
           onSelectEmployee={setSelectedEmployee}
           handleAddEmployee={handleAddEmployee}
+          handleEditEmployee={handleEditEmployee}
           openDialog={openDialog}
           setOpenDialog={setOpenDialog}
         />
@@ -96,9 +103,45 @@ const EmployeeInfo = () => {
           variant="secondary"
           fullScreen="true"
           title={
-            <span style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-              <SettingsAccessibilityOutlinedIcon /> Employee Information
-            </span>
+            <>
+              <div className="flex justify-between mx-2">
+                <div
+                  style={{ display: "flex", alignItems: "center", gap: "8px" }}
+                >
+                  <SettingsAccessibilityOutlinedIcon /> Employee Information
+                </div>
+                <div className="m-2 flex gap-8">
+                  <div className="flex flex-col justify-center items-center ">
+                    <span className="">
+                      <BorderColorOutlinedIcon
+                        onClick={() => {
+                          setDialogAction("edit");
+                          setConfirmDialog(true);
+                        }}
+                        sx={{
+                          fontSize: 24,
+                          color: "blue",
+                          cursor: "pointer",
+                        }}
+                      />
+                    </span>
+                    <span className="text-sm font-semibold ">Edit</span>
+                  </div>
+                  <div className="flex flex-col justify-center items-center">
+                    <span className="">
+                      <DeleteForever
+                        onClick={() => {
+                          setDialogAction("delete");
+                          setConfirmDialog(true);
+                        }}
+                        sx={{ fontSize: 24, color: "red", cursor: "pointer" }}
+                      />
+                    </span>
+                    <span className="text-sm font-semibold ">Delete</span>
+                  </div>
+                </div>
+              </div>
+            </>
           }
           description={
             <div className="p-2">
@@ -108,48 +151,36 @@ const EmployeeInfo = () => {
                     <span>
                       <AccountCircleIcon sx={{ fontSize: 72, color: "blue" }} />
                     </span>
-                    <div className="m-2 flex flex-col">
-                      <span className="">
-                        <DeleteForever
-                          onClick={() => setConfirmDialog(true)}
-                          sx={{ fontSize: 24, color: "red", cursor: "pointer" }}
-                        />
-                      </span>
-                      <span className="my-2">
-                        <BorderColorOutlinedIcon
-                          sx={{
-                            fontSize: 24,
-                            color: "blue",
-                            cursor: "pointer",
-                          }}
-                        />
-                      </span>
-                    </div>
                   </div>
-                  <div className=" flex justify-between m-4 border-b">
-                    <span className="">Employee Name:</span>{" "}
-                    <span>{selectedEmployee.name}</span>
-                  </div>
-                  <div className=" flex justify-between m-4 border-b">
-                    <span className="">Phone Number:</span>{" "}
-                    <span>{selectedEmployee.phoneNumber}</span>
-                  </div>
-                  <div className=" flex justify-between m-4 border-b">
-                    <span className="">Date of Birth:</span>{" "}
-                    <span>{selectedEmployee.dob}</span>
-                  </div>
-                  <div className=" flex justify-between m-4 border-b">
-                    <span className="">Designation:</span>{" "}
-                    <span>{selectedEmployee.designation}</span>
-                  </div>
-                  <div className=" flex justify-between m-4 border-b">
-                    <span className="">Email Id:</span>{" "}
-                    <span>{selectedEmployee.email}</span>
-                  </div>
-                  <div className=" flex justify-between m-4 border-b">
-                    <span className="">Date of Joining:</span>{" "}
-                    <span>{selectedEmployee.joiningDate}</span>
-                  </div>
+                  {Object.entries(selectedEmployee)
+                    .filter(
+                      ([key]) =>
+                        ![
+                          "_id",
+                          "subordinateIds",
+                          "__v",
+                          "userId",
+                          "createdAt",
+                          "updatedAt",
+                        ].includes(key)
+                    )
+                    .map(([key, value]) => (
+                      <div
+                        key={key}
+                        className="flex justify-between m-4 border-b"
+                      >
+                        <span className="font-semibold">
+                          {
+                            key
+                              .replace(/([A-Z])/g, " $1") // Add space before capital letters
+                              .trim()
+                              .replace(/^./, (char) => char.toUpperCase()) // Capitalize only the first letter
+                          }
+                          :
+                        </span>
+                        <span>{value}</span>
+                      </div>
+                    ))}
                 </div>
               ) : (
                 <p className="text-gray-500">No employee found.</p>
@@ -159,7 +190,11 @@ const EmployeeInfo = () => {
         />
       </div>
       {openDialog && (
-        <AddEmployee openDialog={openDialog} setOpenDialog={setOpenDialog} />
+        <AddEmployee
+          openDialog={openDialog}
+          setOpenDialog={setOpenDialog}
+          editingEmployee={editingEmployee}
+        />
       )}
       <Dialog
         open={confirmDialog}
@@ -167,19 +202,32 @@ const EmployeeInfo = () => {
         maxWidth="xs"
         fullWidth
       >
-        <DialogTitle>Confirm Delete</DialogTitle>
+        <DialogTitle>
+          {dialogAction === "delete" ? "Confirm Delete" : "Confirm Edit"}
+        </DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Are you sure you want to delete this employee? This action cannot be
-            undone.
+            {dialogAction === "delete"
+              ? "Are you sure you want to delete this employee? This action cannot be undone."
+              : "Are you sure you want to edit this employee's information?"}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setConfirmDialog(false)} variant="secondary">
             Cancel
           </Button>
-          <Button onClick={handleDeleteEmployee} variant="primary">
-            Delete
+          <Button
+            onClick={() => {
+              if (dialogAction === "delete") {
+                handleDeleteEmployee();
+              } else {
+                handleEditEmployee();
+              }
+              setConfirmDialog(false);
+            }}
+            variant="primary"
+          >
+            {dialogAction === "delete" ? "Delete" : "Edit"}
           </Button>
         </DialogActions>
       </Dialog>

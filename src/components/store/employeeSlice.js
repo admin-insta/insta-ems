@@ -1,14 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const employeeSlice = createSlice({ 
+const employeeSlice = createSlice({
   name: "employee",
   initialState: [], // Start with an empty array
   reducers: {
-    addEmployee: (state, action) => { 
+    addEmployee: (state, action) => {
       if (Array.isArray(action.payload)) {
-        return [...state, ...action.payload]; // Add multiple employee at once
+        return [...state, ...action.payload]; // Add multiple employees
       } else {
-        state.push(action.payload); // Add a single person
+        state.push(action.payload); // Add a single employee
       }
     },
     setEmployees: (state, action) => { 
@@ -16,17 +16,22 @@ const employeeSlice = createSlice({
         return [...action.payload]; 
       }
     },
-    editEmployee: (state, action) => {
-      const index = state.findIndex((person) => person.id === action.payload.id);
+    updateEmployee: (state, action) => {
+      const updatedUser = action.payload;  
+  
+      const index = state.findIndex(emp => emp._id === updatedUser._id);
       if (index !== -1) {
-        state[index] = action.payload; // Update the existing person
+          state[index] = { ...state[index], ...updatedUser }; 
+      } else {
+          console.error("Employee not found in Redux store!", state, updatedUser);
       }
-    },
+  }, 
+  
     removeEmployee: (state, action) => {
-      return state.filter((person) => person.id !== action.payload.id); // Remove the person
+      return state.filter((person) => person._id !== action.payload._id);
     },
   },
 });
 
-export const { addEmployee, editEmployee, removeEmployee, setEmployees } = employeeSlice.actions;
+export const { addEmployee, updateEmployee, removeEmployee, setEmployees } = employeeSlice.actions;
 export default employeeSlice.reducer;
