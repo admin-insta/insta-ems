@@ -1,5 +1,5 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
+import React, { useEffect } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 import HomeIcon from "@mui/icons-material/HomeOutlined";
 import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
@@ -14,6 +14,14 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 const SideBar = ({ name }) => {
   
   const user = useSelector((store)=>store?.user)
+  // const navigate = useNavigate();
+  // useEffect(() => {
+  //   if(user?.firstLogin){
+  //     console.log("First Login");
+  //     navigate("/userview/updateUser", { replace: true });
+  //   }
+  // }
+  // , [user?.firstLogin]);
   return (
     <div className=" bg-clay shadow-lg text-gray-800 min-h-screen fixed overflow-y-scroll">
       {/* User Profile */}
@@ -23,6 +31,7 @@ const SideBar = ({ name }) => {
       </div>
 
       {/* Sidebar Navigation */}
+      
       <ul className="mt-2">
         {[
           { to: "/userview/userHome", icon: <HomeIcon />, label: "Home" },

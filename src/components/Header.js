@@ -23,7 +23,7 @@ const Header = () => {
     const token = getCookie("authToken");  
     if (token) {
       setUser(userData);
-      navigate("/userview");
+      // navigate("/userview");
     } else {
       setUser(null);
       dispatch(removeUser());  // Ensure Redux state is cleared when token is missing

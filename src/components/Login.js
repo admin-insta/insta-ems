@@ -28,8 +28,11 @@ const Login = () => {
     const emailValue = email.current.value;
     const passwordValue = password.current.value;
     const companyName = company.current ? company.current.value : ""; // Safe check for company input
-
-
+    
+    if (!emailValue || !passwordValue) {
+      setErrorMessage("Email and password are required.");
+      return;
+    }
     // 🔹 Validate Email and Password
     const validateError = checkValidateData(emailValue, passwordValue);
     if (validateError) {
@@ -37,25 +40,31 @@ const Login = () => {
       setErrorMessage(validateError); // Set error message
       return; // Exit function
     }
+
+    
     try {
       let data;
       if (isSignInForm) {
         // 🔹 Login Flow
         data = await login(emailValue, passwordValue);
+        if (data?.firstLogin) {
+          navigate("/userview/updateUser", { replace: true }); // ✅ FIXED
+        } else {
+          navigate("/userview/userHome", { replace: true });
+        }
         if (data?.token) {
           setCookie("authToken", data.token, 1); // Store token in cookie for 1 day
-
+          console.log("User Data", data.user);
           // ✅ Dispatch user details to Redux
           dispatch(
-            addUser({
+            addUser({ 
               uid: data.user._id,
               email: data.user.email,
               name: data.user.name || "No Name",
               photoUrl: data.user.photoUrl || "",
+              firstLogin: data.firstLogin,
             })
           );
-
-          navigate("/userview"); // Navigate after Redux update
         } else {
           setErrorMessage(
             "Invalid Credentials, Please Enter a valid Email and Password"
@@ -65,7 +74,7 @@ const Login = () => {
         setOtp(true);
         // 🔹 Signup Flow
         data = await signup(companyName, emailValue, passwordValue);
-        if (data?.success === true) {          
+        if (data?.success === true) {
           email.current.value = "";
           password.current.value = "";
           company.current.value = "";
@@ -79,7 +88,7 @@ const Login = () => {
           }, 1500);
         } else {
           setErrorMessage("Signup failed. Please try again.");
-        } 
+        }
       }
     } catch (error) {
       console.error("Error during authentication:", error);
@@ -157,14 +166,16 @@ const Login = () => {
             </span>
           </div>
 
-          {otp && <div>
-          <input
-              className="my-2 p-2 border border-gray-700 rounded-md w-full text-sm md:text-base"
-              type={showPassword ? "text" : "OTP"}
-              placeholder="Enter Your OTP"
-              ref={otpValue}
-            />
-          </div>}
+          {otp && (
+            <div>
+              <input
+                className="my-2 p-2 border border-gray-700 rounded-md w-full text-sm md:text-base"
+                type={showPassword ? "text" : "OTP"}
+                placeholder="Enter Your OTP"
+                ref={otpValue}
+              />
+            </div>
+          )}
           {/* Error Message */}
           {errorMessage && (
             <span className="text-white ">

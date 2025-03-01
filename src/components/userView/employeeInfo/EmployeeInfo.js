@@ -162,6 +162,7 @@ const EmployeeInfo = () => {
                           "userId",
                           "createdAt",
                           "updatedAt",
+                          "firstLogin"
                         ].includes(key)
                     )
                     .map(([key, value]) => (

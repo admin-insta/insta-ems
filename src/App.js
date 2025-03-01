@@ -23,6 +23,7 @@ import Feedback from "./components/userView/feedback/Feedback";
 import UserHome from "./components/userView/UserHome";
 import HelpDesk from "./components/userView/helpDesk/HelpDesk";
 import UpdateUserInfo from "./components/userView/UpdateUserInfo";
+import Header from "./components/Header"; 
 
 function App() {
   const appRouter = createBrowserRouter([
@@ -43,15 +44,16 @@ function App() {
         },
         { path: "/login", element: <Login /> },
         { path: "/demorequest", element: <DemoRequest /> },
-        { path: "updateUser", element: <UpdateUserInfo /> },
       ],
     },
+   
     {
       path: "/userview",
       element: <MainPage />,
       children: [
         // This will redirect from "/userview" to "/userview/userHome"
-        { path: "", element: <Navigate to="userHome" /> },        
+        { path: "", element: <Navigate to="userHome" replace /> },      
+        { path:"updateUser", element:<UpdateUserInfo/>},  
         { path: "userHome", element: <UserHome /> },
         { path: "employeeInfo", element: <EmployeeInfo /> },
         { path: "AttendanceInfo", element: <Attendance /> },

@@ -63,10 +63,6 @@ const AddEmployee = ({ openDialog, setOpenDialog, onAddEmployee, editingEmployee
     }
   }, [editingEmployee]);
   
-  
-  
-  
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -144,7 +140,7 @@ const AddEmployee = ({ openDialog, setOpenDialog, onAddEmployee, editingEmployee
             <InputField label="First Name" name="firstName" value={formData.firstName} onChange={handleInputChange} />
             <InputField label="Last Name" name="lastName" value={formData.lastName} onChange={handleInputChange} />
             <InputField label="Email" type="email" name="email" value={formData.email} onChange={handleInputChange} />
-            <InputField label="Contact" name="phoneNumber" value={formData.phoneNumber} onChange={handleInputChange} />
+            <InputField label="Phone Number" name="phoneNumber" value={formData.phoneNumber} onChange={handleInputChange} />
             <InputField label="Date of Birth" type="date" name="dob" value={formData.dob} onChange={handleInputChange} />
             <InputField label="Designation" name="designation" value={formData.designation} onChange={handleInputChange} />
             <InputField label="Joining Date" type="date" name="joiningDate" value={formData.joiningDate} onChange={handleInputChange} />
