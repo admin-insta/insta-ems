@@ -9,7 +9,7 @@ import LockOpenIcon from "@mui/icons-material/LockOpen";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { checkValidateData } from "./utils/validate";
-
+import Shimmer from "./Shimmer";
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch(); // Redux Dispatch
@@ -17,7 +17,7 @@ const Login = () => {
   const [errorMessage, setErrorMessage] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
   const [otp, setOtp] = useState(false);
-
+  const [loading, setLoading] = useState(false);
   const email = useRef();
   const password = useRef();
   const company = useRef();
@@ -25,10 +25,11 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     const emailValue = email.current.value;
     const passwordValue = password.current.value;
     const companyName = company.current ? company.current.value : ""; // Safe check for company input
-    
+
     if (!emailValue || !passwordValue) {
       setErrorMessage("Email and password are required.");
       return;
@@ -41,7 +42,6 @@ const Login = () => {
       return; // Exit function
     }
 
-    
     try {
       let data;
       if (isSignInForm) {
@@ -57,7 +57,7 @@ const Login = () => {
           console.log("User Data", data.user);
           // ✅ Dispatch user details to Redux
           dispatch(
-            addUser({ 
+            addUser({
               uid: data.user._id,
               email: data.user.email,
               name: data.user.name || "No Name",
@@ -94,9 +94,12 @@ const Login = () => {
       console.error("Error during authentication:", error);
       setErrorMessage("Something went wrong. Please try again.");
     }
+    setLoading(false);
   };
 
-  return (
+  return loading ? (
+    <Shimmer />
+  ) : (
     <div className="flex flex-col md:flex-row items-center justify-center min-h-screen bg-gray-100 ">
       {/* Left Side Image - Hidden on Mobile */}
       <div className="hidden md:block md:w-1/2">
