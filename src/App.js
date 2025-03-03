@@ -23,7 +23,6 @@ import Feedback from "./components/userView/feedback/Feedback";
 import UserHome from "./components/userView/UserHome";
 import HelpDesk from "./components/userView/helpDesk/HelpDesk";
 import UpdateUserInfo from "./components/userView/UpdateUserInfo";
-import Header from "./components/Header"; 
 
 function App() {
   const appRouter = createBrowserRouter([

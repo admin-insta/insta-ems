@@ -25,21 +25,24 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
+    setLoading(true); // Trigger shimmer before processing
+
     const emailValue = email.current.value;
     const passwordValue = password.current.value;
     const companyName = company.current ? company.current.value : ""; // Safe check for company input
 
     if (!emailValue || !passwordValue) {
-      setErrorMessage("Email and password are required.");
+      setErrorMessage("Email and Password are required.");
+      setLoading(false); // Hide shimmer on error
       return;
     }
+
     // 🔹 Validate Email and Password
     const validateError = checkValidateData(emailValue, passwordValue);
     if (validateError) {
-      // If validation error exists
       setErrorMessage(validateError); // Set error message
-      return; // Exit function
+      setLoading(false); // Hide shimmer on validation error
+      return;
     }
 
     try {
@@ -52,6 +55,7 @@ const Login = () => {
         } else {
           navigate("/userview/userHome", { replace: true });
         }
+
         if (data?.token) {
           setCookie("authToken", data.token, 1); // Store token in cookie for 1 day
           console.log("User Data", data.user);
@@ -71,7 +75,7 @@ const Login = () => {
           );
         }
       } else {
-        setOtp(true);
+        setOtp(true); // Trigger OTP flow
         // 🔹 Signup Flow
         data = await signup(companyName, emailValue, passwordValue);
         if (data?.success === true) {
@@ -82,7 +86,6 @@ const Login = () => {
           setErrorMessage(
             "Signup successful! Please Login with Your Credentials..."
           );
-
           setTimeout(() => {
             navigate("/login");
           }, 1500);
@@ -93,8 +96,9 @@ const Login = () => {
     } catch (error) {
       console.error("Error during authentication:", error);
       setErrorMessage("Something went wrong. Please try again.");
+    } finally {
+      setLoading(false); // Hide shimmer when the async process ends
     }
-    setLoading(false);
   };
 
   return loading ? (
@@ -143,8 +147,9 @@ const Login = () => {
           )}
 
           {/* Email Input */}
+          <label className="text-white text-xs my-2">Email Id *</label>
           <input
-            className="my-2 p-2 border border-gray-700 rounded-md text-sm md:text-base w-full"
+            className="p-2 border border-gray-700 rounded-md text-sm md:text-base w-full"
             type="email"
             placeholder="Email Id"
             ref={email}
@@ -154,15 +159,16 @@ const Login = () => {
               Email ID is not valid. Please enter a valid email address
             </span>
           )}
-          <div className="relative">
+          <div className="relative my-2">
+          <label className=" text-white text-xs"> Password* </label>
             <input
-              className="my-2 p-2 border border-gray-700 rounded-md w-full text-sm md:text-base"
+              className=" p-2 border border-gray-700 rounded-md w-full text-sm md:text-base"
               type={showPassword ? "text" : "password"}
               placeholder="Password"
               ref={password}
             />
             <span
-              className="absolute right-4 top-4 text-gray-400 cursor-pointer"
+              className="absolute right-4 top-9 text-gray-400 cursor-pointer"
               onClick={() => setShowPassword(!showPassword)}
             >
               {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
