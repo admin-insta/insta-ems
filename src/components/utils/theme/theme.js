@@ -5,7 +5,7 @@ const theme = {
     background: "#f5f5f5", // Light Gray
     textPrimary: "#000000",
     textSecondary: "#FFFFFF",
-    cardPrimary: "#abebc6" ,
+    cardPrimary: "#cebba4" ,
     cardSecondary: "#aed6f1",
   },
   typography: {

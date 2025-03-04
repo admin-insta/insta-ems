@@ -73,7 +73,7 @@ const CardTitle = styled.h3`
 `;
 
 const CardDescription = styled.div`
-  font-size: 1rem;
+  font-size: 0.9rem;
   color: ${theme.colors.textPrimary};
   padding: 2px;
   height: auto;
