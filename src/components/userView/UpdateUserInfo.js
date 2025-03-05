@@ -66,15 +66,15 @@ const UpdateUserInfo = () => {
       <form className='h-screen' onSubmit={handleFormSubmit}>
         <div className='flex justify-center items-center'><Button variant="secondary">Update Your Profile</Button></div>
             <div className="grid grid-cols-2 gap-6 sm:grid-cols-2 m-4 p-4 ">
-              <InputField label="First Name" name="firstName" value={formData.firstName} onChange={handleInputChange} />
-              <InputField label="Last Name" name="lastName" value={formData.lastName} onChange={handleInputChange} />
-              <InputField label="Email" type="email" name="email" value={formData.email} disabled={true} onChange={handleInputChange} />
-              <InputField label="Phone Number" name="phoneNumber" value={formData.phoneNumber} onChange={handleInputChange} />
-              <InputField label="Date of Birth" type="date" name="dob" value={formData.dob} onChange={handleInputChange} />
-              <InputField label="Designation" name="designation" value={formData.designation} onChange={handleInputChange} />
-              <InputField label="Joining Date" type="date" name="joiningDate" value={formData.joiningDate} onChange={handleInputChange} />
+              <InputField label="First Name" name="firstName" value={formData?.firstName} onChange={handleInputChange} />
+              <InputField label="Last Name" name="lastName" value={formData?.lastName} onChange={handleInputChange} />
+              <InputField label="Email" type="email" name="email" value={formData?.email} disabled={true} onChange={handleInputChange} />
+              <InputField label="Phone Number" name="phoneNumber" value={formData?.phoneNumber} onChange={handleInputChange} />
+              <InputField label="Date of Birth" type="date" name="dob" value={formData?.dob} onChange={handleInputChange} />
+              <InputField label="Designation" name="designation" value={formData?.designation} onChange={handleInputChange} />
+              <InputField label="Joining Date" type="date" name="joiningDate" value={formData?.joiningDate} onChange={handleInputChange} />
             </div>
-            <div className="mx-4 p-4"><TextareaField label="Address" name="address" value={formData.address} onChange={handleInputChange} /></div>
+            <div className="mx-4 p-4"><TextareaField label="Address" name="address" value={formData?.address} onChange={handleInputChange} /></div>
             <div className='flex justify-center gap-2 items-center'>
                 <Button onClick={handleFormSubmit}>Save</Button>
                 <Button onClick={()=>{console.log("update cancelled")}} variant='secondary'>Cancel</Button>

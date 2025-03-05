@@ -13,7 +13,7 @@ import {
   DialogActions,
   DialogContent,
   DialogContentText,
-  DialogTitle,
+  DialogTitle, 
 } from "@mui/material";
 import Button from "../../utils/theme/Button";
 import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
@@ -62,12 +62,9 @@ const EmployeeInfo = () => {
     setOpenDialog(true);
   };
   const handleDeleteEmployee = async () => {
-    console.log("Delete employee called", selectedEmployee);
     try {
       const result = await deleteUser(selectedEmployee._id);
-      console.log("result is", result);
       if (result.success) {
-        console.log("Employee deleted successfully");
         dispatch(setEmployees(result.updatedUsers));
         if (result.updatedUsers.length > 0) {
           setSelectedEmployee(result.updatedUsers[0]);
@@ -146,7 +143,7 @@ const EmployeeInfo = () => {
           description={
             <div className="p-2">
               {selectedEmployee ? (
-                <div className="bg-clay-light p-4 border border-clay rounded-md">
+                <div className="bg-[#f2ebd2] p-4 border border-clay rounded-md">
                   <div className="flex justify-between mx-2">
                     <span>
                       <AccountCircleIcon sx={{ fontSize: 72, color: "blue" }} />

@@ -22,16 +22,18 @@ const Header = () => {
   useEffect(() => {
     const token = getCookie("authToken");  
     if (token) {
+      // console.log("Token is present");
       setUser(userData);
       // navigate("/userview");
     } else {
       setUser(null);
+      // console.log("Token is missing");
       dispatch(removeUser());  // Ensure Redux state is cleared when token is missing
-      // navigate("/");
+      navigate("/");
     }
   }, [getCookie("authToken")]); // Dependency includes userData & authToken
   
-
+//Handle Sign In
   const handleSignIn = () => {
     navigate("/login");
   };
@@ -107,9 +109,9 @@ const Header = () => {
 
           {/* Right Side Buttons */}
           <div className="hidden lg:flex items-center space-x-4">
-            <Button onClick={() => navigate("/demorequest")}>
+            {!user && <Button onClick={() => navigate("/demorequest")}>
               Request A Demo
-            </Button>
+            </Button>}
             <Button onClick={user ? handleSignOut : handleSignIn}>
               {user ? "Logout" : "Login"}
             </Button>

@@ -31,7 +31,7 @@ const EmployeeList = ({ onSelectEmployee, handleAddEmployee }) => {
   );
  
   return (
-    <div style={{ scrollbarWidth: "thin", height: "auto" }}>
+    <div  style={{ scrollbarWidth: "thin", height: "auto" , }}>
       <Card
         style={{ height: "100vh", display: "flex", flexDirection: "column" }}
         variant="primary"

@@ -9,7 +9,7 @@ import LockOpenIcon from "@mui/icons-material/LockOpen";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { checkValidateData } from "./utils/validate";
-import Shimmer from "./Shimmer";
+import Shimmer from "../components/shimmer/Shimmer";
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch(); // Redux Dispatch

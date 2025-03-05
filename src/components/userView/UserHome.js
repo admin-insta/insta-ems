@@ -12,7 +12,7 @@ const UserHome = () => {
       <div className="text-2xl text-black  ">
         Good Evening <WbSunnyOutlinedIcon />
       </div>
-      <div className="border rounded-lg bg-[#cebba4] my-2  h-20 flex justify-between items-center hover:shadow-lg hover:-translate-y-1 transition-all ease-in-out">
+      <div className="border rounded-lg bg-[#f2ebd2] my-2  h-20 flex justify-between items-center hover:shadow-lg hover:-translate-y-1 transition-all ease-in-out">
         <div className="flex text-center p-2 text-lg text-black">
           Opening doors to infinite potential.
         </div>
