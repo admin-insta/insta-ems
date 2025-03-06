@@ -4,6 +4,7 @@ import Header from "../Header";
 import SideBar from "./SideBar";
 
 const MainPage = () => {
+  
   return (
     <>
       <div className="grid grid-cols-12">

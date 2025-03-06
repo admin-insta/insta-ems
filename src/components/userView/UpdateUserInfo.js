@@ -8,7 +8,6 @@ import { useSelector } from "react-redux";
 
 const UpdateUserInfo = () => {
   const user = useSelector((state) => state?.user);
-  
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     firstName: "",
@@ -44,14 +43,14 @@ const UpdateUserInfo = () => {
     }
 
     formData.name = `${formData.firstName} ${formData.lastName}`;
-    const fixedFormData = {
+    const{email, ...fixedFormData} = {
       ...formData,
       joiningDate: new Date(formData.joiningDate), // Convert string to Date
       dob: new Date(formData.dob), // Convert string to Date
     };
 
     try {
-      const response = await updateUser("67c283d443d7a16f75c08ea6",fixedFormData);
+      const response = await updateUser(user.uid,fixedFormData);
       if (response.success) {
         navigate("/userview");
       } else {

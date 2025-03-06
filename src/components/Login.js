@@ -25,40 +25,37 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true); // Trigger shimmer before processing
-
-    const emailValue = email.current.value;
-    const passwordValue = password.current.value;
-    const companyName = company.current ? company.current.value : ""; // Safe check for company input
-
+    setLoading(true); // Show shimmer before processing
+  
+    // Safe retrieval of input values
+    const emailValue = email?.current?.value || "";
+    const passwordValue = password?.current?.value || "";
+    const companyName = company?.current?.value || ""; // Safe check for company input
+  
     if (!emailValue || !passwordValue) {
       setErrorMessage("Email and Password are required.");
-      setLoading(false); // Hide shimmer on error
+      setLoading(false);
       return;
     }
-
+  
     // 🔹 Validate Email and Password
     const validateError = checkValidateData(emailValue, passwordValue);
     if (validateError) {
-      setErrorMessage(validateError); // Set error message
-      setLoading(false); // Hide shimmer on validation error
+      setErrorMessage(validateError);
+      setLoading(false);
       return;
     }
-
+  
     try {
       let data;
       if (isSignInForm) {
         // 🔹 Login Flow
         data = await login(emailValue, passwordValue);
-        if (data?.firstLogin) {
-          navigate("/userview/updateUser", { replace: true }); // ✅ FIXED
-        } else {
-          navigate("/userview/userHome", { replace: true });
-        }
-
+        
         if (data?.token) {
-          setCookie("authToken", data.token, 1); // Store token in cookie for 1 day
-          console.log("User Data", data.user);
+          setCookie("authToken", data.token, 1); // Store token for 1 day
+          console.log("User Data:", data.user);
+  
           // ✅ Dispatch user details to Redux
           dispatch(
             addUser({
@@ -69,26 +66,28 @@ const Login = () => {
               firstLogin: data.firstLogin,
             })
           );
+  
+          // Navigate based on first login
+          navigate(data?.firstLogin ? "/userview/updateUser" : "/userview/userHome", { replace: true });
+  
         } else {
-          setErrorMessage(
-            "Invalid Credentials, Please Enter a valid Email and Password"
-          );
+          setErrorMessage("Invalid Credentials, Please enter a valid Email and Password.");
         }
-      } else {
-        setOtp(true); // Trigger OTP flow
+      } else { 
         // 🔹 Signup Flow
         data = await signup(companyName, emailValue, passwordValue);
-        if (data?.success === true) {
-          email.current.value = "";
-          password.current.value = "";
-          company.current.value = "";
+        
+        if (data?.success) {
+          // ✅ Clear input fields only if they exist
+          if (email.current) email.current.value = "";
+          if (password.current) password.current.value = "";
+          if (company.current) company.current.value = "";
+  
           setIsSignInForm(true);
-          setErrorMessage(
-            "Signup successful! Please Login with Your Credentials..."
-          );
-          setTimeout(() => {
-            navigate("/login");
-          }, 1500);
+          setErrorMessage("Signup successful! Please Login with Your Credentials...");
+          
+          // Redirect to login after success
+          setTimeout(() => navigate("/login"), 1500);
         } else {
           setErrorMessage("Signup failed. Please try again.");
         }
@@ -97,9 +96,10 @@ const Login = () => {
       console.error("Error during authentication:", error);
       setErrorMessage("Something went wrong. Please try again.");
     } finally {
-      setLoading(false); // Hide shimmer when the async process ends
+      setLoading(false); // Hide shimmer when async process ends
     }
   };
+  
 
   return loading ? (
     <Shimmer />
