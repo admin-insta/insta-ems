@@ -15,7 +15,7 @@ const PaySlip = () => {
       setSelectedEmployee(employee[0]); // Set the first employee
     }
   }, [employee, selectedEmployee]); // Add selectedEmployee as a dependency
-console.log(selectedEmployee);
+  console.log(selectedEmployee);
   return (
     <div className="grid grid-cols-12 gap-2 h-screen border-gray-300 bg-clay-light ">
       {/* Employee List Section */}
@@ -53,7 +53,7 @@ console.log(selectedEmployee);
                 {/* Name & Designation */}
                 <div className="col-span-3 flex flex-col  min-w-0">
                   <div className="border-b whitespace-nowrap">
-                    {selectedEmployee?.name|| "Ashish Kumar"}
+                    {selectedEmployee?.name || "Ashish Kumar"}
                   </div>
                   <div className="border-b whitespace-nowrap">
                     {selectedEmployee?.designation || "Software Developer"}
@@ -125,7 +125,6 @@ console.log(selectedEmployee);
                   <div className="p-1">PF Number- UTIB004536 </div>
                   <div className="p-1">UAN Number- 1234567890</div>
                 </div>
-                
               </div>
 
               {/*select and download section*/}

@@ -137,13 +137,16 @@ const Login = () => {
           </div>
 
           {/* Name Input (only for new users) */}
-          {!isSignInForm && (
+         
+          {!isSignInForm && (<>
+             <label className="text-white text-xs my-2">Your Name*</label>
             <input
-              className="my-2 p-2 border border-gray-700 rounded-md text-sm md:text-base xs:text-xs"
+              className="mb-2 p-2 border border-gray-700 rounded-md text-sm md:text-base xs:text-xs"
               type="text"
               placeholder="Your Name"
               ref={company}
             />
+            </>
           )}
 
           {/* Email Input */}
@@ -168,7 +171,7 @@ const Login = () => {
               ref={password}
             />
             <span
-              className="absolute right-4 top-9 text-gray-400 cursor-pointer"
+              className="absolute right-4 top-7 text-gray-400 cursor-pointer"
               onClick={() => setShowPassword(!showPassword)}
             >
               {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
