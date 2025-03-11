@@ -19,11 +19,11 @@ const PaySlip = () => {
   return (
     <div className="grid grid-cols-12 gap-2 h-screen border-gray-300 bg-clay-light ">
       {/* Employee List Section */}
-      <div className="col-span-3 ">
+      {/* <div className="col-span-3 ">
         <EmployeeList onSelectEmployee={setSelectedEmployee} />
-      </div>
+      </div> */}
 
-      <div className="col-span-9  ">
+      <div className="col-span-12 ">
         <Card
           variant="secondary"
           fullScreen="true"

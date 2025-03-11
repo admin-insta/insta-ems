@@ -20,30 +20,30 @@ const SalaryInfo = () => {
         <div className="top m-2 ">
           <ul className="grid grid-flow-col justify-evenly font-semibold">
             <li className="p-2 border-b border-black">
-              <Link to="/userview/salaryInfo">Salary Info</Link>
+              <Link className="text-black" style={{ textDecoration: 'none' }} to="/userview/salaryInfo">Salary Info</Link>
             </li>
             <li className="p-2 border-b border-black">
-              <Link to="paypackage">Pay Package</Link>
+              <Link className="text-black" style={{ textDecoration: 'none' }} to="paypackage">Pay Package</Link>
             </li>
             <li className="p-2 border-b border-black">
-              <Link to="it-declaration">IT Declaration</Link>
+              <Link className="text-black" style={{ textDecoration: 'none' }} to="it-declaration">IT Declaration</Link>
             </li>
             <li className="p-2 border-b border-black">
-              <Link to="payslip">Payslip</Link>
+              <Link className="text-black" style={{ textDecoration: 'none' }} to="payslip">Payslip</Link>
             </li>
             <li className="p-2 border-b border-black">
-              <Link to="ytd-statement">YTD Statement</Link>
+              <Link className="text-black" style={{ textDecoration: 'none' }} to="ytd-statement">YTD Statement</Link>
             </li>
             <li className="p-2 border-b border-black">
-              <Link to="payment">Payment</Link>
+              <Link className="text-black" style={{ textDecoration: 'none' }} to="payment">Payment</Link>
             </li>
           </ul>
+         
           <div className="content">
-        <Outlet />
-      </div>
+            <Outlet />
+          </div>
         </div>
       </div>
-     
     </div>
   );
 };

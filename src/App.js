@@ -26,6 +26,7 @@ import SalaryInfo from "./components/userView/salary/SalaryInfo";
 import PackageInfo from "./components/userView/salary/PackageInfo";
 import ItDeclaration from "./components/userView/salary/ItDeclaration";
 import SalaryPayment from "./components/userView/salary/SalaryPayment";
+import SalaryDescription from "./components/userView/salary/SalaryDescription";
 
 function App() {
   const appRouter = createBrowserRouter([
@@ -64,7 +65,7 @@ function App() {
           path: "salaryInfo",
           element: <SalaryInfo />,
           children: [
-            { index: true, element: <PackageInfo /> }, // Default child route
+            { index: true, element:<SalaryDescription/> }, // Default child route
             { path: "paypackage", element: <PackageInfo /> },
             { path: "it-declaration", element: <ItDeclaration /> }, // ✅ Correct path
             { path: "payslip", element: <PaySlip /> },

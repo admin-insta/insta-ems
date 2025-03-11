@@ -4,7 +4,7 @@ const InputField = ({ label, type = "text", name, value, onChange, required = tr
     <div className="flex flex-col">
       <label className="text-xs text-blue-600 mb-1">{label}</label>
       <input
-        className="border p-2 rounded-md w-full"
+        className="border p-2 rounded-md w-full bg-white"
         type={type}
         name={name}
         value={value}
