@@ -17,7 +17,7 @@ const PackageInfo = () => {
       yearlyCTC: "₹6,60,000",
       proration: "95%",
     },
-   
+
     {
       year: 2023,
       monthlyCTC: "₹50,000",
@@ -30,13 +30,14 @@ const PackageInfo = () => {
     setVisibleRows((prev) => ({ ...prev, [year]: !prev[year] }));
   };
 
-  const maskValue = (value, isVisible) => (isVisible ? value : "*****");
+  const maskValue = (value, isVisible) => (isVisible ? value : "* * * * *");
 
   return (
     <div>
-      <h2 className="text-xl font-bold mb-4">Package Information</h2>
-      <div>
-        <ul className="flex justify-between m-2 p-2 border-b border-black font-semibold">
+      
+      <div className="border">
+      <div className="text-base font-semibold m-2 p-2">Package Information</div>
+        <ul className="flex justify-between m-2 p-2 border-b border-black font-semibold ">
           <li>Year</li>
           <li>Monthly CTC</li>
           <li>Yearly CTC</li>
@@ -46,7 +47,7 @@ const PackageInfo = () => {
         {packageDetails.map((item) => (
           <ul
             key={item.year}
-            className="flex justify-between items-center m-2 p-2 border border-gray-300 rounded-md cursor-pointer"
+            className="flex justify-between items-center m-2 p-2 border  rounded-md cursor-pointer bg-white"
           >
             <li>{item.year}</li>
             <li>{maskValue(item.monthlyCTC, visibleRows[item.year])}</li>

@@ -28,12 +28,12 @@ const PaySlip = () => {
           variant="secondary"
           fullScreen="true"
           title={
-            <div className="flex justify-between mr-4">
+            <div className="flex justify-between mr-4 font-normal">
               <div className="flex items-center gap-2">
                 <CurrencyBitcoinOutlinedIcon /> Salary Information
               </div>
-              <div className="text-sm">
-                <Button variant="primary">Payment History</Button>
+              <div className="text-sm font-normal">
+                <Button variant="primary" >Download</Button>
               </div>
             </div>
           }
@@ -64,10 +64,7 @@ const PaySlip = () => {
                 <div className="col-span-4 flex flex-col justify-between text-sm">
                   <div className="border-b">Net Earning-</div>
                   <div className="border-b">Net Deductions-</div>
-                  <div className="border-b">Net Pay-</div>
-                  <div className="flex justify-end">
-                    <Button variant="secondary">Pay Salary</Button>
-                  </div>
+                  <div className="border-b">Net Pay-</div>                  
                 </div>
               </div>
 

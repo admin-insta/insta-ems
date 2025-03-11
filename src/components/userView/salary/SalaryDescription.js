@@ -1,38 +1,191 @@
-import React from "react";
+import React, { useState } from "react";
 import Card from "../../utils/theme/Cards";
 import InputField from "../../utils/theme/InputField";
 import Button from "../../utils/theme/Button";
+import ConfirmationDialog from "../../utils/theme/ConfirmationDialog";
 
 const SalaryDescription = () => {
+
+  const [isEmployeeEditMode, setIsEmployeeEditMode] = useState(false);
+  const [isSalaryEditMode, setIsSalaryEditMode] = useState(false);
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [dialogConfig, setDialogConfig] = useState({
+    title: "",
+    message: "",
+    onConfirm: () => {},
+  });
+
+  const [employeeDetails, setEmployeeDetails] = useState({
+    panNumber: "BLMPB69226",
+    bankAccount: "9182302348762738",
+    ifscCode: "UTIB67345",
+    uanNumber: "8273462983648",
+  });
+
+  const [salaryDetails, setSalaryDetails] = useState({
+    netSalary: "Rs. 50,000",
+    basicSalary: "Rs. 30,130",
+    hra: "Rs. 10,257",
+    bonus: "Rs. 7,257",
+    specialAllowance: "Rs. 1,557",
+    yearlySalary: "Rs. 6,00,000",
+  });
+
+  const confirmActionHandler = (title, message, action) => {
+    setDialogConfig({
+      title,
+      message,
+      onConfirm: () => {
+        action();
+        setShowConfirmation(false);
+      },
+    });
+    setShowConfirmation(true);
+  };
+
+  const handleEmployeeEditToggle = () =>
+    confirmActionHandler(
+      "Confirm Employee Edit",
+      "Are you sure you want to edit the employee details?",
+      () => setIsEmployeeEditMode(!isEmployeeEditMode)
+    );
+
+  const handleSalaryEditToggle = () =>
+    confirmActionHandler(
+      "Confirm Salary Revision",
+      "Are you sure you want to revise the salary details?",
+      () => setIsSalaryEditMode(!isSalaryEditMode)
+    );
+
+  const handleEmployeeChange = (e) => {
+    const { name, value } = e.target;
+    setEmployeeDetails({ ...employeeDetails, [name]: value });
+  };
+
+  const handleSalaryChange = (e) => {
+    const { name, value } = e.target;
+    setSalaryDetails({ ...salaryDetails, [name]: value });
+  };
+
   return (
     <div>
       <Card
         variant="primary"
         fullScreen="true"
         description={
-          <form className="grid grid-cols-2 gap-4 ">
-            <div className=" border shadow-md p-2 ">
-              <div className="flex justify-between items-center m-2">
-                <span>Employee Details</span> <Button>Update</Button></div>
-              <InputField label="Employee Name" value={"Ashish Kumar"} disabled={true}/>
-              <InputField label="Email" type="email" name="email"  value={"ashish.dypcoe@gmail.com"} disabled={true}/>
-              <InputField label=" PAN Number " name="PAN Card" value={"BLMPB69226"}/>
-              <InputField label=" Bank Account Number" name="Account Number" value={"9182302348762738"} />
-              <InputField label=" IFSC Code " name="IFSC Code" value={"UTIB67345"}/>
-              <InputField label=" UAN Number " name="UAN Number" value="8273462983648"/>
-            </div>
+          <form className="grid grid-cols-2 gap-4">
+            {/* Employee Details Section */}
             <div className="border shadow-md p-2">
-            <div className="flex justify-between items-center m-2">
-            <span>Salary Details</span> <Button>Update</Button></div>
-              <InputField label="Net Monthly Salary" name="firstName" value="Rs. 50,000" />
-              <InputField label="BASIC Salary" name="BASIC" value="Rs. 30,130" />
-              <InputField label=" HRA " name="HRA" value="Rs. 10257" />
-              <InputField label=" BONUS " name="BONUS" value="Rs. 7257" />
-              <InputField label="Special Allowance" name="Special Allowance"  value="Rs. 1557"/>
-              <InputField label="Yealry Salry" name="Yearly Salary" value="Rs. 6,00,000"/>
+              <div className="flex justify-between items-center">
+                <span className="font-semibold text-base">
+                  Employee Details
+                </span>
+                <Button onClick={handleEmployeeEditToggle}>
+                  {isEmployeeEditMode ? "Save" : "Update"}
+                </Button>
+              </div>
+              <InputField
+                label="Employee Name"
+                value="Ashish Kumar"
+                disabled={true}
+              />
+              <InputField
+                label="Email"
+                value="ashish.dypcoe@gmail.com"
+                disabled={true}
+              />
+              <InputField
+                label="PAN Number"
+                name="panNumber"
+                value={employeeDetails.panNumber}
+                onChange={handleEmployeeChange}
+                disabled={!isEmployeeEditMode}
+              />
+              <InputField
+                label="Bank Account Number"
+                name="bankAccount"
+                value={employeeDetails.bankAccount}
+                onChange={handleEmployeeChange}
+                disabled={!isEmployeeEditMode}
+              />
+              <InputField
+                label="IFSC Code"
+                name="ifscCode"
+                value={employeeDetails.ifscCode}
+                onChange={handleEmployeeChange}
+                disabled={!isEmployeeEditMode}
+              />
+              <InputField
+                label="UAN Number"
+                name="uanNumber"
+                value={employeeDetails.uanNumber}
+                onChange={handleEmployeeChange}
+                disabled={!isEmployeeEditMode}
+              />
+            </div>
+
+            {/* Salary Details Section */}
+            <div className="border shadow-md p-2">
+              <div className="flex justify-between items-center">
+                <span className="font-semibold text-base">Salary Details</span>
+                <Button onClick={handleSalaryEditToggle}>
+                  {isSalaryEditMode ? "Save" : "Revise"}
+                </Button>
+              </div>
+              <InputField
+                label="Net Monthly Salary"
+                name="netSalary"
+                value={salaryDetails.netSalary}
+                onChange={handleSalaryChange}
+                disabled={!isSalaryEditMode}
+              />
+              <InputField
+                label="BASIC Salary"
+                name="basicSalary"
+                value={salaryDetails.basicSalary}
+                onChange={handleSalaryChange}
+                disabled={!isSalaryEditMode}
+              />
+              <InputField
+                label="HRA"
+                name="hra"
+                value={salaryDetails.hra}
+                onChange={handleSalaryChange}
+                disabled={!isSalaryEditMode}
+              />
+              <InputField
+                label="BONUS"
+                name="bonus"
+                value={salaryDetails.bonus}
+                onChange={handleSalaryChange}
+                disabled={!isSalaryEditMode}
+              />
+              <InputField
+                label="Special Allowance"
+                name="specialAllowance"
+                value={salaryDetails.specialAllowance}
+                onChange={handleSalaryChange}
+                disabled={!isSalaryEditMode}
+              />
+              <InputField
+                label="Yearly Salary"
+                name="yearlySalary"
+                value={salaryDetails.yearlySalary}
+                onChange={handleSalaryChange}
+                disabled={!isSalaryEditMode}
+              />
             </div>
           </form>
         }
+      />
+
+      {/* Confirmation Dialog */}
+      <ConfirmationDialog
+        open={showConfirmation}
+        onClose={() => setShowConfirmation(false)}
+        onConfirm={dialogConfig.onConfirm}
+        title={dialogConfig.title}
+        message={dialogConfig.message}
       />
     </div>
   );

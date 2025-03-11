@@ -18,7 +18,7 @@ const SalaryInfo = () => {
       </div>
       <div className="col-span-9 bg-clay-light">
         <div className="top m-2 ">
-          <ul className="grid grid-flow-col justify-evenly font-semibold">
+          <ul className="grid grid-flow-col items-start  font-semibold">
             <li className="p-2 border-b border-black">
               <Link className="text-black" style={{ textDecoration: 'none' }} to="/userview/salaryInfo">Salary Info</Link>
             </li>

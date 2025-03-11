@@ -15,6 +15,9 @@
   .custom-dropdown-item {
     width: 200px;
   }
+  input:disabled {
+    cursor: default !important;
+  }
 
   /* src/index.css */
 body {
