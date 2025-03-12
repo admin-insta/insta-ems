@@ -18,23 +18,23 @@ const SalaryInfo = () => {
       </div>
       <div className="col-span-9 bg-clay-light">
         <div className="top m-2 ">
-          <ul className="grid grid-flow-col items-start  font-semibold">
-            <li className="p-2 border-b border-black">
+          <ul className="grid grid-flow-col items-start  font-semibold ">
+            <li className="p-2  border-black">
               <Link className="text-black" style={{ textDecoration: 'none' }} to="/userview/salaryInfo">Salary Info</Link>
             </li>
-            <li className="p-2 border-b border-black">
+            <li className="p-2  border-black">
               <Link className="text-black" style={{ textDecoration: 'none' }} to="paypackage">Pay Package</Link>
             </li>
-            <li className="p-2 border-b border-black">
-              <Link className="text-black" style={{ textDecoration: 'none' }} to="it-declaration">IT Declaration</Link>
+            <li className="p-2  border-black">
+              <Link className="text-black" style={{ textDecoration: 'none' }} to="it-declaration">IT Statement</Link>
             </li>
-            <li className="p-2 border-b border-black">
+            <li className="p-2  border-black">
               <Link className="text-black" style={{ textDecoration: 'none' }} to="payslip">Payslip</Link>
             </li>
-            <li className="p-2 border-b border-black">
+            <li className="p-2  border-black">
               <Link className="text-black" style={{ textDecoration: 'none' }} to="ytd-statement">YTD Statement</Link>
             </li>
-            <li className="p-2 border-b border-black">
+            <li className="p-2  border-black">
               <Link className="text-black" style={{ textDecoration: 'none' }} to="payment">Payment</Link>
             </li>
           </ul>
