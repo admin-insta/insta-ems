@@ -9,6 +9,7 @@ import FitbitIcon from "@mui/icons-material/Fitbit";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronRightOutlinedIcon from "@mui/icons-material/ChevronRightOutlined";
 import CloseIcon from "@mui/icons-material/Close";
+import { logout } from "../api/auth";
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -19,31 +20,36 @@ const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
-    const token = getCookie("authToken");
-    if (token) {      
-      navigate("/userview")
+    const token = getCookie("authToken");  
+    if (token) {
+      // console.log("Token is present");
       setUser(userData);
+      // navigate("/userview");
     } else {
       setUser(null);
-      dispatch(removeUser());
+      // console.log("Token is missing");
+      dispatch(removeUser());  // Ensure Redux state is cleared when token is missing
+      navigate("/");
     }
-  },[userData, dispatch]);
-
-  // Handle Sign In
+  }, [getCookie("authToken")]); // Dependency includes userData & authToken
+  
+//Handle Sign In
   const handleSignIn = () => {
     navigate("/login");
   };
 
   // Handle Sign Out
-  const handleSignOut = () => {
-    deleteCookie("authToken"); // Remove the cookie on logout
-    setUser(null); // Reset local user state
-    dispatch(removeUser()); // Clear Redux store user data
-    navigate("/"); // Redirect to home page
+  const handleSignOut = async () => {
+    const result = await logout();
+    if (result.success) {
+      dispatch(removeUser());
+      deleteCookie("authToken");
+      navigate("/");
+    }
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-white shadow-md">
+    <header className={`sticky top-0 z-50 bg-white shadow-md`}>
       <div className="container mx-auto px-4 lg:px-8">
         <div className="flex items-center justify-between py-4">
           {/* Left Side - Logo and Hamburger Menu Icon */}
@@ -58,49 +64,54 @@ const Header = () => {
             <FitbitIcon
               className="text-blue-700 cursor-pointer hover:scale-110 transition-all"
               sx={{ fontSize: 32 }}
-              onClick={() => navigate("/")}
+              onClick={() => {
+                user ? navigate("/userview") : navigate("/");
+              }}
             />
           </div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex space-x-6">
-            <span
-              onClick={() => (user ? navigate("/userview") : navigate("/"))}
-              className="cursor-pointer hover:text-blue-700 transition-all"
-            >
-              Home
-            </span>
-            <span className="cursor-pointer hover:text-blue-700 transition-all">
-              Resources
-            </span>
-            <span className="cursor-pointer hover:text-blue-700 transition-all">
-              Pricing
-            </span>
 
-            {/* Dropdown for Products */}
-            <div
-              className="relative cursor-pointer"
-              onMouseEnter={() => setShowProduct(true)}
-              onMouseLeave={() => setShowProduct(false)}
-            >
-              <span className="flex items-center hover:text-blue-700 transition-all">
-                Products
-                <ChevronRightOutlinedIcon
-                  className={`ml-1 transition-transform duration-300 ${
-                    showProduct ? "rotate-90" : "rotate-0"
-                  }`}
-                />
+          {!user && (
+            <nav className="hidden lg:flex space-x-6 text-base">
+              <span
+                onClick={() => (user ? navigate("/userview") : navigate("/"))}
+                className="cursor-pointer hover:text-blue-700 transition-all"
+              >
+                Home
+              </span>
+              <span className="cursor-pointer hover:text-blue-700 transition-all">
+                Resources
+              </span>
+              <span className="cursor-pointer hover:text-blue-700 transition-all">
+                Pricing
               </span>
 
-              {showProduct && <ProductMenu />}
-            </div>
-          </nav>
+              {/* Dropdown for Products */}
+              <div
+                className="relative cursor-pointer"
+                onMouseEnter={() => setShowProduct(true)}
+                onMouseLeave={() => setShowProduct(false)}
+              >
+                <span className="flex items-center hover:text-blue-700 transition-all">
+                  Products
+                  <ChevronRightOutlinedIcon
+                    className={`ml-1 transition-transform duration-300 ${
+                      showProduct ? "rotate-90" : "rotate-0"
+                    }`}
+                  />
+                </span>
+
+                {showProduct && <ProductMenu />}
+              </div>
+            </nav>
+          )}
 
           {/* Right Side Buttons */}
           <div className="hidden lg:flex items-center space-x-4">
-            <Button onClick={() => navigate("/demorequest")}>
+            {!user && <Button onClick={() => navigate("/demorequest")}>
               Request A Demo
-            </Button>
+            </Button>}
             <Button onClick={user ? handleSignOut : handleSignIn}>
               {user ? "Logout" : "Login"}
             </Button>
@@ -170,7 +181,7 @@ const Header = () => {
 
 export default Header;
 
-export const ProductMenu = () => {
+export const ProductMenu = React.memo(() => {
   return (
     <div className="absolute left-0 bg-white shadow-lg p-4 rounded-md w-48 md:w-56 lg:w-64 z-50">
       <ul className="text-sm">
@@ -191,4 +202,4 @@ export const ProductMenu = () => {
       </ul>
     </div>
   );
-};
+});

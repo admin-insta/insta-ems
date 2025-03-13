@@ -1,16 +1,11 @@
 import React from "react";
 import newback from "../components/utils/images/newback.jpg";
 import EastOutlinedIcon from "@mui/icons-material/EastOutlined";
-import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Button from "./utils/theme/Button";
 
 const MainContainer = () => {
   const navigate = useNavigate();
-  const user = useSelector((store) => store?.user);
-  if (user) {
-    return null;
-  }
   return (
     <div className="grid col-span-12 grid-flow-col   shadow-lg font-semibold">
       {/*maain background image*/}

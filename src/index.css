@@ -1,6 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap');
+
+
 
 .attendance-cell {
     height: 20px; /* Adjust the height as needed */
@@ -11,3 +15,16 @@
   .custom-dropdown-item {
     width: 200px;
   }
+  input:disabled {
+    cursor: default !important;
+  }
+
+  /* src/index.css */
+body {
+  font-family: 'Nunito', sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-weight: 400;
+  /* letter-spacing: -0.5px; */
+}
