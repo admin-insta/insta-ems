@@ -71,7 +71,8 @@ const EmployeeInfo = () => {
         <EmployeeList
           onSelectEmployee={setSelectedEmployee}
           handleAddEmployee={handleAddEmployee}
-          handleEditEmployee={handleEditEmployee}
+          handleEditEmployee={handleEditEmployee }
+          
           openDialog={openDialog}
           setOpenDialog={setOpenDialog}
         />
@@ -148,6 +149,7 @@ const EmployeeInfo = () => {
           openDialog={openDialog}
           setOpenDialog={setOpenDialog}
           editingEmployee={editingEmployee}
+          setConfirmDialog = {setConfirmDialog}
         />
       )}
       <ConfirmationDialog

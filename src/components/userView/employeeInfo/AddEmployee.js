@@ -7,7 +7,7 @@ import { addUser, updateUser } from "../../../api/users"; // Import updateUser f
 import { addEmployee, updateEmployee } from "../../store/employeeSlice";
 import { useDispatch } from "react-redux";
 
-const AddEmployee = ({ openDialog, setOpenDialog, onAddEmployee, editingEmployee }) => {
+const AddEmployee = ({ openDialog, setOpenDialog, onAddEmployee, editingEmployee, setConfirmDialog }) => {
   const dispatch = useDispatch();
   const [isEditForm, setIsEditForm] = useState(false);
   const [formData, setFormData] = useState({
@@ -91,7 +91,7 @@ const AddEmployee = ({ openDialog, setOpenDialog, onAddEmployee, editingEmployee
       joiningDate: new Date(formData.joiningDate), // Convert string to Date
       dob: new Date(formData.dob), // Convert string to Date
     };
-
+ 
     try {
       let response;
       if (isEditForm && editingEmployee?._id) {
@@ -100,6 +100,7 @@ const AddEmployee = ({ openDialog, setOpenDialog, onAddEmployee, editingEmployee
         if (response.success) {
           console.log(response.user)
           dispatch(updateEmployee(response.user));
+          setConfirmDialog(false)
         } 
       } else { 
         // If adding new, call add API

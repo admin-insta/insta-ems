@@ -3,7 +3,7 @@ import { Outlet } from "react-router-dom";
 import Header from "../Header";
 import SideBar from "./SideBar";
 
-const MainPage = () => {
+const MainPage = () => { 
   
   return (
     <>
