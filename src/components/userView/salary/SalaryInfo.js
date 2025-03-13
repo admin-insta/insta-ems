@@ -26,7 +26,7 @@ const SalaryInfo = () => {
               <Link className="text-black" style={{ textDecoration: 'none' }} to="paypackage">Pay Package</Link>
             </li>
             <li className="p-2  border-black">
-              <Link className="text-black" style={{ textDecoration: 'none' }} to="it-declaration">IT Statement</Link>
+              <Link className="text-black" style={{ textDecoration: 'none' }} to="it-statement">IT Statement</Link>
             </li>
             <li className="p-2  border-black">
               <Link className="text-black" style={{ textDecoration: 'none' }} to="payslip">Payslip</Link>

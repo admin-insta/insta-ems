@@ -1,12 +1,30 @@
-import React from "react";
+import React, { useEffect } from "react";
 import reviewHome from "../utils/images/reviewHome.jpg";
 import trackList from "../utils/images/trackList.jpg";
 import holidays from "../utils/images/holidays.jpg";
 import Button from "../utils/theme/Button";
 import Card from "../utils/theme/Cards";
 import WbSunnyOutlinedIcon from "@mui/icons-material/WbSunnyOutlined";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchUsers } from "../../api/users";
+import { addEmployee } from "../store/employeeSlice";
 
 const UserHome = () => {
+  const dispatch = useDispatch();
+  const employee = useSelector((store) => store.employee || []);
+
+  useEffect(() => {
+    const getUsers = async () => {
+      if (employee.length > 0) return;
+      const result = await fetchUsers();
+      if (result.success) {
+        dispatch(addEmployee(result.users));
+      } else {
+        console.error(result.message);
+      }
+    };
+    getUsers();
+  }, [dispatch, employee.length]);
   return (
     <div className="">
       <div className="text-2xl text-black  ">

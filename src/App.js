@@ -24,7 +24,7 @@ import HelpDesk from "./components/userView/helpDesk/HelpDesk";
 import UpdateUserInfo from "./components/userView/UpdateUserInfo";
 import SalaryInfo from "./components/userView/salary/SalaryInfo";
 import PackageInfo from "./components/userView/salary/PackageInfo";
-import ItDeclaration from "./components/userView/salary/ItDeclaration";
+import ItStatement from "./components/userView/salary/ItStatement";
 import SalaryPayment from "./components/userView/salary/SalaryPayment";
 import SalaryDescription from "./components/userView/salary/SalaryDescription";
 
@@ -67,7 +67,7 @@ function App() {
           children: [
             { index: true, element:<SalaryDescription/> }, // Default child route
             { path: "paypackage", element: <PackageInfo /> },
-            { path: "it-declaration", element: <ItDeclaration /> }, // ✅ Correct path
+            { path: "it-statement", element: <ItStatement /> }, // ✅ Correct path
             { path: "payslip", element: <PaySlip /> },
             { path: "ytd-statement", element: <div>YTD Statement Content</div> },
             { path: "payment", element: <SalaryPayment /> },

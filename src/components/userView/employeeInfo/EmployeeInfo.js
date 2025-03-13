@@ -5,8 +5,8 @@ import EmployeeList from "../EmployeeList";
 import Card from "../../utils/theme/Cards";
 import SettingsAccessibilityOutlinedIcon from "@mui/icons-material/SettingsAccessibilityOutlined";
 import { DeleteForever } from "@mui/icons-material";
-import { deleteUser, fetchUsers } from "../../../api/users";
-import { addEmployee, setEmployees } from "../../store/employeeSlice";
+import { deleteUser } from "../../../api/users";
+import {  setEmployees } from "../../store/employeeSlice";
 import AddEmployee from "./AddEmployee";
 import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
 import ConfirmationDialog from "../../utils/theme/ConfirmationDialog";
@@ -20,18 +20,6 @@ const EmployeeInfo = () => {
   const [dialogAction, setDialogAction] = useState(null);
   const [editingEmployee, setEditingEmployee] = useState(null);
 
-  useEffect(() => {
-    const getUsers = async () => {
-      if (employee.length > 0) return;
-      const result = await fetchUsers();
-      if (result.success) {
-        dispatch(addEmployee(result.users));
-      } else {
-        console.error(result.message);
-      }
-    };
-    getUsers();
-  }, [dispatch, employee.length]);
 
   useEffect(() => {
     if (employee.length === 0) {
