@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Card from "../../utils/theme/Cards";
 import InputField from "../../utils/theme/InputField";
 import Button from "../../utils/theme/Button";
 import ConfirmationDialog from "../../utils/theme/ConfirmationDialog";
-
+import { fetchSalary } from "../../../api/salary";
 const SalaryDescription = () => {
   const [isEmployeeEditMode, setIsEmployeeEditMode] = useState(false);
   const [isSalaryEditMode, setIsSalaryEditMode] = useState(false);
@@ -20,8 +20,8 @@ const SalaryDescription = () => {
     bankAccount: "9182302348762738",
     ifscCode: "UTIB67345",
     uanNumber: "100456789123",
-    pfNumberOfEmployee:" MH/BAN/1234567/000/0001234",
-    pfNumberOfEmployer: "DL/CPM/9876543/000/0005678"
+    pfNumberOfEmployee: " MH/BAN/1234567/000/0001234",
+    pfNumberOfEmployer: "DL/CPM/9876543/000/0005678",
   });
 
   const [salaryDetails, setSalaryDetails] = useState({
@@ -31,8 +31,16 @@ const SalaryDescription = () => {
     bonus: "Rs. 7,257",
     specialAllowance: "Rs. 1,557",
     yearlySalary: "Rs. 6,00,000",
-    pfAmount:"Rs. 3000"
+    pfAmount: "Rs. 3000",
   });
+
+  useEffect(() => {
+    const getSalary = async () => {
+      const result = await fetchSalary();
+      console.log("salary data is ", result);
+    };
+    getSalary();
+  }, []);
 
   const bankList = [
     "State Bank of India",
@@ -93,13 +101,23 @@ const SalaryDescription = () => {
             {/* Employee Details Section */}
             <div className="border shadow-md p-2">
               <div className="flex justify-between items-center">
-                <span className="font-semibold text-base">Employee Details</span>
+                <span className="font-semibold text-base">
+                  Employee Details
+                </span>
                 <Button onClick={handleEmployeeEditToggle}>
                   {isEmployeeEditMode ? "Save" : "Update"}
                 </Button>
               </div>
-              <InputField label="Employee Name" value="Ashish Kumar" disabled={true} />
-              <InputField label="Email" value="ashish.dypcoe@gmail.com" disabled={true} />
+              <InputField
+                label="Employee Name"
+                value="Ashish Kumar"
+                disabled={true}
+              />
+              <InputField
+                label="Email"
+                value="ashish.dypcoe@gmail.com"
+                disabled={true}
+              />
               <InputField
                 label="PAN Number"
                 name="panNumber"
@@ -109,7 +127,9 @@ const SalaryDescription = () => {
               />
               {/* Bank Name Dropdown */}
               <div className="my-2">
-                <label className="text-xs font-medium text-blue-700">Bank Name</label>
+                <label className="text-xs font-medium text-blue-700">
+                  Bank Name
+                </label>
                 <select
                   name="bankName"
                   value={employeeDetails.bankName}
@@ -118,7 +138,9 @@ const SalaryDescription = () => {
                   className="w-full p-2 border rounded-md"
                 >
                   {bankList.map((bank, index) => (
-                    <option key={index} value={bank}>{bank}</option>
+                    <option key={index} value={bank}>
+                      {bank}
+                    </option>
                   ))}
                 </select>
               </div>
@@ -150,7 +172,7 @@ const SalaryDescription = () => {
                 onChange={handleEmployeeChange}
                 disabled={!isEmployeeEditMode}
               />
-               <InputField
+              <InputField
                 label="PF Number of Employer"
                 name="PF Number Of Employer"
                 value={employeeDetails.pfNumberOfEmployer}
@@ -202,7 +224,7 @@ const SalaryDescription = () => {
                 onChange={handleSalaryChange}
                 disabled={!isSalaryEditMode}
               />
-               <InputField
+              <InputField
                 label="PF Amount"
                 name="pfAmount"
                 value={salaryDetails.pfAmount}
