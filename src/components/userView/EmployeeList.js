@@ -3,7 +3,6 @@ import { useSelector } from "react-redux";
 import Card from "../utils/theme/Cards";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 
-
 const EmployeeList = ({ onSelectEmployee, handleAddEmployee }) => {
   const employee = useSelector((store) => store.employee || []);
   const [searchQuery, setSearchQuery] = useState("");
@@ -16,22 +15,23 @@ const EmployeeList = ({ onSelectEmployee, handleAddEmployee }) => {
       setSelectedEmployee(firstEmployee);
       onSelectEmployee(firstEmployee);
     }
-  }, [employee]);
-
+  }, [employee]); 
+  
   const handleEmployeeClick = (employee) => {
     setSelectedEmployee(employee);
     onSelectEmployee(employee);
   };
 
   // Filter employees by email or name (case-insensitive)
-  const filteredEmployees = employee?.filter((employee) =>
-    employee?.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    (employee?.firstName &&
-      employee?.firstName.toLowerCase().includes(searchQuery.toLowerCase()))
+  const filteredEmployees = employee?.filter(
+    (employee) =>
+      employee?.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (employee?.firstName &&
+        employee?.firstName.toLowerCase().includes(searchQuery.toLowerCase()))
   );
- 
+
   return (
-    <div  style={{ scrollbarWidth: "thin", height: "auto" , }}>
+    <div style={{ scrollbarWidth: "thin", height: "auto" }}>
       <Card
         style={{ height: "100vh", display: "flex", flexDirection: "column" }}
         variant="primary"
@@ -75,7 +75,7 @@ const EmployeeList = ({ onSelectEmployee, handleAddEmployee }) => {
                     }`}
                     onClick={() => handleEmployeeClick(employee)}
                   >
-                    <div className="">{employee?.name||"No Name"}</div>
+                    <div className="">{employee?.name || "No Name"}</div>
                     <div className="text-xs">{employee?.email}</div>
                   </div>
                 ))

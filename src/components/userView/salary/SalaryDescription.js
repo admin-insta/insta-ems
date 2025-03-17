@@ -4,7 +4,17 @@ import InputField from "../../utils/theme/InputField";
 import Button from "../../utils/theme/Button";
 import ConfirmationDialog from "../../utils/theme/ConfirmationDialog";
 import { createSalary, fetchSalary } from "../../../api/salary";
+import { useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 const SalaryDescription = () => {
+  const location = useLocation();
+  const employees = useSelector((store) => store?.employee || []);
+  const { selectedEmployee } = location.state || {}; 
+  
+  const employee = selectedEmployee || employees[0] || null; // Fallback to first employee
+  
+  console.log("Final Employee in SalaryDescription:", employee);
+  // const [selectedEmployee, setSelectedEmployee] = useState(null);
   const [isEmployeeEditMode, setIsEmployeeEditMode] = useState(false);
   const [isSalaryEditMode, setIsSalaryEditMode] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
@@ -12,26 +22,6 @@ const SalaryDescription = () => {
     title: "",
     message: "",
     onConfirm: () => {},
-  });
-
-  const [accountDetails, setaccountDetails] = useState({
-    bankName: "State Bank of India",
-    panNumber: "BLMPB69226",
-    bankAccount: "9182302348762738",
-    ifscCode: "UTIB67345",
-    uanNumber: "100456789123",
-    pfNumberOfEmployee: " MH/BAN/1234567/000/0001234",
-    pfNumberOfEmployer: "DL/CPM/9876543/000/0005678",
-  });
-
-  const [salaryDetails, setSalaryDetails] = useState({
-    netSalary: "Rs. 50,000",
-    basicSalary: "Rs. 30,130",
-    hra: "Rs. 10,257",
-    bonus: "Rs. 7,257",
-    specialAllowance: "Rs. 1,557",
-    yearlySalary: "Rs. 6,00,000",
-    pfAmount: "Rs. 3000",
   });
 
   useEffect(() => {
@@ -42,6 +32,30 @@ const SalaryDescription = () => {
     getSalary();
   }, []);
 
+
+ 
+
+  const [accountDetails, setaccountDetails] = useState({
+    emailId: "",
+    name: "",
+    bankName: "",
+    panNumber: "",
+    bankAccount: "",
+    ifscCode: "",
+    uanNumber: "",
+    pfNumberOfEmployee: " ",
+    pfNumberOfEmployer: "",
+  });
+
+  const [salaryDetails, setSalaryDetails] = useState({
+    netSalary: "Rs. 00,000",
+    basicSalary: "Rs. 00,000",
+    hra: "Rs. 00000 ",
+    bonus: "Rs. 0000",
+    specialAllowance: "Rs. 0000",
+    yearlySalary: "Rs. 0000",
+    pfAmount: "Rs. 0000",
+  });
 
   const bankList = [
     "State Bank of India",
@@ -95,8 +109,6 @@ const SalaryDescription = () => {
       setIsEmployeeEditMode(true);
     }
   };
-  
-  
 
   const handleSalaryEditToggle = () =>
     // console.log("create salary called")
@@ -105,7 +117,6 @@ const SalaryDescription = () => {
       "Are you sure you want to revise the salary details?",
       () => setIsSalaryEditMode(!isSalaryEditMode)
     );
-
 
   const handleEmployeeChange = (e) => {
     const { name, value } = e.target;
@@ -136,7 +147,7 @@ const SalaryDescription = () => {
               </div>
               <InputField
                 label="Employee Name"
-                value="Ashish Kumar"
+                value={selectedEmployee?.address}
                 disabled={true}
               />
               <InputField
