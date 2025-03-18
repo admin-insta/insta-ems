@@ -11,7 +11,7 @@ import { addEmployee } from "../store/employeeSlice";
 
 const UserHome = () => {
   const dispatch = useDispatch();
-  const employee = useSelector((store) => store.employee || []);
+  const employee = useSelector((store) => store?.state?.employees || []);
 
   useEffect(() => {
     const getUsers = async () => {

@@ -1,29 +1,28 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Card from "../utils/theme/Cards";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
-
-const EmployeeList = ({ onSelectEmployee, handleAddEmployee }) => {
-  const employee = useSelector((store) => store.employee || []);
+import { setSelectedEmployee } from "../store/employeeSlice";
+const EmployeeList = ({  handleAddEmployee }) => {
+  const dispatch = useDispatch()
+  const employees = useSelector((store) => store?.employee?.employees || []);
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedEmployee, setSelectedEmployee] = useState(null);
+  const selectedEmployee = useSelector((store)=>store?.employee?.selectedEmployee)
 
-  // Select first employee if none is selected
   useEffect(() => {
-    if (employee.length > 0 && !selectedEmployee) {
-      const firstEmployee = employee[0];
-      setSelectedEmployee(firstEmployee);
-      onSelectEmployee(firstEmployee);
+    if (employees.length > 0 && !selectedEmployee) {
+      const firstEmployee = employees[0]; 
+      dispatch(setSelectedEmployee(firstEmployee));
     }
-  }, [employee]); 
+  }, [employees]); 
   
   const handleEmployeeClick = (employee) => {
-    setSelectedEmployee(employee);
-    onSelectEmployee(employee);
+    dispatch(setSelectedEmployee(employee));
+ 
   };
 
   // Filter employees by email or name (case-insensitive)
-  const filteredEmployees = employee?.filter(
+  const filteredEmployees = employees?.filter(
     (employee) =>
       employee?.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
       (employee?.firstName &&

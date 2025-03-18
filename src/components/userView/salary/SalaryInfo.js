@@ -1,27 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import EmployeeList from "../EmployeeList";
 import { useSelector } from "react-redux";
 import { Link, Outlet } from "react-router-dom";
-
 const SalaryInfo = () => {
-  const employees = useSelector((store) => store?.employee || []);
-  const [selectedEmployee, setSelectedEmployee] = useState(null);
-
-  useEffect(() => {
-    if (employees.length === 0) {
-      setSelectedEmployee(null);
-    } else {
-      setSelectedEmployee((prevSelected) => {
-        return employees.find((emp) => emp._id === prevSelected?._id) || employees[0];
-      });
-    }
-  }, [employees]);
-  console.log("selected employee", selectedEmployee)
+  const selectedEmployee = useSelector(
+    (store) => store?.employee?.selectedEmployee
+  );
 
   return (
     <div className="grid grid-cols-12 gap-2 h-screen border-gray-300">
       <div className="col-span-3">
-        <EmployeeList onSelectEmployee={setSelectedEmployee} />
+        <EmployeeList />
       </div>
       <div className="col-span-9 bg-clay-light">
         <div className="top m-2">

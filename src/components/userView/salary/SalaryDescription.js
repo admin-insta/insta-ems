@@ -4,17 +4,9 @@ import InputField from "../../utils/theme/InputField";
 import Button from "../../utils/theme/Button";
 import ConfirmationDialog from "../../utils/theme/ConfirmationDialog";
 import { createSalary, fetchSalary } from "../../../api/salary";
-import { useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
+import {useSelector } from "react-redux";
 const SalaryDescription = () => {
-  const location = useLocation();
-  const employees = useSelector((store) => store?.employee || []);
-  const { selectedEmployee } = location.state || {}; 
-  
-  const employee = selectedEmployee || employees[0] || null; // Fallback to first employee
-  
-  console.log("Final Employee in SalaryDescription:", employee);
-  // const [selectedEmployee, setSelectedEmployee] = useState(null);
+  const selectedEmployee = useSelector((store) => store?.employee?.selectedEmployee);
   const [isEmployeeEditMode, setIsEmployeeEditMode] = useState(false);
   const [isSalaryEditMode, setIsSalaryEditMode] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
@@ -27,22 +19,18 @@ const SalaryDescription = () => {
   useEffect(() => {
     const getSalary = async () => {
       const result = await fetchSalary();
-      console.log("salary data is ", result);
+      console.log("salary result", result )
     };
     getSalary();
   }, []);
 
-
- 
-
   const [accountDetails, setaccountDetails] = useState({
-    emailId: "",
-    name: "",
+    employeeId:selectedEmployee._id,
     bankName: "",
     panNumber: "",
-    bankAccount: "",
     ifscCode: "",
     uanNumber: "",
+    accountNumber:"",
     pfNumberOfEmployee: " ",
     pfNumberOfEmployer: "",
   });
@@ -111,7 +99,6 @@ const SalaryDescription = () => {
   };
 
   const handleSalaryEditToggle = () =>
-    // console.log("create salary called")
     confirmActionHandler(
       "Confirm Salary Revision",
       "Are you sure you want to revise the salary details?",
@@ -147,12 +134,12 @@ const SalaryDescription = () => {
               </div>
               <InputField
                 label="Employee Name"
-                value={selectedEmployee?.address}
+                value={selectedEmployee?.name}
                 disabled={true}
               />
               <InputField
                 label="Email"
-                value="ashish.dypcoe@gmail.com"
+                value={selectedEmployee?.email}
                 disabled={true}
               />
               <InputField
@@ -183,8 +170,8 @@ const SalaryDescription = () => {
               </div>
               <InputField
                 label="Bank Account Number"
-                name="bankAccount"
-                value={accountDetails.bankAccount}
+                name="accountNumber"
+                value={accountDetails.accountNumber}
                 onChange={handleEmployeeChange}
                 disabled={!isEmployeeEditMode}
               />

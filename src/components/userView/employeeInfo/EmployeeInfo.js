@@ -6,31 +6,30 @@ import Card from "../../utils/theme/Cards";
 import SettingsAccessibilityOutlinedIcon from "@mui/icons-material/SettingsAccessibilityOutlined";
 import { DeleteForever } from "@mui/icons-material";
 import { deleteUser } from "../../../api/users";
-import {  setEmployees } from "../../store/employeeSlice";
+import { setEmployees, setSelectedEmployee } from "../../store/employeeSlice"; 
 import AddEmployee from "./AddEmployee";
 import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
 import ConfirmationDialog from "../../utils/theme/ConfirmationDialog";
 
 const EmployeeInfo = () => {
   const dispatch = useDispatch();
-  const employee = useSelector((store) => store.employee || []);
-  const [selectedEmployee, setSelectedEmployee] = useState(null);
+  const employees = useSelector((store) => store?.employee?.employees || []);
+  const selectedEmployee = useSelector((store) => store?.employee?.selectedEmployee);
+
   const [openDialog, setOpenDialog] = useState(false);
   const [confirmDialog, setConfirmDialog] = useState(false);
   const [dialogAction, setDialogAction] = useState(null);
   const [editingEmployee, setEditingEmployee] = useState(null);
 
-
+  // ✅ Properly setting the selected employee using Redux dispatch
   useEffect(() => {
-    if (employee.length === 0) {
-      setSelectedEmployee(null);
+    if (employees.length === 0) {
+      dispatch(setSelectedEmployee(null));
     } else {
-      const updatedEmployee = employee.find(
-        (emp) => emp._id === selectedEmployee?._id
-      );
-      setSelectedEmployee(updatedEmployee || employee[0]);
+      const updatedEmployee = employees.find((emp) => emp._id === selectedEmployee?._id);
+      dispatch(setSelectedEmployee(updatedEmployee)); // Ensure first employee is selected if current one is deleted
     }
-  }, [employee]);
+  }, [employees, dispatch]);
 
   const handleAddEmployee = () => {
     setEditingEmployee(null);
@@ -47,10 +46,12 @@ const EmployeeInfo = () => {
       const result = await deleteUser(selectedEmployee._id);
       if (result.success) {
         dispatch(setEmployees(result.updatedUsers));
+
+        // ✅ Ensure the selected employee is updated after deletion
         if (result.updatedUsers.length > 0) {
-          setSelectedEmployee(result.updatedUsers[0]);
+          dispatch(setSelectedEmployee(result.updatedUsers[0]));
         } else {
-          setSelectedEmployee(null);
+          dispatch(setSelectedEmployee(null));
         }
       } else {
         console.log(result.message);
@@ -61,7 +62,7 @@ const EmployeeInfo = () => {
     setConfirmDialog(false);
   };
 
-  return employee.length === 0 ? (
+  return employees.length === 0 ? (
     <div className="m-4 gap-4">
       There are no employees in your organisation, Add Employee
     </div>
@@ -69,10 +70,8 @@ const EmployeeInfo = () => {
     <div className="gap-2 grid grid-cols-12 h-screen">
       <div className="col-span-3">
         <EmployeeList
-          onSelectEmployee={setSelectedEmployee}
           handleAddEmployee={handleAddEmployee}
-          handleEditEmployee={handleEditEmployee }
-          
+          handleEditEmployee={handleEditEmployee}
           openDialog={openDialog}
           setOpenDialog={setOpenDialog}
         />
@@ -149,7 +148,7 @@ const EmployeeInfo = () => {
           openDialog={openDialog}
           setOpenDialog={setOpenDialog}
           editingEmployee={editingEmployee}
-          setConfirmDialog = {setConfirmDialog}
+          setConfirmDialog={setConfirmDialog}
         />
       )}
       <ConfirmationDialog
