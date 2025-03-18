@@ -1,11 +1,7 @@
 import React from "react";
 import EmployeeList from "../EmployeeList";
-import { useSelector } from "react-redux";
 import { Link, Outlet } from "react-router-dom";
 const SalaryInfo = () => {
-  const selectedEmployee = useSelector(
-    (store) => store?.employee?.selectedEmployee
-  );
 
   return (
     <div className="grid grid-cols-12 gap-2 h-screen border-gray-300">
@@ -28,7 +24,7 @@ const SalaryInfo = () => {
                   className="text-black"
                   style={{ textDecoration: "none" }}
                   to={item.path}
-                  state={{ selectedEmployee }}
+                  
                 >
                   {item.label}
                 </Link>

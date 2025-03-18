@@ -4,9 +4,16 @@ import InputField from "../../utils/theme/InputField";
 import Button from "../../utils/theme/Button";
 import ConfirmationDialog from "../../utils/theme/ConfirmationDialog";
 import { createSalary, fetchSalary } from "../../../api/salary";
-import {useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { addSalary } from "../../store/salarySlice";
+
 const SalaryDescription = () => {
-  const selectedEmployee = useSelector((store) => store?.employee?.selectedEmployee);
+  const dispatch = useDispatch();
+  const salaries = useSelector((store) => store?.salary?.salaries.flat() || []);
+  const [selectedEmployeeSalary, setSelectedSalaryEmployee] = useState(null);
+  const selectedEmployee = useSelector(
+    (store) => store?.employee?.selectedEmployee
+  );
   const [isEmployeeEditMode, setIsEmployeeEditMode] = useState(false);
   const [isSalaryEditMode, setIsSalaryEditMode] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
@@ -16,34 +23,62 @@ const SalaryDescription = () => {
     onConfirm: () => {},
   });
 
-  useEffect(() => {
-    const getSalary = async () => {
-      const result = await fetchSalary();
-      console.log("salary result", result )
-    };
-    getSalary();
-  }, []);
-
-  const [accountDetails, setaccountDetails] = useState({
-    employeeId:selectedEmployee._id,
-    bankName: "",
-    panNumber: "",
-    ifscCode: "",
-    uanNumber: "",
-    accountNumber:"",
-    pfNumberOfEmployee: " ",
-    pfNumberOfEmployer: "",
+  const [accountDetails, setAccountDetails] = useState({
+    employeeId: selectedEmployee?._id,
+    bankName: selectedEmployeeSalary?.bankName || "",
+    panNumber: selectedEmployeeSalary?.panNumber || "",
+    ifscCode: selectedEmployeeSalary?.ifscCode || "",
+    uanNumber: selectedEmployeeSalary?.uanNumber || "",
+    accountNumber: selectedEmployeeSalary?.accountNumber || "",
+    pfNumberOfEmployee: selectedEmployeeSalary?.pfNumberOfEmployee || "",
+    pfNumberOfEmployer: selectedEmployeeSalary?.pfNumberOfEmployer || "",
   });
 
   const [salaryDetails, setSalaryDetails] = useState({
     netSalary: "Rs. 00,000",
     basicSalary: "Rs. 00,000",
-    hra: "Rs. 00000 ",
+    hra: "Rs. 00000",
     bonus: "Rs. 0000",
     specialAllowance: "Rs. 0000",
     yearlySalary: "Rs. 0000",
     pfAmount: "Rs. 0000",
   });
+  // 🔹 Fetch salaries when the component mounts
+  useEffect(() => {
+    const getSalary = async () => {
+      const result = await fetchSalary();
+      if (result.success) {
+        dispatch(addSalary(result.salary)); // Store all salaries in Redux
+      } else {
+        console.error(result.message);
+      }
+    };
+    getSalary();
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (selectedEmployee) {
+      const foundSalary = salaries.find(
+        (sal) => String(sal.employeeId) === String(selectedEmployee._id)
+      );
+      if (foundSalary) {
+        setSelectedSalaryEmployee(foundSalary);
+        setAccountDetails(foundSalary);
+      } else {
+        setSelectedSalaryEmployee(null);
+        setAccountDetails({
+          employeeId: selectedEmployee._id,
+          bankName: "",
+          panNumber: "",
+          ifscCode: "",
+          uanNumber: "",
+          accountNumber: "",
+          pfNumberOfEmployee: "",
+          pfNumberOfEmployer: "",
+        });
+      }
+    }
+  }, [selectedEmployee]);
 
   const bankList = [
     "State Bank of India",
@@ -82,7 +117,7 @@ const SalaryDescription = () => {
             if (result.success) {
               const updatedSalary = await fetchSalary();
               if (updatedSalary.success) {
-                setaccountDetails(updatedSalary.salary?.accountDetails || {});
+                setAccountDetails(updatedSalary.salary?.accountDetails || {});
                 setSalaryDetails(updatedSalary.salary?.salaryDetails || {});
               }
             }
@@ -93,7 +128,6 @@ const SalaryDescription = () => {
         }
       );
     } else {
-      // Enable edit mode
       setIsEmployeeEditMode(true);
     }
   };
@@ -107,7 +141,7 @@ const SalaryDescription = () => {
 
   const handleEmployeeChange = (e) => {
     const { name, value } = e.target;
-    setaccountDetails({ ...accountDetails, [name]: value });
+    setAccountDetails({ ...accountDetails, [name]: value });
   };
 
   const handleSalaryChange = (e) => {
@@ -145,18 +179,17 @@ const SalaryDescription = () => {
               <InputField
                 label="PAN Number"
                 name="panNumber"
-                value={accountDetails.panNumber}
+                value={accountDetails?.panNumber}
                 onChange={handleEmployeeChange}
                 disabled={!isEmployeeEditMode}
               />
-              {/* Bank Name Dropdown */}
               <div className="my-2">
                 <label className="text-xs font-medium text-blue-700">
                   Bank Name
                 </label>
                 <select
                   name="bankName"
-                  value={accountDetails.bankName}
+                  value={accountDetails.bankName || ""} // ✅ Ensures it always has a default value
                   onChange={handleEmployeeChange}
                   disabled={!isEmployeeEditMode}
                   className="w-full p-2 border rounded-md"
@@ -171,35 +204,21 @@ const SalaryDescription = () => {
               <InputField
                 label="Bank Account Number"
                 name="accountNumber"
-                value={accountDetails.accountNumber}
+                value={accountDetails?.accountNumber}
                 onChange={handleEmployeeChange}
                 disabled={!isEmployeeEditMode}
               />
               <InputField
                 label="IFSC Code"
                 name="ifscCode"
-                value={accountDetails.ifscCode}
+                value={accountDetails?.ifscCode}
                 onChange={handleEmployeeChange}
                 disabled={!isEmployeeEditMode}
               />
               <InputField
                 label="UAN Number"
                 name="uanNumber"
-                value={accountDetails.uanNumber}
-                onChange={handleEmployeeChange}
-                disabled={!isEmployeeEditMode}
-              />
-              <InputField
-                label="PF Number of Employee"
-                name="pfNumberOfEmployee"
-                value={accountDetails.pfNumberOfEmployee}
-                onChange={handleEmployeeChange}
-                disabled={!isEmployeeEditMode}
-              />
-              <InputField
-                label="PF Number of Employer"
-                name="pfNumberOfEmployer"
-                value={accountDetails.pfNumberOfEmployer}
+                value={accountDetails?.uanNumber}
                 onChange={handleEmployeeChange}
                 disabled={!isEmployeeEditMode}
               />
@@ -213,55 +232,16 @@ const SalaryDescription = () => {
                   {isSalaryEditMode ? "Save" : "Revise"}
                 </Button>
               </div>
-              <InputField
-                label="Net Monthly Salary"
-                name="netSalary"
-                value={salaryDetails.netSalary}
-                onChange={handleSalaryChange}
-                disabled={!isSalaryEditMode}
-              />
-              <InputField
-                label="BASIC Salary"
-                name="basicSalary"
-                value={salaryDetails.basicSalary}
-                onChange={handleSalaryChange}
-                disabled={!isSalaryEditMode}
-              />
-              <InputField
-                label="HRA"
-                name="hra"
-                value={salaryDetails.hra}
-                onChange={handleSalaryChange}
-                disabled={!isSalaryEditMode}
-              />
-              <InputField
-                label="BONUS"
-                name="bonus"
-                value={salaryDetails.bonus}
-                onChange={handleSalaryChange}
-                disabled={!isSalaryEditMode}
-              />
-              <InputField
-                label="Special Allowance"
-                name="specialAllowance"
-                value={salaryDetails.specialAllowance}
-                onChange={handleSalaryChange}
-                disabled={!isSalaryEditMode}
-              />
-              <InputField
-                label="PF Amount"
-                name="pfAmount"
-                value={salaryDetails.pfAmount}
-                onChange={handleSalaryChange}
-                disabled={!isSalaryEditMode}
-              />
-              <InputField
-                label="Yearly Salary"
-                name="yearlySalary"
-                value={salaryDetails.yearlySalary}
-                onChange={handleSalaryChange}
-                disabled={!isSalaryEditMode}
-              />
+              {Object.entries(salaryDetails || {}).map(([key, value]) => (
+                <InputField
+                  key={key}
+                  label={key.replace(/([A-Z])/g, " $1")}
+                  name={key}
+                  value={value}
+                  onChange={handleSalaryChange}
+                  disabled={!isSalaryEditMode}
+                />
+              ))}
             </div>
           </form>
         }
