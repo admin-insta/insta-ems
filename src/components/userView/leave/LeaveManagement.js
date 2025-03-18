@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from "react";
 import Button from "../../utils/theme/Button";
 import EmployeeList from "../EmployeeList";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Card from "../../utils/theme/Cards";
 import BeachAccessOutlinedIcon from "@mui/icons-material/BeachAccessOutlined";
+import { setSelectedEmployee } from "../store/employeeSlice";
 const LeaveManagement = () => {
-  const employee = useSelector((store) => store.employee || []);
-  const [selectedEmployee, setSelectedEmployee] = useState(null);
+  const dispatch= useDispatch()
+  const employee = useSelector((store) => store.employee || []); 
+  const selectedEmployee = useSelector((store)=>store?.employee?.selectedEmployee)
 
   useEffect(() => {
     if (employee.length > 0 && !selectedEmployee) {
-      setSelectedEmployee(employee[0]);
+      dispatch(setSelectedEmployee(employee[0]));
     }
   }, [employee, selectedEmployee]);
 
@@ -122,7 +124,7 @@ const LeaveManagement = () => {
     <div className="grid grid-cols-12 gap-2  h-screen border-gray-300 bg-clay-light ">
       {/* Employee List Section */}
       <div className="col-span-3  bg-clay-light ">
-        <EmployeeList onSelectEmployee={setSelectedEmployee} />
+        <EmployeeList />
       </div>
       <div className="col-span-9  ">
         <Card

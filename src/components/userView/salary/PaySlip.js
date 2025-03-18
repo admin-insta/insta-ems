@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { Dropdown } from "rsuite";
-import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
-import EmployeeList from "../EmployeeList";
 import Button from "../../utils/theme/Button";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Card from "../../utils/theme/Cards";
 import CurrencyBitcoinOutlinedIcon from "@mui/icons-material/CurrencyBitcoinOutlined";
+import { setSelectedEmployee } from "../store/employeeSlice";
 const PaySlip = () => {
+  const dispatch = useDispatch()
   const employee = useSelector((store) => store.employee || []);
-  const [selectedEmployee, setSelectedEmployee] = useState(null);
+ const selectedEmployee = useSelector((store)=>store?.employee?.selectedEmployee)
 
   useEffect(() => {
     if (employee.length > 0 && !selectedEmployee) {
-      setSelectedEmployee(employee[0]); // Set the first employee
+      dispatch(setSelectedEmployee(employee[0])); // Set the first employee
     }
   }, [employee, selectedEmployee]); // Add selectedEmployee as a dependency
   console.log(selectedEmployee);
@@ -20,7 +19,7 @@ const PaySlip = () => {
     <div className="grid grid-cols-12 gap-2 h-screen border-gray-300 bg-clay-light ">
       {/* Employee List Section */}
       {/* <div className="col-span-3 ">
-        <EmployeeList onSelectEmployee={setSelectedEmployee} />
+        <EmployeeList  />
       </div> */}
 
       <div className="col-span-12 ">

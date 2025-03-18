@@ -4,17 +4,19 @@ import { mockAttendance } from "../../utils/mockAttendance";
 import GridViewIcon from "@mui/icons-material/GridView";
 import ListAltOutlinedIcon from "@mui/icons-material/ListAltOutlined";
 import EmployeeList from "../EmployeeList";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Card from "../../utils/theme/Cards";
-
+import { setSelectedEmployee } from "../store/employeeSlice";
 const Attendance = () => {
+  const dispatch= useDispatch()
   const [view, setView] = useState("grid"); // Default view is grid
   const employee = useSelector((store) => store.employee || []);
-  const [selectedEmployee, setSelectedEmployee] = useState(null);
+  const selectedEmployee = useSelector((store)=>store?.employee?.selectedEmployee)
+ 
 
   useEffect(() => {
     if (employee.length > 0 && !selectedEmployee) {
-      setSelectedEmployee(employee[0]);
+      dispatch(setSelectedEmployee(employee[0]));
     }
   }, [employee, selectedEmployee]);
   const toggleView = (viewType) => {
@@ -25,7 +27,7 @@ const Attendance = () => {
     <div className="grid grid-cols-12 gap-2  h-screen">
       {/* Employee List Section */}
       <div className="col-span-3  bg-clay-light ">
-        <EmployeeList onSelectEmployee={setSelectedEmployee} />
+        <EmployeeList />
       </div>
 
       {/* Attendance Info Section */}

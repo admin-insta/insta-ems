@@ -1,23 +1,25 @@
 import React, { useEffect, useState } from "react";
 import docCenter from "../../utils/images/docCenter.png";
 import EmployeeList from "../EmployeeList";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Card from "../../utils/theme/Cards";
 import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
+import { setSelectedEmployee } from "../store/employeeSlice";
 const DocumentCenter = () => {
+  const dispatch = useDispatch()
   const employee = useSelector((store) => store.employee || []);
-  const [selectedEmployee, setSelectedEmployee] = useState(null);
+  const selectedEmployee = useSelector((store)=>store?.employee?.selectedEmployee)
 
   useEffect(() => {
     if (employee.length > 0 && !selectedEmployee) {
-      setSelectedEmployee(employee[0]);
+      dispatch(setSelectedEmployee(employee[0]));
     }
   }, [employee, selectedEmployee]);
   return (
     <div className="grid grid-cols-12 gap-4 h-screen">
       {/* Employee List Section */}
       <div className="col-span-3 ">
-        <EmployeeList onSelectEmployee={setSelectedEmployee} />
+        <EmployeeList />
       </div>
 
       <div className="col-span-9  ">
