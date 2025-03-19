@@ -4,7 +4,7 @@ import EmployeeList from "../EmployeeList";
 import { useDispatch, useSelector } from "react-redux";
 import Card from "../../utils/theme/Cards";
 import BeachAccessOutlinedIcon from "@mui/icons-material/BeachAccessOutlined";
-import { setSelectedEmployee } from "../store/employeeSlice";
+import { setSelectedEmployee } from "../../store/employeeSlice";
 const LeaveManagement = () => {
   const dispatch= useDispatch()
   const employee = useSelector((store) => store.employee || []); 

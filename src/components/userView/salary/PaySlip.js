@@ -3,11 +3,16 @@ import Button from "../../utils/theme/Button";
 import { useDispatch, useSelector } from "react-redux";
 import Card from "../../utils/theme/Cards";
 import CurrencyBitcoinOutlinedIcon from "@mui/icons-material/CurrencyBitcoinOutlined";
-import { setSelectedEmployee } from "../store/employeeSlice";
+import { setSelectedEmployee } from "../../store/employeeSlice";
+import Men_Dummy from "../../utils/images/Men_Dummy.jpg";
+import Women_Dummy from "../../utils/images/Wommen_Dummy.jpg";
 const PaySlip = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const employee = useSelector((store) => store.employee || []);
- const selectedEmployee = useSelector((store)=>store?.employee?.selectedEmployee)
+  const selectedEmployee = useSelector(
+    (store) => store?.employee?.selectedEmployee
+  );
+  const selectedSalary = useSelector((store) => store?.salary?.selectedSalary);
 
   useEffect(() => {
     if (employee.length > 0 && !selectedEmployee) {
@@ -17,14 +22,9 @@ const PaySlip = () => {
   console.log(selectedEmployee);
   return (
     <div className="grid grid-cols-12 gap-2 h-screen border-gray-300 bg-clay-light ">
-      {/* Employee List Section */}
-      {/* <div className="col-span-3 ">
-        <EmployeeList  />
-      </div> */}
-
       <div className="col-span-12 ">
         <Card
-          variant="secondary"
+          variant="primary"
           fullScreen="true"
           title={
             <div className="flex justify-between mr-4 font-normal">
@@ -32,7 +32,7 @@ const PaySlip = () => {
                 <CurrencyBitcoinOutlinedIcon /> Salary Information
               </div>
               <div className="text-sm font-normal">
-                <Button variant="primary" >Download</Button>
+                <Button variant="primary">Download</Button>
               </div>
             </div>
           }
@@ -42,7 +42,13 @@ const PaySlip = () => {
               <div className="mx-2 gap-2 grid grid-cols-12 p-2 bg-[#f2ebd2] rounded-md shadow-md">
                 {/* Employee Icon & Email */}
                 <div className="col-span-5 flex flex-col items-start min-w-0">
-                  <div className="text-8xl">🧑‍💼</div>
+                  <div className="text-8xl">
+                    <img
+                      className="h-32"
+                      alt="profile-pic"
+                      src={Men_Dummy}
+                    />
+                  </div>
                   <div className="text-xs border-b">
                     EMAIL ID: {selectedEmployee?.email}
                   </div>
@@ -63,7 +69,7 @@ const PaySlip = () => {
                 <div className="col-span-4 flex flex-col justify-between text-sm">
                   <div className="border-b">Net Earning-</div>
                   <div className="border-b">Net Deductions-</div>
-                  <div className="border-b">Net Pay-</div>                  
+                  <div className="border-b">Net Pay-</div>
                 </div>
               </div>
 
@@ -77,10 +83,15 @@ const PaySlip = () => {
                     </span>
                   </div>
                   <div>
-                    <div className="p-2 border-b border-white ">BASIC</div>
-                    <div className="p-2 border-b border-white ">HRA</div>
+                    <div className="p-2 border-b border-white ">
+                      BASIC - {selectedSalary.salaryStructure?.basic}
+                    </div>
+                    <div className="p-2 border-b border-white ">
+                      HRA -{selectedSalary.salaryStructure?.hra}
+                    </div>
                     <div className="p-2 border-b border-white">
-                      SPECIAL ALLOWANCE
+                      SPECIAL ALLOWANCE{" "}
+                      {selectedSalary.salaryStructure?.specialAllowance}
                     </div>
                   </div>
 
@@ -94,9 +105,12 @@ const PaySlip = () => {
                     </span>
                   </div>
                   <div className="p-2 border-b border-white">
-                    Professional Tax
+                    Professional Tax -{" "}
+                    {selectedSalary.salaryStructure?.professionalTax}
                   </div>
-                  <div className="p-2 border-b border-white">Income Tax</div>
+                  <div className="p-2 border-b border-white">
+                    Income Tax - {selectedSalary.salaryStructure?.incomeTax}
+                  </div>
                   <div className="p-2 border-b border-white">
                     Total Duductions-
                   </div>
@@ -105,7 +119,7 @@ const PaySlip = () => {
               </div>
 
               {/*Employee bak Deatils Section*/}
-              <div className="mb-2  mx-2 p-1 border shadow-md  bg-[#f2ebd2] rounded-md">
+              {/* <div className="mb-2  mx-2 p-1 border shadow-md  bg-[#f2ebd2] rounded-md">
                 <p className="p-1 font-semibold border-b border-white">
                   Employee Details
                 </p>
@@ -120,64 +134,6 @@ const PaySlip = () => {
                 <div className="flex justify-between border-white">
                   <div className="p-1">PF Number- UTIB004536 </div>
                   <div className="p-1">UAN Number- 1234567890</div>
-                </div>
-              </div>
-
-              {/*select and download section*/}
-              {/* <div className="flex justify-between">
-                <div className="flex justify-start">
-                  <div className="mx-2">
-                    <Button>Payslip</Button>
-                  </div>
-                  <div>
-                    <Button variant="secondary">Reimbursement</Button>
-                  </div>
-                </div>
-
-                <div>
-                  <Dropdown sx={{ color: "red" }} title="Select Month">
-                    <Dropdown.Item style={{ width: "100px", padding: "3px" }}>
-                      JAN
-                    </Dropdown.Item>
-                    <Dropdown.Item style={{ width: "100px", padding: "3px" }}>
-                      FEB{" "}
-                    </Dropdown.Item>
-                    <Dropdown.Item style={{ width: "100px", padding: "3px" }}>
-                      MAR
-                    </Dropdown.Item>
-                    <Dropdown.Item style={{ width: "100px", padding: "3px" }}>
-                      APR
-                    </Dropdown.Item>
-                    <Dropdown.Item style={{ width: "100px", padding: "3px" }}>
-                      MAY
-                    </Dropdown.Item>
-                    <Dropdown.Item style={{ width: "100px", padding: "3px" }}>
-                      JUN
-                    </Dropdown.Item>
-                    <Dropdown.Item style={{ width: "100px", padding: "3px" }}>
-                      JUL
-                    </Dropdown.Item>
-                    <Dropdown.Item style={{ width: "100px", padding: "3px" }}>
-                      AUG
-                    </Dropdown.Item>
-                    <Dropdown.Item style={{ width: "100px", padding: "3px" }}>
-                      SEP
-                    </Dropdown.Item>
-                    <Dropdown.Item style={{ width: "100px", padding: "3px" }}>
-                      OCT
-                    </Dropdown.Item>
-                    <Dropdown.Item style={{ width: "100px", padding: "3px" }}>
-                      NOV
-                    </Dropdown.Item>
-                    <Dropdown.Item style={{ width: "100px", padding: "3px" }}>
-                      DEC
-                    </Dropdown.Item>
-                  </Dropdown>
-                  <span className="mx-2">
-                    <Button>
-                      <FileDownloadOutlinedIcon sx={{ color: "white" }} />
-                    </Button>
-                  </span>
                 </div>
               </div> */}
             </div>

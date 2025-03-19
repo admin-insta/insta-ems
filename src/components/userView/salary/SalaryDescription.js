@@ -3,13 +3,18 @@ import Card from "../../utils/theme/Cards";
 import InputField from "../../utils/theme/InputField";
 import Button from "../../utils/theme/Button";
 import ConfirmationDialog from "../../utils/theme/ConfirmationDialog";
-import { createSalary, fetchSalary } from "../../../api/salary";
+import {
+  createSalary,
+  createSalaryAccount,
+  fetchSalary,
+} from "../../../api/salary";
 import { useDispatch, useSelector } from "react-redux";
 import { addSalary } from "../../store/salarySlice";
-
+import useSalaryCalculations from "../../utils/useSalaryCalculation";
 const SalaryDescription = () => {
   const dispatch = useDispatch();
   const salaries = useSelector((store) => store?.salary?.salaries.flat() || []);
+  console.log("salaries", salaries);
   const [selectedEmployeeSalary, setSelectedSalaryEmployee] = useState(null);
   const selectedEmployee = useSelector(
     (store) => store?.employee?.selectedEmployee
@@ -35,13 +40,17 @@ const SalaryDescription = () => {
   });
 
   const [salaryDetails, setSalaryDetails] = useState({
-    netSalary: "Rs. 00,000",
-    basicSalary: "Rs. 00,000",
-    hra: "Rs. 00000",
-    bonus: "Rs. 0000",
-    specialAllowance: "Rs. 0000",
-    yearlySalary: "Rs. 0000",
-    pfAmount: "Rs. 0000",
+    employeeId: selectedEmployee?._id,
+    basic: selectedEmployeeSalary?.salaryStructure?.basic || "Rs. 0",
+    hra: selectedEmployeeSalary?.salaryStructure?.hra || "Rs. 00000",
+    bonus: selectedEmployeeSalary?.salaryStructure?.bonus || "Rs. 0000",
+    specialAllowance:selectedEmployeeSalary?.salaryStructure?.specialAllowance || "Rs. 0000",
+    professionaltax : selectedEmployeeSalary?.salaryStructure?.professionaltax || "Rs. 0",
+    incomeTax : selectedEmployeeSalary?.salaryStructure?.incomeTax || "Rs. 0",
+    deductions:selectedEmployeeSalary?.salaryStructure?.deductions || "Rs. 0",
+    pfEmployee: selectedEmployeeSalary?.salaryStructure?.pfEmployee || "Rs. 0000",
+    pfEmployer: selectedEmployeeSalary?.salaryStructure?.pfEmployer || "Rs. 0000",
+
   });
   // 🔹 Fetch salaries when the component mounts
   useEffect(() => {
@@ -54,7 +63,7 @@ const SalaryDescription = () => {
       }
     };
     getSalary();
-  }, [dispatch]);
+  }, [accountDetails], [salaryDetails]);
 
   useEffect(() => {
     if (selectedEmployee) {
@@ -64,6 +73,7 @@ const SalaryDescription = () => {
       if (foundSalary) {
         setSelectedSalaryEmployee(foundSalary);
         setAccountDetails(foundSalary);
+        setSalaryDetails(foundSalary?.salaryStructure);
       } else {
         setSelectedSalaryEmployee(null);
         setAccountDetails({
@@ -76,10 +86,20 @@ const SalaryDescription = () => {
           pfNumberOfEmployee: "",
           pfNumberOfEmployer: "",
         });
+        setSalaryDetails({
+          employeeId: selectedEmployee?._id,
+          basic: "0",
+          hra: "0",
+          bonus: "0",
+          specialAllowance: "0",
+          yearlySalary: "0",
+          pfAmount: "0",
+        });
       }
     }
   }, [selectedEmployee]);
 
+  const { totalEarnings, totalDeductions, netSalary } = useSalaryCalculations(salaryDetails);
   const bankList = [
     "State Bank of India",
     "HDFC Bank",
@@ -113,12 +133,16 @@ const SalaryDescription = () => {
         "Are you sure you want to save the changes?",
         async () => {
           try {
-            const result = await createSalary(accountDetails);
+            const result = await createSalaryAccount(accountDetails);
             if (result.success) {
-              const updatedSalary = await fetchSalary();
-              if (updatedSalary.success) {
-                setAccountDetails(updatedSalary.salary?.accountDetails || {});
-                setSalaryDetails(updatedSalary.salary?.salaryDetails || {});
+              const updatedSalaryAccount = await fetchSalary();
+              if (updatedSalaryAccount.success) {
+                setAccountDetails(
+                  updatedSalaryAccount.salary?.accountDetails || {}
+                );
+                setSalaryDetails(
+                  updatedSalaryAccount.salary?.salaryDetails || {}
+                );
               }
             }
           } catch (error) {
@@ -132,13 +156,35 @@ const SalaryDescription = () => {
     }
   };
 
-  const handleSalaryEditToggle = () =>
-    confirmActionHandler(
-      "Confirm Salary Revision",
-      "Are you sure you want to revise the salary details?",
-      () => setIsSalaryEditMode(!isSalaryEditMode)
-    );
-
+  const handleSalaryEditToggle = () => {
+    if (isSalaryEditMode) {
+      confirmActionHandler(
+        "Confirm Salary Revision",
+        "Are you sure you want to revise the salary details?",
+        async () => {
+          try {
+            const payload = {
+              ...salaryDetails,
+              employeeId: selectedEmployee?._id, // ✅ Ensure employeeId is included
+            };
+            const result = await createSalary(payload);
+            if (result.success) {
+              const updatedSalary = await fetchSalary();
+              console.log("updatedSalary", updatedSalary);
+              if (updatedSalary.success) {
+                setSalaryDetails(updatedSalary.salary?.salaryDetails || {});
+              }
+            }
+          } catch (error) {
+            console.log("Something went wrong", error);
+          }
+          setIsEmployeeEditMode(false);
+        }
+      );
+    } else {
+      setIsSalaryEditMode(true);
+    }
+  };
   const handleEmployeeChange = (e) => {
     const { name, value } = e.target;
     setAccountDetails({ ...accountDetails, [name]: value });
@@ -222,7 +268,22 @@ const SalaryDescription = () => {
                 onChange={handleEmployeeChange}
                 disabled={!isEmployeeEditMode}
               />
+               <InputField
+                label="PF Number of Employee"
+                name="pfNumberOfEmployee"
+                value={accountDetails?.pfNumberOfEmployee}
+                onChange={handleEmployeeChange}
+                disabled={!isEmployeeEditMode}
+              />
+               <InputField
+                label="PF Number of Employer"
+                name="pfNumberOfEmployer"
+                value={accountDetails?.pfNumberOfEmployer}
+                onChange={handleEmployeeChange}
+                disabled={!isEmployeeEditMode}
+              />
             </div>
+            
 
             {/* Salary Details Section */}
             <div className="border shadow-md p-2">
@@ -235,13 +296,16 @@ const SalaryDescription = () => {
               {Object.entries(salaryDetails || {}).map(([key, value]) => (
                 <InputField
                   key={key}
-                  label={key.replace(/([A-Z])/g, " $1")}
+                  label={key.replace(/([A-Z])/g, " $1").replace(/^./, (str) => str.toUpperCase())}
                   name={key}
                   value={value}
                   onChange={handleSalaryChange}
                   disabled={!isSalaryEditMode}
                 />
               ))}
+              <InputField label="Total Earnings" value={totalEarnings} disabled={true} />
+              <InputField label="Total Deductions" value={totalDeductions} disabled={true} />
+              <InputField label="Net Salary" value={netSalary} disabled={true} />
             </div>
           </form>
         }

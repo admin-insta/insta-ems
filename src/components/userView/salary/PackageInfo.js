@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import Button from "../../utils/theme/Button";
+import { useSelector } from "react-redux";
 
 const PackageInfo = () => {
+  const selectedEmployee = useSelector((store)=>store?.employee?.selectedEmployee);
+  console.log("selectedEmployee package info",selectedEmployee);
   const [visibleRows, setVisibleRows] = useState({});
 
   const packageDetails = [
@@ -36,7 +39,7 @@ const PackageInfo = () => {
     <div>
       
       <div className="border">
-      <div className="text-base font-semibold m-2 p-2">Package Information</div>
+      <div className="text-base font-semibold m-2 p-2">Package Information of {selectedEmployee?.name}</div>
         <ul className="flex justify-between m-2 p-2 border-b border-black font-semibold ">
           <li>Year</li>
           <li>Monthly CTC</li>

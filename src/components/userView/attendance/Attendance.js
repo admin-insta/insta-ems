@@ -6,7 +6,7 @@ import ListAltOutlinedIcon from "@mui/icons-material/ListAltOutlined";
 import EmployeeList from "../EmployeeList";
 import { useDispatch, useSelector } from "react-redux";
 import Card from "../../utils/theme/Cards";
-import { setSelectedEmployee } from "../store/employeeSlice";
+import { setSelectedEmployee } from "../../store/employeeSlice";
 const Attendance = () => {
   const dispatch= useDispatch()
   const [view, setView] = useState("grid"); // Default view is grid

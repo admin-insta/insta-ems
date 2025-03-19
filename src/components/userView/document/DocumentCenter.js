@@ -4,7 +4,7 @@ import EmployeeList from "../EmployeeList";
 import { useDispatch, useSelector } from "react-redux";
 import Card from "../../utils/theme/Cards";
 import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
-import { setSelectedEmployee } from "../store/employeeSlice";
+import { setSelectedEmployee } from "../../store/employeeSlice";
 const DocumentCenter = () => {
   const dispatch = useDispatch()
   const employee = useSelector((store) => store.employee || []);

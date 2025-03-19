@@ -3,22 +3,36 @@ import { useDispatch, useSelector } from "react-redux";
 import Card from "../utils/theme/Cards";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import { setSelectedEmployee } from "../store/employeeSlice";
-const EmployeeList = ({  handleAddEmployee }) => {
-  const dispatch = useDispatch()
+import { setSelectedSalary } from "../store/salarySlice";
+const EmployeeList = ({ handleAddEmployee }) => {
+  const dispatch = useDispatch();
   const employees = useSelector((store) => store?.employee?.employees || []);
   const [searchQuery, setSearchQuery] = useState("");
-  const selectedEmployee = useSelector((store)=>store?.employee?.selectedEmployee)
+  const selectedEmployee = useSelector(
+    (store) => store?.employee?.selectedEmployee
+  );
+  const salaries = useSelector((store) => store?.salary?.salaries || []);
+  const selectedSalary = useSelector((store) => store?.salary?.selectedSalary);
 
   useEffect(() => {
     if (employees.length > 0 && !selectedEmployee) {
-      const firstEmployee = employees[0]; 
+      const firstEmployee = employees[0];
       dispatch(setSelectedEmployee(firstEmployee));
+
+      const firstSalary =
+        salaries.flat().find((sal) => sal.employeeId === firstEmployee._id) ||
+        null;
+      dispatch(setSelectedSalary(firstSalary));
     }
-  }, [employees]); 
-  
+  }, [employees, salaries]);
+
   const handleEmployeeClick = (employee) => {
     dispatch(setSelectedEmployee(employee));
- 
+    const employeeSalary =
+      salaries.flat().find((sal) => sal.employeeId === employee._id) || null;
+
+    // Dispatch setSelectedSalary
+    dispatch(setSelectedSalary(employeeSalary));
   };
 
   // Filter employees by email or name (case-insensitive)
@@ -65,12 +79,12 @@ const EmployeeList = ({  handleAddEmployee }) => {
             <div className="flex flex-col ">
               {filteredEmployees.length > 0 ? (
                 filteredEmployees.map((employee) => (
-                  <div
+                  <div 
                     key={employee?._id}
                     className={`p-2 m-1 border border-gray-400 rounded-md cursor-pointer transition hover:bg-white ${
-                      selectedEmployee?.id === employee?.id
-                        ? "bg-gray-200"
-                        : "bg-white hover:bg-gray-100"
+                      selectedEmployee?._id === employee?._id
+                        ? "bg-white" // Selected employee stays white
+                        : "bg-clay hover:bg-gray-100"
                     }`}
                     onClick={() => handleEmployeeClick(employee)}
                   >
