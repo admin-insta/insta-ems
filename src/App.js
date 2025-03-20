@@ -27,6 +27,7 @@ import PackageInfo from "./components/userView/salary/PackageInfo";
 import ItStatement from "./components/userView/salary/ItStatement";
 import SalaryPayment from "./components/userView/salary/SalaryPayment";
 import SalaryDescription from "./components/userView/salary/SalaryDescription";
+import YtdStatement from "./components/userView/salary/YtdStatement";
 
 function App() {
   const appRouter = createBrowserRouter([
@@ -69,7 +70,7 @@ function App() {
             { path: "paypackage", element: <PackageInfo /> },
             { path: "it-statement", element: <ItStatement /> }, // ✅ Correct path
             { path: "payslip", element: <PaySlip /> },
-            { path: "ytd-statement", element: <div>YTD Statement Content</div> },
+            { path: "ytd-statement", element: <YtdStatement/> },
             { path: "payment", element: <SalaryPayment /> },
           ],
         },
