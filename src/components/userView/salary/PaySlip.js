@@ -30,55 +30,89 @@ const PaySlip = () => {
   // 📌 Function to Generate and Download PDF
   const handleDownloadPDF = () => {
     const pdf = new jsPDF("p", "mm", "a4"); // Portrait mode, A4 size
-  
+
     // **HEADER**
     pdf.setFontSize(16);
     pdf.text("XYZ Company Pvt Ltd", 15, 15); // Company Name
     pdf.setFontSize(12);
     pdf.text("Employee Salary Payslip", 15, 25);
     pdf.line(10, 30, 200, 30); // Header underline
-  
+
     // **Employee Details**
     pdf.setFontSize(10);
-    pdf.text(`Employee Name: ${selectedEmployee?.name || "Ashish Kumar"}`, 15, 40);
-    pdf.text(`Designation: ${selectedEmployee?.designation || "Software Developer"}`, 15, 45);
+    pdf.text(
+      `Employee Name: ${selectedEmployee?.name || "Ashish Kumar"}`,
+      15,
+      40
+    );
+    pdf.text(
+      `Designation: ${selectedEmployee?.designation || "Software Developer"}`,
+      15,
+      45
+    );
     pdf.text(`Email: ${selectedEmployee?.email || "N/A"}`, 15, 50);
-    pdf.text(`Salary Month: ${new Date().toLocaleString("default", { month: "long", year: "numeric" })}`, 15, 55);
-    
+    pdf.text(
+      `Salary Month: ${new Date().toLocaleString("default", {
+        month: "long",
+        year: "numeric",
+      })}`,
+      15,
+      55
+    );
+
     // **Earnings Section**
     pdf.setFontSize(12);
     pdf.text("Earnings", 15, 65);
     pdf.setFontSize(10);
-    pdf.text(`Basic Salary: ₹ ${selectedSalary?.salaryStructure?.basic || 0}`, 15, 72);
+    pdf.text(
+      `Basic Salary: ₹ ${selectedSalary?.salaryStructure?.basic || 0}`,
+      15,
+      72
+    );
     pdf.text(`HRA: ₹ ${selectedSalary?.salaryStructure?.hra || 0}`, 15, 77);
-    pdf.text(`Special Allowance: ₹ ${selectedSalary?.salaryStructure?.specialAllowance || 0}`, 15, 82);
+    pdf.text(
+      `Special Allowance: ₹ ${
+        selectedSalary?.salaryStructure?.specialAllowance || 0
+      }`,
+      15,
+      82
+    );
     pdf.text(`Total Earnings: ₹ ${totalEarnings || 0}`, 15, 90);
-  
+
     // **Deductions Section**
     pdf.setFontSize(12);
     pdf.text("Deductions", 110, 65);
     pdf.setFontSize(10);
-    pdf.text(`Professional Tax: ₹ ${selectedSalary?.salaryStructure?.professionalTax || 0}`, 110, 72);
-    pdf.text(`Income Tax: ₹ ${selectedSalary?.salaryStructure?.incomeTax || 0}`, 110, 77);
+    pdf.text(
+      `Professional Tax: ₹ ${
+        selectedSalary?.salaryStructure?.professionalTax || 0
+      }`,
+      110,
+      72
+    );
+    pdf.text(
+      `Income Tax: ₹ ${selectedSalary?.salaryStructure?.incomeTax || 0}`,
+      110,
+      77
+    );
     pdf.text(`Total Deductions: ₹ ${totalDeductions || 0}`, 110, 85);
-  
+
     // **Net Pay**
     pdf.setFontSize(12);
     pdf.text("Net Salary", 15, 100);
     pdf.setFontSize(10);
     pdf.text(`₹ ${netSalary || 0}`, 15, 107);
-    
+
     // **Footer**
     pdf.line(10, 285, 200, 285);
     pdf.setFontSize(8);
     pdf.text("Company Address: 123 Business St, City, Country", 15, 290);
     pdf.text("Authorized Signature", 150, 290);
     pdf.text("__________________", 150, 295); // Signature line
-  
+
     // **Save PDF**
     pdf.save(`${selectedEmployee?.name}_PaySlip.pdf`);
   };
-  
 
   return (
     <div className="grid grid-cols-12 gap-2 h-screen border-gray-300 bg-clay-light ">
@@ -92,7 +126,8 @@ const PaySlip = () => {
                 <CurrencyBitcoinOutlinedIcon /> Salary Information
               </div>
               {/* 📌 Download PDF Button */}
-              <div className="text-sm font-normal">
+              <div className="text-sm font-normal gap-2 flex items-center">
+                <Button variant="secondary"> Select Month </Button>
                 <Button variant="primary" onClick={handleDownloadPDF}>
                   Download Payslip
                 </Button>
@@ -132,15 +167,17 @@ const PaySlip = () => {
                   </div>
                   <div className="p-2 border-b flex justify-between">
                     <span>BASIC</span>
-                    <span>{selectedSalary.salaryStructure?.basic}</span>
+                    <span>{selectedSalary?.salaryStructure?.basic}</span>
                   </div>
                   <div className="p-2 border-b flex justify-between">
                     <span>HRA</span>
-                    <span>{selectedSalary.salaryStructure?.hra}</span>
+                    <span>{selectedSalary?.salaryStructure?.hra}</span>
                   </div>
                   <div className="p-2 border-b flex justify-between">
                     <span>SPECIAL ALLOWANCE</span>
-                    <span>{selectedSalary.salaryStructure?.specialAllowance}</span>
+                    <span>
+                      {selectedSalary?.salaryStructure?.specialAllowance}
+                    </span>
                   </div>
                   <div className="p-2 bg-white flex justify-between">
                     <span>Total Earnings:</span>
@@ -156,11 +193,13 @@ const PaySlip = () => {
                   </div>
                   <div className="p-2 border-b flex justify-between">
                     <span>Professional Tax</span>
-                    <span>{selectedSalary.salaryStructure?.professionalTax}</span>
+                    <span>
+                      {selectedSalary?.salaryStructure?.professionalTax}
+                    </span>
                   </div>
                   <div className="p-2 border-b flex justify-between">
                     <span>Income Tax</span>
-                    <span>{selectedSalary.salaryStructure?.incomeTax}</span>
+                    <span>{selectedSalary?.salaryStructure?.incomeTax}</span>
                   </div>
                   <div className="p-2 border-b flex justify-between">
                     <span>Total Deductions:</span>
