@@ -19,15 +19,15 @@ const HelpDesk = () => {
       </div>
 
       {/* Full Background Image Section */}
-      <div className="border bg-[#f5f5f5] h-96  my-8 mx-24 flex items-center justify-center text-center"
+      <div className="border bg-[#f5f5f5] h-96  my-8 mx-24 flex items-center justify-center text-center border-gray-900"
         style={{
           backgroundImage: `url(${helpdesk})`,
-          backgroundSize: "cover",
+          backgroundSize:"cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
           opacity: 0.15, // Adjust opacity if needed
         }}
-      ></div>
+      >No Helpdesk Items</div>
 
       {/* Dialog for HelpdeskForm */}
       <Dialog
