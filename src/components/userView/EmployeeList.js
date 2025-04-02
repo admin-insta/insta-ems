@@ -81,10 +81,10 @@ const EmployeeList = ({ handleAddEmployee }) => {
                 filteredEmployees.map((employee) => (
                   <div 
                     key={employee?._id}
-                    className={`p-2 m-1 border border-gray-400 rounded-md cursor-pointer transition hover:bg-white ${
+                    className={`p-1 mt-1 border border-gray-400 rounded-md cursor-pointer transition hover:bg-white ${
                       selectedEmployee?._id === employee?._id
                         ? "bg-white" // Selected employee stays white
-                        : "bg-clay hover:bg-gray-100"
+                        : "bg-clay  hover:bg-gray-100"
                     }`}
                     onClick={() => handleEmployeeClick(employee)}
                   >

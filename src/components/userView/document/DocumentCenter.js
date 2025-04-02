@@ -24,7 +24,7 @@ const DocumentCenter = () => {
 
       <div className="col-span-9  ">
         <Card
-          variant="secondary"
+          variant="primary"
           fullScreen="true"
           title={
             <span style={{ display: "flex", alignItems: "center", gap: "8px" }}>
@@ -32,7 +32,7 @@ const DocumentCenter = () => {
             </span>
           }
           description={
-            <div className="p-4">
+            <div className="p-4 bg-[#d1cbc1]">
               <div className="flex justify-between ">
                 <div>
                   <h6>We've got it sorted for you!</h6>

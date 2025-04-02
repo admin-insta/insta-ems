@@ -8,7 +8,7 @@ const SalaryInfo = () => {
       <div className="col-span-3">
         <EmployeeList />
       </div>
-      <div className="col-span-9 bg-clay-light">
+      <div className="col-span-9 bg-[#BDBAA2]">
         <div className="top m-2">
           <ul className="grid grid-flow-col items-start font-semibold">
             {[
@@ -22,9 +22,8 @@ const SalaryInfo = () => {
               <li key={item.path} className="p-2 border-black">
                 <Link
                   className="text-black"
-                  style={{ textDecoration: "none" }}
+                  style={{ textDecoration: "none", }}
                   to={item.path}
-                  
                 >
                   {item.label}
                 </Link>

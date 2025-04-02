@@ -120,7 +120,7 @@ const PaySlip = () => {
         <Card
           variant="primary"
           fullScreen="true"
-          title={
+          title={ 
             <div className="flex justify-between mr-4 font-normal">
               <div className="flex items-center gap-2">
                 <CurrencyBitcoinOutlinedIcon /> Salary Information
@@ -137,7 +137,7 @@ const PaySlip = () => {
           description={
             <div ref={pdfRef} className="flex flex-col p-2 shadow-md bg-white">
               {/* Profile Section */}
-              <div className="mx-2 gap-2 grid grid-cols-12 p-2 bg-[#f2ebd2] rounded-md shadow-md">
+              <div className="mx-2 gap-2 grid grid-cols-12 p-2 bg-[#d1cbc1] rounded-md shadow-md">
                 <div className="col-span-9 flex flex-col items-start min-w-0">
                   <div className="text-8xl">
                     <img className="h-32" alt="profile-pic" src={Men_Dummy} />
@@ -160,7 +160,7 @@ const PaySlip = () => {
               {/* Payslip Details Section */}
               <div className="flex flex-row my-2">
                 {/* Earnings Section */}
-                <div className="w-1/2 border shadow-md rounded-md bg-[#f2ebd2] m-2">
+                <div className="w-1/2 border shadow-md rounded-md bg-[#d1cbc1] m-2">
                   <p className="p-2 border-b">Earnings</p>
                   <div className="p-2 bg-gray-200 flex justify-end">
                     <span>Amounts in (₹)</span>
@@ -186,7 +186,7 @@ const PaySlip = () => {
                 </div>
 
                 {/* Deductions Section */}
-                <div className="w-1/2 border shadow-md rounded-md bg-[#f2ebd2] m-2">
+                <div className="w-1/2 border shadow-md rounded-md bg-[#d1cbc1] m-2">
                   <p className="p-2 border-b">Deductions</p>
                   <div className="p-2 bg-gray-200 flex justify-end">
                     <span>Amounts in (₹)</span>

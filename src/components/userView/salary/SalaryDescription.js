@@ -198,7 +198,7 @@ const SalaryDescription = () => {
   return (
     <div>
       <Card
-        variant="primary"
+        variant="secondary"
         fullScreen="true"
         description={
           <form className="grid grid-cols-2 gap-4">

@@ -5,8 +5,8 @@ const theme = {
     background: "#f5f5f5", // Light Gray
     textPrimary: "#000000",
     textSecondary: "#FFFFFF",
-    cardPrimary: "#f2ebd2" ,
-    cardSecondary: "#aed6f1",
+    cardPrimary: "#BDBAA2" ,
+    cardSecondary: "#d1cbc1",
   },
   typography: {
     fontFamily: "'Poppins', sans-serif",

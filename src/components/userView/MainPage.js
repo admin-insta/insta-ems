@@ -7,9 +7,9 @@ const MainPage = () => {
   
   return (
     <>
-      <div className="grid grid-cols-12">
+      <div className="grid grid-cols-11">
         {/* Sidebar */}
-        <div className="col-span-2">
+        <div className="col-span-1">
           <SideBar />
         </div>
 
@@ -18,7 +18,7 @@ const MainPage = () => {
           <div className="sticky top-0 z-10">
             <Header />
           </div>
-          <div className="p-4 overflow-y-scroll">
+          <div className="p-2 overflow-y-scroll">
             <Outlet /> {/* Dynamically renders content here */}
           </div>
         </div>

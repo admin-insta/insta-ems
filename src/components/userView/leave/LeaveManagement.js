@@ -128,7 +128,7 @@ const LeaveManagement = () => {
       </div>
       <div className="col-span-9  ">
         <Card
-          variant="secondary"
+          variant="primary"
           fullScreen="true"
           title={
             <span style={{ display: "flex", alignItems: "center", gap: "8px" }}>

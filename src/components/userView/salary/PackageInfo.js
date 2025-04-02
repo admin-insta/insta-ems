@@ -36,7 +36,7 @@ const PackageInfo = () => {
   const maskValue = (value, isVisible) => (isVisible ? value : "* * * * *");
 
   return (
-    <div>
+    <div className="bg-[#d1cbc1]">
       
       <div className="border">
       <div className="text-base font-semibold m-2 p-2">Package Information of {selectedEmployee?.name}</div>

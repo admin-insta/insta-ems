@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import React from "react";
+import { NavLink } from "react-router-dom";
 import HomeIcon from "@mui/icons-material/HomeOutlined";
 import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
@@ -23,39 +23,38 @@ const SideBar = ({ name }) => {
   // }
   // , [user?.firstLogin]);
   return (
-    <div className=" bg-clay shadow-lg text-gray-800 min-h-screen fixed overflow-y-scroll">
+    <div className="bg-clay shadow-lg text-gray-800 h-screen fixed overflow-y-auto flex flex-col items-center p-1">
       {/* User Profile */}
-      <div className=" flex items-center justify-around p-4">
-        <span>{user?.name|| null}</span>
-        <span><AccountCircleIcon/> </span>   
+      <div className="flex flex-col items-center p-4">
+        <AccountCircleIcon className="text-4xl" />
+        <span className="text-xs mt-1 text-center">{user?.name || ""}</span>
       </div>
 
       {/* Sidebar Navigation */}
-      
-      <ul className="mt-2">
+      <ul className="mt-4 w-full flex-1">
         {[
           { to: "/userview/userHome", icon: <HomeIcon />, label: "Home" },
-          { to: "/userview/employeeInfo", icon: <PeopleAltOutlinedIcon />, label: "Employee Info" },
-          { to: "/userview/AttendanceInfo", icon: <CalendarMonthIcon />, label: "Attendance Info" },
-          { to: "/userview/leaveManagement", icon: <EventBusyIcon />, label: "Leave Management" },
+          { to: "/userview/employeeInfo", icon: <PeopleAltOutlinedIcon />, label: "Employees" },
+          { to: "/userview/AttendanceInfo", icon: <CalendarMonthIcon />, label: "Attendance" },
+          { to: "/userview/leaveManagement", icon: <EventBusyIcon />, label: "Leaves" },
           { to: "/userview/salaryInfo", icon: <CurrencyRupeeIcon />, label: "Salary" },
-          { to: "/userview/documentCenter", icon: <ArticleOutlinedIcon />, label: "Documents Center" },
-          { to: "/userview/expenseClaim", icon: <MoneyIcon />, label: "Expense Claims" },
-          { to: "/userview/helpDesk", icon: <PrivacyTipIcon />, label: "Help Desk" },
+          { to: "/userview/documentCenter", icon: <ArticleOutlinedIcon />, label: "Documents" },
+          { to: "/userview/expenseClaim", icon: <MoneyIcon />, label: "Expenses" },
+          { to: "/userview/helpDesk", icon: <PrivacyTipIcon />, label: "Help" },
           { to: "/userview/feedback", icon: <ThumbUpAltOutlinedIcon />, label: "Feedback" },
         ].map(({ to, icon, label }) => (
-          <li key={to} className="m-2">
+          <li key={to} className="mb-4 flex justify-center">
             <NavLink
               to={to}
               className={({ isActive }) =>
-                `flex items-center w-full p-2 rounded-md transition-all ease-in-out text-black ${
+                `flex flex-col items-center w-full p-2 rounded-md transition-all ease-in-out text-black text-xs text-center ${
                   isActive ? "bg-white text-black shadow-md" : "text-black hover:text-black hover:bg-gray-100"
                 }`
               }
-              style={{ textDecoration: "none" }} // Ensures no underline even if Tailwind fails
+              style={{ textDecoration: "none" }}
             >
-              {icon}
-              <span className="mx-2">{label}</span>
+              {React.cloneElement(icon, { className: "text-3xl" })}
+              <span className="mt-1">{label}</span>
             </NavLink>
           </li>
         ))}

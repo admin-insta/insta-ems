@@ -8,7 +8,7 @@ const StyledCard = styled.div`
     props.$variant === "primary"
       ? theme.colors.cardPrimary
       : theme.colors.cardSecondary};
-  border-radius: ${theme.borderRadius};
+
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
   padding: 4px;
   transition: all 0.3s ease-in-out;
@@ -38,10 +38,10 @@ const StyledCard = styled.div`
     padding: 8px;
   }
 
-  &:hover {
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    transform: translateY(-5px);
-  }
+  // &:hover {
+  //   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  //   transform: translateY(-5px);
+  // }
 
   /* Optional: Add border styles based on variant */
   border: ${(props) => (props.$variant === "primary" ? "none" : `none`)};
@@ -49,7 +49,6 @@ const StyledCard = styled.div`
 
 // Card Image Styling
 const CardImage = styled.img`
-  border-radius: ${theme.borderRadius};
   width: 100%;
   height: auto;
   padding: 4px;

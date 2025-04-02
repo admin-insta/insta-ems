@@ -33,7 +33,7 @@ const Attendance = () => {
       {/* Attendance Info Section */}
       <div className="col-span-9 overflow-y-scroll ">
         <Card
-          variant="secondary"
+          variant="primary"
           description={
             <div className="">
               <div className="flex flex-col">
