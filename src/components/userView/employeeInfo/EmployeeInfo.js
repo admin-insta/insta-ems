@@ -10,6 +10,7 @@ import AddEmployee from "./AddEmployee";
 import ConfirmationDialog from "../../utils/theme/ConfirmationDialog";
 import { LiaUserEditSolid } from "react-icons/lia";
 import { RiDeleteBin2Line } from "react-icons/ri";
+import { FaUserTie } from "react-icons/fa6";
 const EmployeeInfo = () => {
   const dispatch = useDispatch();
   const employees = useSelector((store) => store?.employee?.employees || []);
@@ -88,7 +89,7 @@ const EmployeeInfo = () => {
               <div
                 style={{ display: "flex", alignItems: "center", gap: "8px" }}
               >
-                <SettingsAccessibilityOutlinedIcon /> Employee Information
+                <FaUserTie className="w-6 h-6" /> Employee Information
               </div>
               <div className="m-2 flex gap-8">
                 <div

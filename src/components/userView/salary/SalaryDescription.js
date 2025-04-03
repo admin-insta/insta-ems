@@ -3,6 +3,8 @@ import Card from "../../utils/theme/Cards";
 import InputField from "../../utils/theme/InputField";
 import Button from "../../utils/theme/Button";
 import ConfirmationDialog from "../../utils/theme/ConfirmationDialog";
+
+import { RiMoneyRupeeCircleFill } from "react-icons/ri";
 import {
   createSalary,
   createSalaryAccount,
@@ -44,26 +46,33 @@ const SalaryDescription = () => {
     basic: selectedEmployeeSalary?.salaryStructure?.basic || "Rs. 0",
     hra: selectedEmployeeSalary?.salaryStructure?.hra || "Rs. 00000",
     bonus: selectedEmployeeSalary?.salaryStructure?.bonus || "Rs. 0000",
-    specialAllowance:selectedEmployeeSalary?.salaryStructure?.specialAllowance || "Rs. 0000",
-    professionaltax : selectedEmployeeSalary?.salaryStructure?.professionaltax || "Rs. 0",
-    incomeTax : selectedEmployeeSalary?.salaryStructure?.incomeTax || "Rs. 0",
-    deductions:selectedEmployeeSalary?.salaryStructure?.deductions || "Rs. 0",
-    pfEmployee: selectedEmployeeSalary?.salaryStructure?.pfEmployee || "Rs. 0000",
-    pfEmployer: selectedEmployeeSalary?.salaryStructure?.pfEmployer || "Rs. 0000",
-
+    specialAllowance:
+      selectedEmployeeSalary?.salaryStructure?.specialAllowance || "Rs. 0000",
+    professionaltax:
+      selectedEmployeeSalary?.salaryStructure?.professionaltax || "Rs. 0",
+    incomeTax: selectedEmployeeSalary?.salaryStructure?.incomeTax || "Rs. 0",
+    deductions: selectedEmployeeSalary?.salaryStructure?.deductions || "Rs. 0",
+    pfEmployee:
+      selectedEmployeeSalary?.salaryStructure?.pfEmployee || "Rs. 0000",
+    pfEmployer:
+      selectedEmployeeSalary?.salaryStructure?.pfEmployer || "Rs. 0000",
   });
   // 🔹 Fetch salaries when the component mounts
-  useEffect(() => {
-    const getSalary = async () => {
-      const result = await fetchSalary();
-      if (result.success) {
-        dispatch(addSalary(result.salary)); // Store all salaries in Redux
-      } else {
-        console.error(result.message);
-      }
-    };
-    getSalary();
-  }, [accountDetails], [salaryDetails]);
+  useEffect(
+    () => {
+      const getSalary = async () => {
+        const result = await fetchSalary();
+        if (result.success) {
+          dispatch(addSalary(result.salary)); // Store all salaries in Redux
+        } else {
+          console.error(result.message);
+        }
+      };
+      getSalary();
+    },
+    [accountDetails],
+    [salaryDetails]
+  );
 
   useEffect(() => {
     if (selectedEmployee) {
@@ -87,7 +96,7 @@ const SalaryDescription = () => {
           pfNumberOfEmployer: "",
         });
         setSalaryDetails({
-          employeeId: selectedEmployee?._id,
+          // employeeId: selectedEmployee?._id,
           basic: "0",
           hra: "0",
           bonus: "0",
@@ -99,7 +108,8 @@ const SalaryDescription = () => {
     }
   }, [selectedEmployee]);
 
-  const { totalEarnings, totalDeductions, netSalary } = useSalaryCalculations(salaryDetails);
+  const { totalEarnings, totalDeductions, netSalary } =
+    useSalaryCalculations(salaryDetails);
   const bankList = [
     "State Bank of India",
     "HDFC Bank",
@@ -268,14 +278,14 @@ const SalaryDescription = () => {
                 onChange={handleEmployeeChange}
                 disabled={!isEmployeeEditMode}
               />
-               <InputField
+              <InputField
                 label="PF Number of Employee"
                 name="pfNumberOfEmployee"
                 value={accountDetails?.pfNumberOfEmployee}
                 onChange={handleEmployeeChange}
                 disabled={!isEmployeeEditMode}
               />
-               <InputField
+              <InputField
                 label="PF Number of Employer"
                 name="pfNumberOfEmployer"
                 value={accountDetails?.pfNumberOfEmployer}
@@ -283,7 +293,6 @@ const SalaryDescription = () => {
                 disabled={!isEmployeeEditMode}
               />
             </div>
-            
 
             {/* Salary Details Section */}
             <div className="border shadow-md p-2">
@@ -296,16 +305,50 @@ const SalaryDescription = () => {
               {Object.entries(salaryDetails || {}).map(([key, value]) => (
                 <InputField
                   key={key}
-                  label={key.replace(/([A-Z])/g, " $1").replace(/^./, (str) => str.toUpperCase())}
+                  label={key
+                    .replace(/([A-Z])/g, " $1")
+                    .replace(/^./, (str) => str.toUpperCase())}
                   name={key}
-                  value={value}
+                  value={
+                    <span className="flex items-center">
+                      <RiMoneyRupeeCircleFill className="inline-block w-5 h-5 text-gray-700 mr-2" />
+                      {value}
+                    </span>
+                  }
                   onChange={handleSalaryChange}
                   disabled={!isSalaryEditMode}
                 />
               ))}
-              <InputField label="Total Earnings" value={totalEarnings} disabled={true} />
-              <InputField label="Total Deductions" value={totalDeductions} disabled={true} />
-              <InputField label="Net Salary" value={netSalary} disabled={true} />
+              <InputField
+                label="Total Earnings"
+                value={
+                  <span className="flex items-center">
+                    <RiMoneyRupeeCircleFill className="inline-block w-5 h-5 text-gray-700 mr-2" />
+                    {totalEarnings}
+                  </span>
+                }
+                disabled={true}
+              />
+              <InputField
+                label="Total Deductions"
+                value={
+                  <span className="flex items-center">
+                    <RiMoneyRupeeCircleFill className="inline-block w-5 h-5 text-gray-700 mr-2" />
+                    {totalDeductions}
+                  </span>
+                }
+                disabled={true}
+              />
+              <InputField
+                label="Net Salary"
+                value={
+                  <span className="flex items-center">
+                    <RiMoneyRupeeCircleFill className="inline-block w-5 h-5 text-gray-700 mr-2" />
+                    {netSalary}
+                  </span>
+                }
+                disabled={true}
+              />
             </div>
           </form>
         }

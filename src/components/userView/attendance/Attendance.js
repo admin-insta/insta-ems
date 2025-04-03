@@ -37,7 +37,7 @@ const Attendance = () => {
           description={
             <div className="">
               <div className="flex flex-col">
-                <div className="text-center text-lg font-semibold mb-4 flex justify-between m-4">
+                <div className="text-center text-lg font-semibold mb-2 mx-2 flex justify-between ">
                   <span>Attendance of - {mockAttendance.name}</span>
                   <span className="flex gap-2">
                     <GridViewIcon

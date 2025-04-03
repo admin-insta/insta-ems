@@ -36,7 +36,7 @@ const SideBar = ({ name }) => {
           { to: "/userview/userHome", icon: <HomeIcon />, label: "Home" },
           { to: "/userview/employeeInfo", icon: <PeopleAltOutlinedIcon />, label: "Employees" },
           { to: "/userview/AttendanceInfo", icon: <CalendarMonthIcon />, label: "Attendance" },
-          { to: "/userview/leaveManagement", icon: <EventBusyIcon />, label: "Leaves" },
+          { to: "/userview/leave", icon: <EventBusyIcon />, label: "Leaves" },
           { to: "/userview/salaryInfo", icon: <CurrencyRupeeIcon />, label: "Salary" },
           { to: "/userview/documentCenter", icon: <ArticleOutlinedIcon />, label: "Documents" },
           { to: "/userview/expenseClaim", icon: <MoneyIcon />, label: "Expenses" },

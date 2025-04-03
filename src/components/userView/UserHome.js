@@ -27,18 +27,21 @@ const UserHome = () => {
   }, [dispatch, employee.length]);
   return (
     <div className="">
-      <div className="text-2xl text-black  ">
-        Good Evening <WbSunnyOutlinedIcon />
-      </div>
-      <div className="border rounded-lg bg-[#f2ebd2] my-2  h-20 flex justify-between items-center hover:shadow-lg hover:-translate-y-1 transition-all ease-in-out">
-        <div className="flex text-center p-2 text-lg text-black">
-          Opening doors to infinite potential.
+      <div className="border bg-[#BDBAA2]">
+        <div className="text-2xl text-black p-2 ">
+          Good Evening <WbSunnyOutlinedIcon />
         </div>
-        <div className="text-base mx-4">
-          <Button>Explore</Button>
+        <div className="h-20 flex justify-between items-center ">
+          <div className="flex text-center p-2 text-lg text-black">
+            Opening doors to infinite potential.
+          </div>
+          <div className="text-base mx-4">
+            <Button>Explore</Button>
+          </div>
         </div>
       </div>
-      <div className="flex lg:flex-row gap-4 sm:flex-col xs:flex-col">
+
+      <div className="flex lg:flex-row gap-4 sm:flex-col xs:flex-col mt-1">
         <Card
           variant="primary"
           title="Track"

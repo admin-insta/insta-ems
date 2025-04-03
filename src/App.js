@@ -28,6 +28,11 @@ import ItStatement from "./components/userView/salary/ItStatement";
 import SalaryPayment from "./components/userView/salary/SalaryPayment";
 import SalaryDescription from "./components/userView/salary/SalaryDescription";
 import YtdStatement from "./components/userView/salary/YtdStatement";
+import LeaveMain from "./components/userView/leave/LeaveMain";
+import LeaveApply from "./components/userView/leave/LeaveApply";
+import LeaveBalance from "./components/userView/leave/LeaveBalance";
+import LeaveCalendar from "./components/userView/leave/LeaveCalendar";
+import HolidayCalendar from "./components/userView/leave/HolidayCalendar";
 
 function App() {
   const appRouter = createBrowserRouter([
@@ -62,6 +67,17 @@ function App() {
         { path: "employeeInfo", element: <EmployeeInfo /> },
         { path: "AttendanceInfo", element: <Attendance /> },
         { path: "leaveManagement", element: <LeaveManagement /> },
+        {
+          path: "leave",
+          element: <LeaveMain />,
+          children: [
+            { index: true, element:<LeaveManagement/> }, // Default child route
+            { path: "leave-apply", element: <LeaveApply /> },
+            { path: "leave-balance", element: <LeaveBalance /> }, // ✅ Correct path
+            { path: "leave-calendar", element: <LeaveCalendar /> },
+            { path: "holiday-calendar", element: <HolidayCalendar/> },
+          ],
+        },
         {
           path: "salaryInfo",
           element: <SalaryInfo />,

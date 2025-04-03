@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import logocompany from "../components/utils/images/logocompany.jpg";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { removeUser } from "./store/userSlice";
@@ -20,20 +21,20 @@ const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
-    const token = getCookie("authToken");  
+    const token = getCookie("authToken");
     if (token) {
       // console.log("Token is present");
       setUser(userData);
-      // navigate("/userview");
+      navigate("/userview");
     } else {
       setUser(null);
       // console.log("Token is missing");
-      dispatch(removeUser());  // Ensure Redux state is cleared when token is missing
+      dispatch(removeUser()); // Ensure Redux state is cleared when token is missing
       navigate("/");
     }
   }, [getCookie("authToken")]); // Dependency includes userData & authToken
-  
-//Handle Sign In
+
+  //Handle Sign In
   const handleSignIn = () => {
     navigate("/login");
   };
@@ -61,12 +62,14 @@ const Header = () => {
                 onClick={() => setIsMobileMenuOpen(true)}
               />
             </div>
-            <FitbitIcon
-              className="text-blue-700 cursor-pointer hover:scale-110 transition-all"
-              sx={{ fontSize: 32 }}
+
+            <img
               onClick={() => {
                 user ? navigate("/userview") : navigate("/");
               }}
+              className="h-10 cursor-pointer"
+              alt="logo"
+              src={logocompany}
             />
           </div>
 
@@ -109,9 +112,11 @@ const Header = () => {
 
           {/* Right Side Buttons */}
           <div className="hidden lg:flex items-center space-x-4">
-            {!user && <Button onClick={() => navigate("/demorequest")}>
-              Request A Demo
-            </Button>}
+            {!user && (
+              <Button onClick={() => navigate("/demorequest")}>
+                Request A Demo
+              </Button>
+            )}
             <Button onClick={user ? handleSignOut : handleSignIn}>
               {user ? "Logout" : "Login"}
             </Button>
