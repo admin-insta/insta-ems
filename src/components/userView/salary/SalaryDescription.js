@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Card from "../../utils/theme/Cards";
-import InputField from "../../utils/theme/InputField";
-import Button from "../../utils/theme/Button";
 import ConfirmationDialog from "../../utils/theme/ConfirmationDialog";
-
-import { RiMoneyRupeeCircleFill } from "react-icons/ri";
+import Men_Dummy from "../../utils/images/Men_Dummy.jpg";
+import { toast } from "react-toastify";
 import {
   createSalary,
   createSalaryAccount,
@@ -12,7 +10,8 @@ import {
 } from "../../../api/salary";
 import { useDispatch, useSelector } from "react-redux";
 import { addSalary } from "../../store/salarySlice";
-import useSalaryCalculations from "../../utils/useSalaryCalculation";
+import BankAccountDetails from "./BankAccountDetails";
+import SalaryDetails from "./SalaryDetails";
 const SalaryDescription = () => {
   const dispatch = useDispatch();
   const salaries = useSelector((store) => store?.salary?.salaries.flat() || []);
@@ -41,13 +40,15 @@ const SalaryDescription = () => {
     pfNumberOfEmployer: selectedEmployeeSalary?.pfNumberOfEmployer || "",
   });
 
+  const [ctcDetails, setCtcDetails] = useState(null);
+
   const [salaryDetails, setSalaryDetails] = useState({
     employeeId: selectedEmployee?._id,
     basic: selectedEmployeeSalary?.salaryStructure?.basic || "Rs. 0",
-    hra: selectedEmployeeSalary?.salaryStructure?.hra || "Rs. 00000",
-    bonus: selectedEmployeeSalary?.salaryStructure?.bonus || "Rs. 0000",
+    hra: selectedEmployeeSalary?.salaryStructure?.hra || "Rs. 0",
+    bonus: selectedEmployeeSalary?.salaryStructure?.bonus || "Rs. 0",
     specialAllowance:
-      selectedEmployeeSalary?.salaryStructure?.specialAllowance || "Rs. 0000",
+      selectedEmployeeSalary?.salaryStructure?.specialAllowance || "Rs. 0",
     professionaltax:
       selectedEmployeeSalary?.salaryStructure?.professionaltax || "Rs. 0",
     incomeTax: selectedEmployeeSalary?.salaryStructure?.incomeTax || "Rs. 0",
@@ -96,32 +97,23 @@ const SalaryDescription = () => {
           pfNumberOfEmployer: "",
         });
         setSalaryDetails({
-          // employeeId: selectedEmployee?._id,
-          basic: "0",
+          basic: " Rs. 0",
           hra: "0",
           bonus: "0",
           specialAllowance: "0",
-          yearlySalary: "0",
-          pfAmount: "0",
+          incomeTax: "0",
+          professionalTax: "0",
+          deductions: "0",
+          pfEmployee: "0",
+          pfEmployer: "0",
         });
       }
+
+      // 👉 Reset edit modes when employee changes
+      setIsEmployeeEditMode(false);
+      setIsSalaryEditMode(false);
     }
   }, [selectedEmployee]);
-
-  const { totalEarnings, totalDeductions, netSalary } =
-    useSalaryCalculations(salaryDetails);
-  const bankList = [
-    "State Bank of India",
-    "HDFC Bank",
-    "ICICI Bank",
-    "Axis Bank",
-    "Kotak Mahindra Bank",
-    "Punjab National Bank",
-    "Bank of Baroda",
-    "Union Bank of India",
-    "Canara Bank",
-    "IndusInd Bank",
-  ];
 
   const confirmActionHandler = (title, message, action) => {
     setDialogConfig({
@@ -137,6 +129,15 @@ const SalaryDescription = () => {
 
   const handleEmployeeEditToggle = () => {
     if (isEmployeeEditMode) {
+      // 🛑 Validation: Check if any field in accountDetails is empty
+      const isFormValid = Object.values(accountDetails).every(
+        (value) => value !== null && value !== undefined && value !== ""
+      );
+
+      if (!isFormValid) {
+        toast.error("Fill all the fields before saving.");
+        return;
+      }
       // Save logic
       confirmActionHandler(
         "Confirm Employee Save",
@@ -211,149 +212,40 @@ const SalaryDescription = () => {
         variant="secondary"
         fullScreen="true"
         description={
-          <form className="grid grid-cols-2 gap-4">
-            {/* Employee Details Section */}
-            <div className="border shadow-md p-2">
-              <div className="flex justify-between items-center">
-                <span className="font-semibold text-base">
-                  Employee Details
-                </span>
-                <Button onClick={handleEmployeeEditToggle}>
-                  {isEmployeeEditMode ? "Save" : "Update"}
-                </Button>
+          <>
+            <div className="border p-4 flex justify-between bg-[#BDBAA2] text-gray-900">
+              <div className="">
+                <img className="h-12" alt="profile-pic" src={Men_Dummy} />
               </div>
-              <InputField
-                label="Employee Name"
-                value={selectedEmployee?.name}
-                disabled={true}
-              />
-              <InputField
-                label="Email"
-                value={selectedEmployee?.email}
-                disabled={true}
-              />
-              <InputField
-                label="PAN Number"
-                name="panNumber"
-                value={accountDetails?.panNumber}
-                onChange={handleEmployeeChange}
-                disabled={!isEmployeeEditMode}
-              />
-              <div className="my-2">
-                <label className="text-xs font-medium text-blue-700">
-                  Bank Name
-                </label>
-                <select
-                  name="bankName"
-                  value={accountDetails.bankName || ""} // ✅ Ensures it always has a default value
-                  onChange={handleEmployeeChange}
-                  disabled={!isEmployeeEditMode}
-                  className="w-full p-2 border rounded-md"
-                >
-                  {bankList.map((bank, index) => (
-                    <option key={index} value={bank}>
-                      {bank}
-                    </option>
-                  ))}
-                </select>
+              <div>
+                <div className="text-sm">{selectedEmployee?.name}</div>
+                <div className="text-sm">{selectedEmployee?.email}</div>
               </div>
-              <InputField
-                label="Bank Account Number"
-                name="accountNumber"
-                value={accountDetails?.accountNumber}
-                onChange={handleEmployeeChange}
-                disabled={!isEmployeeEditMode}
-              />
-              <InputField
-                label="IFSC Code"
-                name="ifscCode"
-                value={accountDetails?.ifscCode}
-                onChange={handleEmployeeChange}
-                disabled={!isEmployeeEditMode}
-              />
-              <InputField
-                label="UAN Number"
-                name="uanNumber"
-                value={accountDetails?.uanNumber}
-                onChange={handleEmployeeChange}
-                disabled={!isEmployeeEditMode}
-              />
-              <InputField
-                label="PF Number of Employee"
-                name="pfNumberOfEmployee"
-                value={accountDetails?.pfNumberOfEmployee}
-                onChange={handleEmployeeChange}
-                disabled={!isEmployeeEditMode}
-              />
-              <InputField
-                label="PF Number of Employer"
-                name="pfNumberOfEmployer"
-                value={accountDetails?.pfNumberOfEmployer}
-                onChange={handleEmployeeChange}
-                disabled={!isEmployeeEditMode}
-              />
             </div>
+            <form className="grid border grid-cols-2 gap-4">
+              {/* Employee Details Section */}
+              <BankAccountDetails
+                isEmployeeEditMode={isEmployeeEditMode}
+                setIsEmployeeEditMode={setIsEmployeeEditMode}
+                handleEmployeeEditToggle={handleEmployeeEditToggle}
+                selectedEmployeeSalary={selectedEmployeeSalary}
+                accountDetails={accountDetails}
+                handleEmployeeChange={handleEmployeeChange}
+              />
 
-            {/* Salary Details Section */}
-            <div className="border shadow-md p-2">
-              <div className="flex justify-between items-center">
-                <span className="font-semibold text-base">Salary Details</span>
-                <Button onClick={handleSalaryEditToggle}>
-                  {isSalaryEditMode ? "Save" : "Revise"}
-                </Button>
-              </div>
-              {Object.entries(salaryDetails || {}).map(([key, value]) => (
-                <InputField
-                  key={key}
-                  label={key
-                    .replace(/([A-Z])/g, " $1")
-                    .replace(/^./, (str) => str.toUpperCase())}
-                  name={key}
-                  value={
-                    <span className="flex items-center">
-                      <RiMoneyRupeeCircleFill className="inline-block w-5 h-5 text-gray-700 mr-2" />
-                      {value}
-                    </span>
-                  }
-                  onChange={handleSalaryChange}
-                  disabled={!isSalaryEditMode}
-                />
-              ))}
-              <InputField
-                label="Total Earnings"
-                value={
-                  <span className="flex items-center">
-                    <RiMoneyRupeeCircleFill className="inline-block w-5 h-5 text-gray-700 mr-2" />
-                    {totalEarnings}
-                  </span>
-                }
-                disabled={true}
+              {/* Salary Details Section */}
+              <SalaryDetails
+                isSalaryEditMode={isSalaryEditMode}
+                setIsSalaryEditMode={setIsSalaryEditMode}
+                handleSalaryEditToggle={handleSalaryEditToggle}
+                selectedEmployeeSalary={selectedEmployeeSalary}
+                salaryDetails={salaryDetails}
+                handleSalaryChange={handleSalaryChange}
               />
-              <InputField
-                label="Total Deductions"
-                value={
-                  <span className="flex items-center">
-                    <RiMoneyRupeeCircleFill className="inline-block w-5 h-5 text-gray-700 mr-2" />
-                    {totalDeductions}
-                  </span>
-                }
-                disabled={true}
-              />
-              <InputField
-                label="Net Salary"
-                value={
-                  <span className="flex items-center">
-                    <RiMoneyRupeeCircleFill className="inline-block w-5 h-5 text-gray-700 mr-2" />
-                    {netSalary}
-                  </span>
-                }
-                disabled={true}
-              />
-            </div>
-          </form>
+            </form>
+          </>
         }
       />
-
       {/* Confirmation Dialog */}
       <ConfirmationDialog
         open={showConfirmation}
@@ -365,5 +257,4 @@ const SalaryDescription = () => {
     </div>
   );
 };
-
 export default SalaryDescription;

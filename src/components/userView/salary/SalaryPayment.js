@@ -72,11 +72,8 @@ const SalaryPayment = () => {
               </div>
             </div>
           </div>
-
           {/* Payment CTA */}
-
           {/* Last Salary Paid */}
-
           <div className="mb-4">
             <div>
               <strong>Last Salary Paid:</strong> ₹
@@ -86,10 +83,6 @@ const SalaryPayment = () => {
               <strong>Date:</strong> {selectedSalary?.lastPaidDate || "N/A"}
             </div>
           </div>
-
-          {/* Payment Status */}
-          {/* {paymentStatus === 'success' && <alert type="success" message="Payment Successful!" />} */}
-          {/* {paymentStatus === 'error' && <alert type="error" message="Payment Failed. Try again!" />} */}
         </div>
       }
     />

@@ -11,7 +11,7 @@ const InputField = ({
 }) => (
   <div className="flex flex-col">
     <label className="text-xs text-blue-600 mb-1">{label}</label>
-    <div className="relative flex items-center border p-2 rounded-md w-full bg-white">
+    <div className="relative flex items-center border p-2 rounded-sm w-full bg-white">
       {typeof value === "string" || typeof value === "number" ? (
         <input
           className={`w-full bg-white outline-none ${disabled ? "cursor-default bg-gray-200" : ""}`}

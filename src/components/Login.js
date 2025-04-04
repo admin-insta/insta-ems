@@ -10,6 +10,7 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { checkValidateData } from "./utils/validate";
 import Shimmer from "../components/shimmer/Shimmer";
+import { toast } from "react-toastify";
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch(); // Redux Dispatch
@@ -26,18 +27,18 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true); // Show shimmer before processing
-  
+
     // Safe retrieval of input values
     const emailValue = email?.current?.value || "";
     const passwordValue = password?.current?.value || "";
     const companyName = company?.current?.value || ""; // Safe check for company input
-  
+
     if (!emailValue || !passwordValue) {
-      setErrorMessage("Email and Password are required.");
+      toast.error("Please Enter Your Email Id and Password.");
       setLoading(false);
       return;
     }
-  
+
     // 🔹 Validate Email and Password
     const validateError = checkValidateData(emailValue, passwordValue);
     if (validateError) {
@@ -45,15 +46,15 @@ const Login = () => {
       setLoading(false);
       return;
     }
-  
+
     try {
       let data;
       if (isSignInForm) {
         // 🔹 Login Flow
         data = await login(emailValue, passwordValue);
-        
+
         if (data?.token) {
-          setCookie("authToken", data.token, 1); // Store token for 1 day      
+          setCookie("authToken", data.token, 1); // Store token for 1 day
           // ✅ Dispatch user details to Redux
           dispatch(
             addUser({
@@ -64,26 +65,33 @@ const Login = () => {
               firstLogin: data.firstLogin,
             })
           );
-  
+
           // Navigate based on first login
-          navigate(data?.firstLogin ? "/userview/updateUser" : "/userview/userHome", { replace: true });
-  
+          navigate(
+            data?.firstLogin ? "/userview/updateUser" : "/userview/userHome",
+            { replace: true }
+          );
+          toast.success("Login successful! Welcome User...");
         } else {
-          setErrorMessage("Invalid Credentials, Please enter a valid Email and Password.");
+          setErrorMessage(
+            "Invalid Credentials, Please enter a valid Email and Password."
+          );
         }
-      } else { 
+      } else {
         // 🔹 Signup Flow
         data = await signup(companyName, emailValue, passwordValue);
-        
+
         if (data?.success) {
           // ✅ Clear input fields only if they exist
           if (email.current) email.current.value = "";
           if (password.current) password.current.value = "";
           if (company.current) company.current.value = "";
-  
+
           setIsSignInForm(true);
-          setErrorMessage("Signup successful! Please Login with Your Credentials...");
-          
+          setErrorMessage(
+            "Signup successful! Please Login with Your Credentials..."
+          );
+
           // Redirect to login after success
           setTimeout(() => navigate("/login"), 1500);
         } else {
@@ -97,7 +105,6 @@ const Login = () => {
       setLoading(false); // Hide shimmer when async process ends
     }
   };
-  
 
   return loading ? (
     <Shimmer />
@@ -135,15 +142,16 @@ const Login = () => {
           </div>
 
           {/* Name Input (only for new users) */}
-         
-          {!isSignInForm && (<>
-             <label className="text-white text-xs my-2">Your Name*</label>
-            <input
-              className="mb-2 p-2 border border-gray-700 rounded-md text-sm md:text-base xs:text-xs"
-              type="text"
-              placeholder="Your Name"
-              ref={company}
-            />
+
+          {!isSignInForm && (
+            <>
+              <label className="text-white text-xs my-2">Your Name*</label>
+              <input
+                className="mb-2 p-2 border border-gray-700 rounded-md text-sm md:text-base xs:text-xs"
+                type="text"
+                placeholder="Your Name"
+                ref={company}
+              />
             </>
           )}
 
@@ -161,7 +169,7 @@ const Login = () => {
             </span>
           )}
           <div className="relative my-2">
-          <label className=" text-white text-xs"> Password* </label>
+            <label className=" text-white text-xs"> Password* </label>
             <input
               className=" p-2 border border-gray-700 rounded-md w-full text-sm md:text-base"
               type={showPassword ? "text" : "password"}

@@ -6,6 +6,7 @@ import TextareaField from "../../utils/theme/TextareaField";
 import { addUser, updateUser } from "../../../api/users"; // Import updateUser function
 import { addEmployee, updateEmployee } from "../../store/employeeSlice";
 import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 
 const AddEmployee = ({ openDialog, setOpenDialog, onAddEmployee, editingEmployee, setConfirmDialog }) => {
   const dispatch = useDispatch();
@@ -81,7 +82,7 @@ const AddEmployee = ({ openDialog, setOpenDialog, onAddEmployee, editingEmployee
       !formData.joiningDate ||
       !formData.address
     ) {
-      alert("Please fill out all fields.");
+      toast.error("Please fill in all fields.");
       return;
     }
 

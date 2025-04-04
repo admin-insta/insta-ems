@@ -33,6 +33,8 @@ import LeaveApply from "./components/userView/leave/LeaveApply";
 import LeaveBalance from "./components/userView/leave/LeaveBalance";
 import LeaveCalendar from "./components/userView/leave/LeaveCalendar";
 import HolidayCalendar from "./components/userView/leave/HolidayCalendar";
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
 
 function App() {
   const appRouter = createBrowserRouter([
@@ -100,9 +102,23 @@ function App() {
   ]);
 
   return (
+    <>
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
     <Provider store={appStore}>
       <RouterProvider router={appRouter} />
     </Provider>
+    </>
+    
   );
 }
 
