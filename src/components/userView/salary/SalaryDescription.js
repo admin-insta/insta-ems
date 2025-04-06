@@ -15,7 +15,6 @@ import SalaryDetails from "./SalaryDetails";
 const SalaryDescription = () => {
   const dispatch = useDispatch();
   const salaries = useSelector((store) => store?.salary?.salaries.flat() || []);
-  console.log("salaries", salaries);
   const [selectedEmployeeSalary, setSelectedSalaryEmployee] = useState(null);
   const selectedEmployee = useSelector(
     (store) => store?.employee?.selectedEmployee
@@ -219,7 +218,7 @@ const SalaryDescription = () => {
               </div>
               <div>
                 <div className="text-sm">{selectedEmployee?.name}</div>
-                <div className="text-sm">{selectedEmployee?.email}</div>
+                <div className="text-xs">{selectedEmployee?.designation}</div>
               </div>
             </div>
             <form className="grid border grid-cols-2 gap-4">

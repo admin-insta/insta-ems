@@ -11,6 +11,7 @@ import ConfirmationDialog from "../../utils/theme/ConfirmationDialog";
 import { LiaUserEditSolid } from "react-icons/lia";
 import { RiDeleteBin2Line } from "react-icons/ri";
 import { FaUserTie } from "react-icons/fa6";
+import { toast } from "react-toastify";
 const EmployeeInfo = () => {
   const dispatch = useDispatch();
   const employees = useSelector((store) => store?.employee?.employees || []);
@@ -50,7 +51,7 @@ const EmployeeInfo = () => {
       const result = await deleteUser(selectedEmployee._id);
       if (result.success) {
         dispatch(setEmployees(result.updatedUsers));
-
+        toast.success("Employee deleted successfully!");
         // ✅ Ensure the selected employee is updated after deletion
         if (result.updatedUsers.length > 0) {
           dispatch(setSelectedEmployee(result.updatedUsers[0]));

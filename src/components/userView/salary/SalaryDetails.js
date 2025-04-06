@@ -33,7 +33,6 @@ const SalaryDetails = ({
           </Button>
         </div>
       </div>
-      {console.log("salaryDetails of selecte employee", salaryDetails)}
       <div className="border p-2 bg-[#BDBAA2]">
         <InputField
           label="Basic *"

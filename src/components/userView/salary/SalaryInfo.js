@@ -24,7 +24,7 @@ const SalaryInfo = () => {
                 <Link
                   to={item.path}
                   className={`text-black p-3 rounded-sm ${
-                    location.pathname === item.path ? "bg-white font-bold" : ""
+                    location.pathname === item.path ? "bg-gray-300 font-bold" : ""
                   }`}
                   style={{ textDecoration: "none" }}
                 >
