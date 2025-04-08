@@ -97,14 +97,14 @@ const SalaryDescription = () => {
         });
         setSalaryDetails({
           basic: " Rs. 0",
-          hra: "0",
-          bonus: "0",
-          specialAllowance: "0",
-          incomeTax: "0",
-          professionalTax: "0",
-          deductions: "0",
-          pfEmployee: "0",
-          pfEmployer: "0",
+          hra: "Rs. 0",
+          bonus: "Rs. 0",
+          specialAllowance: "Rs. 0",
+          incomeTax: "Rs. 0",
+          professionalTax: "Rs. 0",
+          deductions: "Rs. 0",
+          pfEmployee: "Rs. 0",
+          pfEmployer: "Rs. 0",
         });
       }
 
