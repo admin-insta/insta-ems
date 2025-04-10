@@ -53,7 +53,7 @@ const Login = () => {
         data = await login(emailValue, passwordValue);
         
         if (data?.token) {
-          setCookie("authToken", data.token, 1); // Store token for 1 day      
+          //setCookie("authToken", data.token, 1); // Store token for 1 day      
           // ✅ Dispatch user details to Redux
           dispatch(
             addUser({
