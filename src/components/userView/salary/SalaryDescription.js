@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import {
   createSalary,
   createSalaryAccount,
+  createSalaryFromCtc,
   fetchSalary,
 } from "../../../api/salary";
 import { useDispatch, useSelector } from "react-redux";
@@ -39,10 +40,9 @@ const SalaryDescription = () => {
     pfNumberOfEmployer: selectedEmployeeSalary?.pfNumberOfEmployer || "",
   });
 
-  const [ctcDetails, setCtcDetails] = useState(null);
-
   const [salaryDetails, setSalaryDetails] = useState({
     employeeId: selectedEmployee?._id,
+    ctc:selectedEmployeeSalary?.salaryStructure?.ctc || "Rs. 0",
     basic: selectedEmployeeSalary?.salaryStructure?.basic || "Rs. 0",
     hra: selectedEmployeeSalary?.salaryStructure?.hra || "Rs. 0",
     bonus: selectedEmployeeSalary?.salaryStructure?.bonus || "Rs. 0",
@@ -58,21 +58,18 @@ const SalaryDescription = () => {
       selectedEmployeeSalary?.salaryStructure?.pfEmployer || "Rs. 0000",
   });
   // 🔹 Fetch salaries when the component mounts
-  useEffect(
-    () => {
-      const getSalary = async () => {
-        const result = await fetchSalary();
-        if (result.success) {
-          dispatch(addSalary(result.salary)); // Store all salaries in Redux
-        } else {
-          console.error(result.message);
-        }
-      };
-      getSalary();
-    },
-    [accountDetails],
-    [salaryDetails]
-  );
+  useEffect(() => {
+    const getSalary = async () => {
+      const result = await fetchSalary();
+      if (result.success) {
+        dispatch(addSalary(result.salary));
+      } else {
+        console.error(result.message);
+      }
+    };
+    getSalary();
+  }, [accountDetails, salaryDetails]); // ✅ Combined
+  
 
   useEffect(() => {
     if (selectedEmployee) {
@@ -166,7 +163,7 @@ const SalaryDescription = () => {
     }
   };
 
-  const handleSalaryEditToggle = () => {
+  const handleCtcEditToggle = () => {
     if (isSalaryEditMode) {
       confirmActionHandler(
         "Confirm Salary Revision",
@@ -174,15 +171,22 @@ const SalaryDescription = () => {
         async () => {
           try {
             const payload = {
-              ...salaryDetails,
+              ctc:salaryDetails.ctc,
               employeeId: selectedEmployee?._id, // ✅ Ensure employeeId is included
             };
-            const result = await createSalary(payload);
+            const result = await createSalaryFromCtc(payload);
             if (result.success) {
               const updatedSalary = await fetchSalary();
               console.log("updatedSalary", updatedSalary);
               if (updatedSalary.success) {
-                setSalaryDetails(updatedSalary.salary?.salaryDetails || {});
+                const updated = updatedSalary.salary.find(
+                  (sal) => String(sal.employeeId) === String(selectedEmployee._id)
+                );
+                if (updated) {
+                  setSelectedSalaryEmployee(updated);
+                  setAccountDetails(updated); // Update bank details too
+                  setSalaryDetails(updated.salaryStructure || {});
+                }
               }
             }
           } catch (error) {
@@ -236,7 +240,7 @@ const SalaryDescription = () => {
               <SalaryDetails
                 isSalaryEditMode={isSalaryEditMode}
                 setIsSalaryEditMode={setIsSalaryEditMode}
-                handleSalaryEditToggle={handleSalaryEditToggle}
+                handleCtcEditToggle={handleCtcEditToggle}
                 selectedEmployeeSalary={selectedEmployeeSalary}
                 salaryDetails={salaryDetails}
                 handleSalaryChange={handleSalaryChange}

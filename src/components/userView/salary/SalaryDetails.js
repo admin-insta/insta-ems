@@ -1,17 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import Button from "../../utils/theme/Button";
 import InputField from "../../utils/theme/InputField";
-
+import { RiMoneyRupeeCircleFill } from "react-icons/ri";
 const SalaryDetails = ({
   isSalaryEditMode,
   setIsSalaryEditMode,
-  handleSalaryEditToggle,
+  handleCtcEditToggle,
   selectedEmployeeSalary,
   salaryDetails,
-  handleSalaryChange,
+  handleSalaryChange
 }) => {
   return (
-   
     <div className="shadow-md p-2 mt-2">
       <div className="flex justify-between items-center my-2 bg-[#BDBAA2] p-2">
         <span className="font-semibold text-base">Salary Details</span>
@@ -24,72 +23,89 @@ const SalaryDetails = ({
               Cancel
             </Button>
           )}
-          <Button onClick={handleSalaryEditToggle}>
+          <Button onClick={handleCtcEditToggle}>
             {isSalaryEditMode
               ? "Save"
               : selectedEmployeeSalary
-              ? "Update"
-              : "Add"}
+              ? "Revise CTC"
+              : "Add CTC"}
           </Button>
         </div>
       </div>
+
       <div className="border p-2 bg-[#BDBAA2]">
-        <InputField
-          label="Basic *"
-          name="basic"
-          value={salaryDetails?.basic}
-          onChange={handleSalaryChange}
-          disabled={!isSalaryEditMode}
-        />
-        <InputField
-          label="HRA *"
-          name="hra"
-          value={salaryDetails?.hra}
-          onChange={handleSalaryChange}
-          disabled={!isSalaryEditMode}
-        />
-        <InputField
-          label="special Allowance  *"
-          name="special Allowance "
-          value={salaryDetails?.specialAllowance}
-          onChange={handleSalaryChange}
-          disabled={!isSalaryEditMode}
-        />
-        <InputField
-          label="Income Tax *"
-          name="Income tax"
-          value={salaryDetails?.incomeTax}
-          onChange={handleSalaryChange}
-          disabled={!isSalaryEditMode}
-        />
-        <InputField
-          label="Professional Tax *"
-          name="professionalTax"
-          value={salaryDetails?.professionalTax}
-          onChange={handleSalaryChange}
-          disabled={!isSalaryEditMode}
-        />
-        <InputField
-          label=" Deduction *"
-          name="Deduction"
-          value={salaryDetails?.deductions}
-          onChange={handleSalaryChange}
-          disabled={!isSalaryEditMode}
-        />
-        <InputField
-          label=" PF Of Employee *"
-          name="PF Of Employee"
-          value={salaryDetails?.pfEmployee}
-          onChange={handleSalaryChange}
-          disabled={!isSalaryEditMode}
-        />
-        <InputField
-          label=" PF Of Employee *"
-          name="PF Of Employer"
-          value={salaryDetails?.pfEmployer}
-          onChange={handleSalaryChange}
-          disabled={!isSalaryEditMode}
-        />
+        {/* CTC Editable */}
+        <div className="flex justify-between items-center my-2">
+          <Button variant="primary"> CTC Amount</Button>
+          <InputField
+            name="ctc"
+            value={salaryDetails?.ctc}
+            onChange={handleSalaryChange}
+            disabled={!isSalaryEditMode}
+          />
+        </div>
+
+        {/* Salary fields (Non Editable) */}
+        <div className="flex justify-between my-1 p-2 bg-white rounded-sm">
+          <span>Basic -</span>
+          <span className="flex items-center">
+            <RiMoneyRupeeCircleFill className="h-5 w-5 mr-1 text-gray-700" />
+            {salaryDetails?.basic}
+          </span>
+        </div>
+        <div className="flex justify-between my-1 p-2 bg-white rounded-sm">
+          <span>HRA -</span>
+          <span className="flex items-center">
+            <RiMoneyRupeeCircleFill className="h-5 w-5 mr-1 text-gray-700" />
+            {salaryDetails?.hra}
+          </span>
+        </div>
+        <div className="flex justify-between my-1 p-2 bg-white rounded-sm">
+          <span>Special Allowance -</span>
+          <span className="flex items-center">
+            <RiMoneyRupeeCircleFill className="h-5 w-5 mr-1 text-gray-700" />
+            {salaryDetails?.specialAllowance}
+          </span>
+        </div>
+        <div className="flex justify-between my-1 p-2 bg-white rounded-sm">
+          <span>Professional Tax -</span>
+          <span className="flex items-center">
+            <RiMoneyRupeeCircleFill className="h-5 w-5 mr-1 text-gray-700" />
+            {salaryDetails?.professionalTax}
+          </span>
+        </div>
+        <div className="flex justify-between my-1 p-2 bg-white rounded-sm">
+          <span>PF Amount of Employee-</span>
+          <span className="flex items-center">
+            <RiMoneyRupeeCircleFill className="h-5 w-5 mr-1 text-gray-700" />
+            {salaryDetails?.pfEmployee}
+          </span>
+        </div>
+        <div className="flex justify-between my-1 p-2 bg-white rounded-sm">
+          <span>PF Amount of Employer -</span>
+          <span className="flex items-center">
+            <RiMoneyRupeeCircleFill className="h-5 w-5 mr-1 text-gray-700" />
+            {salaryDetails?.pfEmployer}
+          </span>
+        </div>
+        <div className="flex justify-between my-1 p-2 bg-white rounded-sm">
+          <span>Gratuity -</span>
+          <span className="flex items-center">
+            <RiMoneyRupeeCircleFill className="h-5 w-5 mr-1 text-gray-700" />
+            {salaryDetails?.pfEmployer|| "0"}
+          </span>
+        </div>
+        <div className="flex justify-between my-1 p-2 bg-white rounded-sm">
+          Total Earnings
+        </div>
+        <div className="flex justify-between my-1 p-2 bg-white rounded-sm">
+          Total Deductions
+        </div>
+        <div className="flex justify-between my-1 p-2 bg-white rounded-sm">
+          Net Salary
+        </div>
+
+        
       </div>
     </div>
   );

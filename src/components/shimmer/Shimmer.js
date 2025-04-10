@@ -1,49 +1,41 @@
+import React from "react";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+
 const Shimmer = () => {
   return (
     <div className="grid grid-cols-11 gap-4 p-4">
       {/* Sidebar Placeholder */}
-      <div className="col-span-2 hidden sm:block">
-        <div className="h-screen w-full bg-gray-300 animate-pulse rounded-md ">
-          <div className=" flex items-center justify-around p-4">
-            <span></span>
-            <span>
-              <AccountCircleIcon />{" "}
-            </span>
+      <div className="col-span-1 hidden sm:flex flex-col items-center bg-gray-100 h-screen rounded-md shadow-md p-2">
+        <div className="flex flex-col items-center p-4 w-full">
+          <div className="bg-gray-300 rounded-full p-2 animate-pulse">
+            <AccountCircleIcon className="text-4xl text-gray-400" />
           </div>
-          <ul className="mt-2">
-            {[...Array(10)].map((_, index) => (
-              <li
-                key={index}
-                className="h-10 bg-gray-400 animate-pulse rounded-md m-2"
-              ></li>
-            ))}
-          </ul>
+          <div className="h-4 w-16 bg-gray-300 rounded mt-2 animate-pulse"></div>
         </div>
-      </div>
 
-      {/* Main Content Placeholder */}
-
-      {/* Header Placeholder */}
-      {/* <div className="w-full col-span-2 bg-gray-300 animate-pulse rounded-md">
-        <ul className="mt-10">
-          {[...Array(11)].map((_, index) => (
-            <li
-              key={index}
-              className="h-10 bg-gray-400 animate-pulse rounded-md m-2"
-            ></li>
+        <ul className="w-full mt-4 flex-1">
+          {[...Array(9)].map((_, index) => (
+            <li key={index} className="flex justify-center mb-4">
+              <div className="w-4/5 h-10 bg-gray-300 animate-pulse rounded-md"></div>
+            </li>
           ))}
         </ul>
       </div>
 
-      <div className="h-screen col-span-7  bg-gray-300 animate-pulse rounded-md"></div> */}
-      <div className="col-span-9 flex flex-col gap-4">
-        <div className="mt-10 h-20 bg-gray-300 animate-pulse rounded-md m-2"></div>
-        <div className="flex flex-row gap-4 ">
-          <div className="h-64 w-1/3 bg-gray-300 animate-pulse rounded-md m-2"></div>
-          <div className="h-64 w-1/3 bg-gray-300 animate-pulse rounded-md m-2"></div>
-          <div className="h-64 w-1/3 bg-gray-300 animate-pulse rounded-md m-2"></div>
+      {/* Main Content Placeholder */}
+      <div className="col-span-10 flex flex-col gap-4">
+        {/* Top Bar Placeholder */}
+        <div className="h-16 bg-gray-300 animate-pulse rounded-md m-2"></div>
+
+        {/* Cards / Stats Placeholder */}
+        <div className="flex flex-row gap-4 m-2">
+          {[...Array(3)].map((_, index) => (
+            <div key={index} className="flex-1 h-40 bg-gray-300 animate-pulse rounded-md"></div>
+          ))}
         </div>
+
+        {/* Main Section Placeholder */}
+        <div className="flex-1 bg-gray-300 animate-pulse rounded-md m-2 h-[400px]"></div>
       </div>
     </div>
   );

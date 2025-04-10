@@ -58,9 +58,10 @@ export const createSalaryAccount = async (accountDetails) => {
   }
 };
 
-export const createSalary = async (salaryDetails) => {
+//Create Salary from CTC
+export const createSalaryFromCtc = async (salaryDetails) => {
   try {
-    const response = await fetch(`${BASE_URL}/api/salary/updateSalaryDetails`, {
+    const response = await fetch(`${BASE_URL}/api/salary/updateSalaryDetailsFromCTC`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -76,7 +77,7 @@ export const createSalary = async (salaryDetails) => {
     }
   } catch (error) {
     return {
-      succes: false,
+      success: false,
       message: "Something went wrong",
     };
   }
