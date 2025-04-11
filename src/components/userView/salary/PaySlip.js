@@ -6,19 +6,14 @@ import CurrencyBitcoinOutlinedIcon from "@mui/icons-material/CurrencyBitcoinOutl
 import { setSelectedEmployee } from "../../store/employeeSlice";
 import Men_Dummy from "../../utils/images/Men_Dummy.jpg";
 import jsPDF from "jspdf";
-import html2canvas from "html2canvas";
-import useSalaryCalculations from "../../utils/useSalaryCalculation";
 
 const PaySlip = () => {
   const dispatch = useDispatch();
   const employee = useSelector((store) => store.employee || []);
   const selectedEmployee = useSelector(
     (store) => store?.employee?.selectedEmployee
-  );
-  const selectedSalary = useSelector((store) => store?.salary?.selectedSalary);
-  const { totalEarnings, totalDeductions, netSalary } = useSalaryCalculations(
-    selectedSalary?.salaryStructure
-  );
+  ); 
+  const salary = useSelector((store)=>store?.salary?.salary?.salary);
   const pdfRef = useRef(); // Reference for PDF generation
 
   useEffect(() => {
@@ -65,19 +60,19 @@ const PaySlip = () => {
     pdf.text("Earnings", 15, 65);
     pdf.setFontSize(10);
     pdf.text(
-      `Basic Salary: ₹ ${selectedSalary?.salaryStructure?.basic || 0}`,
+      `Basic Salary: ₹ ${salary?.salaryStructure?.basic || 0}`,
       15,
       72
     );
-    pdf.text(`HRA: ₹ ${selectedSalary?.salaryStructure?.hra || 0}`, 15, 77);
+    pdf.text(`HRA: ₹ ${salary?.salaryStructure?.hra || 0}`, 15, 77);
     pdf.text(
       `Special Allowance: ₹ ${
-        selectedSalary?.salaryStructure?.specialAllowance || 0
+        salary?.salaryStructure?.specialAllowance || 0
       }`,
       15,
       82
     );
-    pdf.text(`Total Earnings: ₹ ${totalEarnings || 0}`, 15, 90);
+    pdf.text(`Total Earnings: ₹ ${salary?.totalEarnings || 0}`, 15, 90);
 
     // **Deductions Section**
     pdf.setFontSize(12);
@@ -85,23 +80,23 @@ const PaySlip = () => {
     pdf.setFontSize(10);
     pdf.text(
       `Professional Tax: ₹ ${
-        selectedSalary?.salaryStructure?.professionalTax || 0
+        salary?.salaryStructure?.professionalTax || 0
       }`,
       110,
       72
     );
     pdf.text(
-      `Income Tax: ₹ ${selectedSalary?.salaryStructure?.incomeTax || 0}`,
+      `Income Tax: ₹ ${salary?.salaryStructure?.incomeTax || 0}`,
       110,
       77
     );
-    pdf.text(`Total Deductions: ₹ ${totalDeductions || 0}`, 110, 85);
+    pdf.text(`Total Deductions: ₹ ${salary?.totalDeductions || 0}`, 110, 85);
 
     // **Net Pay**
     pdf.setFontSize(12);
     pdf.text("Net Salary", 15, 100);
     pdf.setFontSize(10);
-    pdf.text(`₹ ${netSalary || 0}`, 15, 107);
+    pdf.text(`₹ ${salary?.netSalary || 0}`, 15, 107);
 
     // **Footer**
     pdf.line(10, 285, 200, 285);
@@ -140,7 +135,7 @@ const PaySlip = () => {
               <div className="mx-2 gap-2 grid grid-cols-12 p-2 bg-[#d1cbc1] rounded-md shadow-md">
                 <div className="col-span-9 flex flex-col items-start min-w-0">
                   <div className="text-8xl">
-                    <img className="h-32" alt="profile-pic" src={Men_Dummy} />
+                    <img className="h-24" alt="profile-pic" src={Men_Dummy} />
                   </div>
                   <div className="text-xs border-b">
                     EMAIL ID: {selectedEmployee?.email}
@@ -149,9 +144,9 @@ const PaySlip = () => {
                 </div>
                 <div className="col-span-3 flex flex-col min-w-0">
                   <div className="border-b whitespace-nowrap">
-                    {selectedEmployee?.name || "Ashish Kumar"}
+                    {selectedEmployee?.name || "No Name"}
                   </div>
-                  <div className="border-b whitespace-nowrap">
+                  <div className="border-b whitespace-nowrap text-sm">
                     {selectedEmployee?.designation || "Software Developer"}
                   </div>
                 </div>
@@ -167,21 +162,21 @@ const PaySlip = () => {
                   </div>
                   <div className="p-2 border-b flex justify-between">
                     <span>BASIC</span>
-                    <span>{selectedSalary?.salaryStructure?.basic}</span>
+                    <span>{salary?.salaryStructure?.basic}</span>
                   </div>
                   <div className="p-2 border-b flex justify-between">
                     <span>HRA</span>
-                    <span>{selectedSalary?.salaryStructure?.hra}</span>
+                    <span>{salary?.salaryStructure?.hra}</span>
                   </div>
                   <div className="p-2 border-b flex justify-between">
                     <span>SPECIAL ALLOWANCE</span>
                     <span>
-                      {selectedSalary?.salaryStructure?.specialAllowance}
+                      {salary?.salaryStructure?.specialAllowance}
                     </span>
                   </div>
                   <div className="p-2 bg-white flex justify-between">
                     <span>Total Earnings:</span>
-                    <span>{totalEarnings}</span>
+                    <span>{salary?.totalEarnings}</span>
                   </div>
                 </div>
 
@@ -194,20 +189,24 @@ const PaySlip = () => {
                   <div className="p-2 border-b flex justify-between">
                     <span>Professional Tax</span>
                     <span>
-                      {selectedSalary?.salaryStructure?.professionalTax}
+                      {salary?.salaryStructure?.professionalTax}
                     </span>
                   </div>
                   <div className="p-2 border-b flex justify-between">
                     <span>Income Tax</span>
-                    <span>{selectedSalary?.salaryStructure?.incomeTax}</span>
+                    <span>{salary?.salaryStructure?.incomeTax}</span>
+                  </div>
+                  <div className="p-2 border-b flex justify-between">
+                    <span>Other deductions </span>
+                    <span>{salary?.salaryStructure?.deductions}</span>
                   </div>
                   <div className="p-2 border-b flex justify-between">
                     <span>Total Deductions:</span>
-                    <span>{totalDeductions}</span>
+                    <span>{salary?.totalDeductions}</span>
                   </div>
                   <div className="p-2 bg-white flex justify-between">
                     <span>Net Pay:</span>
-                    <span>{netSalary}</span>
+                    <span>{salary?.netSalary}</span>
                   </div>
                 </div>
               </div>

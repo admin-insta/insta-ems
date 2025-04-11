@@ -4,22 +4,27 @@ import ConfirmationDialog from "../../utils/theme/ConfirmationDialog";
 import Men_Dummy from "../../utils/images/Men_Dummy.jpg";
 import { toast } from "react-toastify";
 import {
-  createSalary,
   createSalaryAccount,
   createSalaryFromCtc,
   fetchSalary,
 } from "../../../api/salary";
 import { useDispatch, useSelector } from "react-redux";
-import { addSalary } from "../../store/salarySlice";
+import { setSalary } from "../../store/salarySlice";
 import BankAccountDetails from "./BankAccountDetails";
 import SalaryDetails from "./SalaryDetails";
+
 const SalaryDescription = () => {
   const dispatch = useDispatch();
-  const salaries = useSelector((store) => store?.salary?.salaries.flat() || []);
-  const [selectedEmployeeSalary, setSelectedSalaryEmployee] = useState(null);
+  const salary = useSelector((store) => store?.salary?.salary?.salary);
   const selectedEmployee = useSelector(
     (store) => store?.employee?.selectedEmployee
   );
+
+  const [selectedEmployeeSalary, setSelectedSalaryEmployee] = useState(null);
+
+  const [accountDetails, setAccountDetails] = useState(null);
+  const [salaryDetails, setSalaryDetails] = useState(null);
+
   const [isEmployeeEditMode, setIsEmployeeEditMode] = useState(false);
   const [isSalaryEditMode, setIsSalaryEditMode] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
@@ -29,87 +34,54 @@ const SalaryDescription = () => {
     onConfirm: () => {},
   });
 
-  const [accountDetails, setAccountDetails] = useState({
-    employeeId: selectedEmployee?._id,
-    bankName: selectedEmployeeSalary?.bankName || "",
-    panNumber: selectedEmployeeSalary?.panNumber || "",
-    ifscCode: selectedEmployeeSalary?.ifscCode || "",
-    uanNumber: selectedEmployeeSalary?.uanNumber || "",
-    accountNumber: selectedEmployeeSalary?.accountNumber || "",
-    pfNumberOfEmployee: selectedEmployeeSalary?.pfNumberOfEmployee || "",
-    pfNumberOfEmployer: selectedEmployeeSalary?.pfNumberOfEmployer || "",
-  });
-
-  const [salaryDetails, setSalaryDetails] = useState({
-    employeeId: selectedEmployee?._id,
-    ctc:selectedEmployeeSalary?.salaryStructure?.ctc || "Rs. 0",
-    basic: selectedEmployeeSalary?.salaryStructure?.basic || "Rs. 0",
-    hra: selectedEmployeeSalary?.salaryStructure?.hra || "Rs. 0",
-    bonus: selectedEmployeeSalary?.salaryStructure?.bonus || "Rs. 0",
-    specialAllowance:
-      selectedEmployeeSalary?.salaryStructure?.specialAllowance || "Rs. 0",
-    professionaltax:
-      selectedEmployeeSalary?.salaryStructure?.professionaltax || "Rs. 0",
-    incomeTax: selectedEmployeeSalary?.salaryStructure?.incomeTax || "Rs. 0",
-    deductions: selectedEmployeeSalary?.salaryStructure?.deductions || "Rs. 0",
-    pfEmployee:
-      selectedEmployeeSalary?.salaryStructure?.pfEmployee || "Rs. 0000",
-    pfEmployer:
-      selectedEmployeeSalary?.salaryStructure?.pfEmployer || "Rs. 0000",
-  });
-  // 🔹 Fetch salaries when the component mounts
   useEffect(() => {
     const getSalary = async () => {
-      const result = await fetchSalary();
+      if (!selectedEmployee?._id) return;
+      const result = await fetchSalary(selectedEmployee._id);
       if (result.success) {
-        dispatch(addSalary(result.salary));
+        dispatch(setSalary(result.salary));
       } else {
         console.error(result.message);
       }
     };
     getSalary();
-  }, [accountDetails, salaryDetails]); // ✅ Combined
-  
+  }, [selectedEmployee]);
 
   useEffect(() => {
-    if (selectedEmployee) {
-      const foundSalary = salaries.find(
-        (sal) => String(sal.employeeId) === String(selectedEmployee._id)
-      );
-      if (foundSalary) {
-        setSelectedSalaryEmployee(foundSalary);
-        setAccountDetails(foundSalary);
-        setSalaryDetails(foundSalary?.salaryStructure);
-      } else {
-        setSelectedSalaryEmployee(null);
-        setAccountDetails({
-          employeeId: selectedEmployee._id,
-          bankName: "",
-          panNumber: "",
-          ifscCode: "",
-          uanNumber: "",
-          accountNumber: "",
-          pfNumberOfEmployee: "",
-          pfNumberOfEmployer: "",
-        });
-        setSalaryDetails({
-          basic: " Rs. 0",
-          hra: "Rs. 0",
-          bonus: "Rs. 0",
-          specialAllowance: "Rs. 0",
-          incomeTax: "Rs. 0",
-          professionalTax: "Rs. 0",
-          deductions: "Rs. 0",
-          pfEmployee: "Rs. 0",
-          pfEmployer: "Rs. 0",
-        });
-      }
-
-      // 👉 Reset edit modes when employee changes
-      setIsEmployeeEditMode(false);
-      setIsSalaryEditMode(false);
+    if (salary && selectedEmployee?._id) {
+      setSelectedSalaryEmployee(salary);
+      setAccountDetails({
+        employeeId: selectedEmployee?._id,
+        bankName: salary?.bankName || "",
+        panNumber: salary?.panNumber || "",
+        ifscCode: salary?.ifscCode || "",
+        uanNumber: salary?.uanNumber || "",
+        accountNumber: salary?.accountNumber || "",
+        pfNumberOfEmployee: salary?.pfNumberOfEmployee || "",
+        pfNumberOfEmployer: salary?.pfNumberOfEmployer || "",
+      });
+      setSalaryDetails({
+        employeeId: selectedEmployee._id,
+        ctc: salary.salaryStructure?.ctc || "Rs. 0",
+        basic: salary.salaryStructure?.basic || "Rs. 0",
+        hra: salary.salaryStructure?.hra || "Rs. 0",
+        bonus: salary.salaryStructure?.bonus || "Rs. 0",
+        specialAllowance: salary.salaryStructure?.specialAllowance || "Rs. 0",
+        professionalTax: salary.salaryStructure?.professionalTax || "Rs. 0",
+        incomeTax: salary.salaryStructure?.incomeTax || "Rs. 0",
+        deductions: salary.salaryStructure?.deductions || "Rs. 0",
+        pfEmployee: salary.salaryStructure?.pfEmployee || "Rs. 0",
+        pfEmployer: salary.salaryStructure?.pfEmployer || "Rs. 0",
+        totalEarnings: salary?.totalEarnings || "Rs. 0",
+        totalDeductions: salary?.totalDeductions || "Rs. 0",
+        netSalary: salary?.netSalary || "Rs. 0",
+      });
+    } else {
+      setSelectedSalaryEmployee(null);
+      setAccountDetails(null);
+      setSalaryDetails(null);
     }
-  }, [selectedEmployee]);
+  }, [salary, selectedEmployee]);
 
   const confirmActionHandler = (title, message, action) => {
     setDialogConfig({
@@ -125,7 +97,6 @@ const SalaryDescription = () => {
 
   const handleEmployeeEditToggle = () => {
     if (isEmployeeEditMode) {
-      // 🛑 Validation: Check if any field in accountDetails is empty
       const isFormValid = Object.values(accountDetails).every(
         (value) => value !== null && value !== undefined && value !== ""
       );
@@ -134,22 +105,25 @@ const SalaryDescription = () => {
         toast.error("Fill all the fields before saving.");
         return;
       }
-      // Save logic
+
       confirmActionHandler(
         "Confirm Employee Save",
         "Are you sure you want to save the changes?",
         async () => {
           try {
-            const result = await createSalaryAccount(accountDetails);
+            console.log("Account Details", accountDetails);
+            const payload = {
+              employeeId: selectedEmployee?._id,
+              ...accountDetails,
+            };
+            const result = await createSalaryAccount(payload);
             if (result.success) {
-              const updatedSalaryAccount = await fetchSalary();
+              const updatedSalaryAccount = await fetchSalary(
+                selectedEmployee._id
+              );
               if (updatedSalaryAccount.success) {
-                setAccountDetails(
-                  updatedSalaryAccount.salary?.accountDetails || {}
-                );
-                setSalaryDetails(
-                  updatedSalaryAccount.salary?.salaryDetails || {}
-                );
+                dispatch(setSalary(updatedSalaryAccount.salary));
+                toast.success("Bank details saved successfully!");
               }
             }
           } catch (error) {
@@ -171,34 +145,28 @@ const SalaryDescription = () => {
         async () => {
           try {
             const payload = {
-              ctc:salaryDetails.ctc,
-              employeeId: selectedEmployee?._id, // ✅ Ensure employeeId is included
+              ctc: salaryDetails.ctc,
+              employeeId: selectedEmployee?._id,
             };
             const result = await createSalaryFromCtc(payload);
             if (result.success) {
-              const updatedSalary = await fetchSalary();
-              console.log("updatedSalary", updatedSalary);
+              const updatedSalary = await fetchSalary(selectedEmployee._id);
               if (updatedSalary.success) {
-                const updated = updatedSalary.salary.find(
-                  (sal) => String(sal.employeeId) === String(selectedEmployee._id)
-                );
-                if (updated) {
-                  setSelectedSalaryEmployee(updated);
-                  setAccountDetails(updated); // Update bank details too
-                  setSalaryDetails(updated.salaryStructure || {});
-                }
+                dispatch(setSalary(updatedSalary.salary));
+                toast.success("Salary updated!");
               }
             }
           } catch (error) {
             console.log("Something went wrong", error);
           }
-          setIsEmployeeEditMode(false);
+          setIsSalaryEditMode(false);
         }
       );
     } else {
       setIsSalaryEditMode(true);
     }
   };
+
   const handleEmployeeChange = (e) => {
     const { name, value } = e.target;
     setAccountDetails({ ...accountDetails, [name]: value });
@@ -217,7 +185,7 @@ const SalaryDescription = () => {
         description={
           <>
             <div className="border p-4 flex justify-between bg-[#BDBAA2] text-gray-900">
-              <div className="">
+              <div>
                 <img className="h-12" alt="profile-pic" src={Men_Dummy} />
               </div>
               <div>
@@ -225,31 +193,28 @@ const SalaryDescription = () => {
                 <div className="text-xs">{selectedEmployee?.designation}</div>
               </div>
             </div>
+
             <form className="grid border grid-cols-2 gap-4">
-              {/* Employee Details Section */}
               <BankAccountDetails
                 isEmployeeEditMode={isEmployeeEditMode}
-                setIsEmployeeEditMode={setIsEmployeeEditMode}
                 handleEmployeeEditToggle={handleEmployeeEditToggle}
                 selectedEmployeeSalary={selectedEmployeeSalary}
                 accountDetails={accountDetails}
                 handleEmployeeChange={handleEmployeeChange}
+                setIsEmployeeEditMode={setIsEmployeeEditMode}
               />
-
-              {/* Salary Details Section */}
               <SalaryDetails
                 isSalaryEditMode={isSalaryEditMode}
-                setIsSalaryEditMode={setIsSalaryEditMode}
                 handleCtcEditToggle={handleCtcEditToggle}
                 selectedEmployeeSalary={selectedEmployeeSalary}
                 salaryDetails={salaryDetails}
                 handleSalaryChange={handleSalaryChange}
+                setIsSalaryEditMode={setIsSalaryEditMode}
               />
             </form>
           </>
         }
       />
-      {/* Confirmation Dialog */}
       <ConfirmationDialog
         open={showConfirmation}
         onClose={() => setShowConfirmation(false)}
@@ -260,4 +225,5 @@ const SalaryDescription = () => {
     </div>
   );
 };
+
 export default SalaryDescription;

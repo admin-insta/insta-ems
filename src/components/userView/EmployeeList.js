@@ -3,7 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 import Card from "../utils/theme/Cards";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import { setSelectedEmployee } from "../store/employeeSlice";
-import { setSelectedSalary } from "../store/salarySlice";
+import { setSalary } from "../store/salarySlice";
+import { fetchSalary } from "../../api/salary"; // 👈 make sure this API accepts employeeId
+
 const EmployeeList = ({ handleAddEmployee }) => {
   const dispatch = useDispatch();
   const employees = useSelector((store) => store?.employee?.employees || []);
@@ -11,28 +13,30 @@ const EmployeeList = ({ handleAddEmployee }) => {
   const selectedEmployee = useSelector(
     (store) => store?.employee?.selectedEmployee
   );
-  const salaries = useSelector((store) => store?.salary?.salaries || []);
-  const selectedSalary = useSelector((store) => store?.salary?.selectedSalary);
 
   useEffect(() => {
-    if (employees.length > 0 && !selectedEmployee) {
-      const firstEmployee = employees[0];
-      dispatch(setSelectedEmployee(firstEmployee));
+    const fetchInitialData = async () => {
+      if (employees.length > 0 && !selectedEmployee) {
+        const firstEmployee = employees[0];
+        dispatch(setSelectedEmployee(firstEmployee));
+        const result = await fetchSalary(firstEmployee._id);
+        if (result.success) {
+          dispatch(setSalary(result.salary));
+        }
+      }
+    };
 
-      const firstSalary =
-        salaries.flat().find((sal) => sal.employeeId === firstEmployee._id) ||
-        null;
-      dispatch(setSelectedSalary(firstSalary));
-    }
-  }, [employees, salaries]);
+    fetchInitialData();
+  }, [employees]);
 
-  const handleEmployeeClick = (employee) => {
+  const handleEmployeeClick = async (employee) => {
     dispatch(setSelectedEmployee(employee));
-    const employeeSalary =
-      salaries.flat().find((sal) => sal.employeeId === employee._id) || null;
-
-    // Dispatch setSelectedSalary
-    dispatch(setSelectedSalary(employeeSalary));
+    const result = await fetchSalary(employee._id);
+    if (result.success) {
+      dispatch(setSalary(result.salary));
+    } else {
+      dispatch(setSalary(null));
+    }
   };
 
   // Filter employees by email or name (case-insensitive)
@@ -79,11 +83,11 @@ const EmployeeList = ({ handleAddEmployee }) => {
             <div className="flex flex-col ">
               {filteredEmployees.length > 0 ? (
                 filteredEmployees.map((employee) => (
-                  <div 
+                  <div
                     key={employee?._id}
                     className={`p-1 mt-1 border border-gray-400 rounded-md cursor-pointer transition hover:bg-white ${
                       selectedEmployee?._id === employee?._id
-                        ? "bg-white" // Selected employee stays white
+                        ? "bg-white"
                         : "bg-clay  hover:bg-gray-100"
                     }`}
                     onClick={() => handleEmployeeClick(employee)}

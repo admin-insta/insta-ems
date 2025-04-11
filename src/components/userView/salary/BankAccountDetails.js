@@ -33,25 +33,28 @@ const BankAccountDetails = ({
           </Button>
         </div>
       </div>
-      <div className="border p-2 bg-[#BDBAA2]">
+
+      <div className="border p-2 bg-[#BDBAA2] flex flex-col gap-2">
         <InputField
           label="PAN Number *"
           name="panNumber"
-          value={accountDetails?.panNumber}
+          value={accountDetails?.panNumber || ""}
           onChange={handleEmployeeChange}
           disabled={!isEmployeeEditMode}
         />
-        <div className="my-2">
-          <label className="text-xs font-medium text-blue-700">
-            Bank Name
-          </label>
+
+        <div>
+          <label className="text-xs font-medium text-blue-700">Bank Name *</label>
           <select
             name="bankName"
             value={accountDetails?.bankName || ""}
             onChange={handleEmployeeChange}
             disabled={!isEmployeeEditMode}
-            className="w-full p-2 border rounded-md"
+            className="w-full p-2 mt-1 border rounded-md"
           >
+            <option value="" disabled>
+              Select Bank
+            </option>
             {bankList.map((bank, index) => (
               <option key={index} value={bank}>
                 {bank}
@@ -59,38 +62,39 @@ const BankAccountDetails = ({
             ))}
           </select>
         </div>
+
         <InputField
           label="Bank Account Number *"
           name="accountNumber"
-          value={accountDetails?.accountNumber}
+          value={accountDetails?.accountNumber || ""}
           onChange={handleEmployeeChange}
           disabled={!isEmployeeEditMode}
         />
         <InputField
           label="IFSC Code *"
           name="ifscCode"
-          value={accountDetails?.ifscCode}
+          value={accountDetails?.ifscCode || ""}
           onChange={handleEmployeeChange}
           disabled={!isEmployeeEditMode}
         />
         <InputField
           label="UAN Number *"
           name="uanNumber"
-          value={accountDetails?.uanNumber}
+          value={accountDetails?.uanNumber || ""}
           onChange={handleEmployeeChange}
           disabled={!isEmployeeEditMode}
         />
         <InputField
           label="PF Number of Employee *"
           name="pfNumberOfEmployee"
-          value={accountDetails?.pfNumberOfEmployee}
+          value={accountDetails?.pfNumberOfEmployee || ""}
           onChange={handleEmployeeChange}
           disabled={!isEmployeeEditMode}
         />
         <InputField
           label="PF Number of Employer *"
           name="pfNumberOfEmployer"
-          value={accountDetails?.pfNumberOfEmployer}
+          value={accountDetails?.pfNumberOfEmployer || ""}
           onChange={handleEmployeeChange}
           disabled={!isEmployeeEditMode}
         />

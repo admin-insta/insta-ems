@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "../../utils/theme/Button";
 import { useSelector } from "react-redux";
-import useSalaryCalculations from "../../utils/useSalaryCalculation";
 import { RiMoneyRupeeCircleFill } from "react-icons/ri";
 
 const PackageInfo = () => {
@@ -9,48 +8,22 @@ const PackageInfo = () => {
     (store) => store?.employee?.selectedEmployee
   );
   const selectedEmployeeSalary = useSelector(
-    (store) => store?.salary?.selectedSalary
+    (store) => store?.salary?.salary?.salary
   );
 
+  const totalEarnings = selectedEmployeeSalary?.salaryStructure?.ctc || 0;
+  const monthlyCTC = (totalEarnings / 12).toFixed(2);
+  const yearlyCTC = totalEarnings.toFixed(2);
+
   const [visibleRows, setVisibleRows] = useState({});
-  const [salaryDetails, setSalaryDetails] = useState({});
-
-  // Update salaryDetails when selectedEmployeeSalary changes
   useEffect(() => {
-    if (selectedEmployeeSalary) {
-      setSalaryDetails({
-        employeeId: selectedEmployee?._id,
-        basic: selectedEmployeeSalary?.salaryStructure?.basic || "Rs. 0",
-        hra: selectedEmployeeSalary?.salaryStructure?.hra || "Rs. 00000",
-        bonus: selectedEmployeeSalary?.salaryStructure?.bonus || "Rs. 0000",
-        specialAllowance:
-          selectedEmployeeSalary?.salaryStructure?.specialAllowance ||
-          "Rs. 0000",
-        professionaltax:
-          selectedEmployeeSalary?.salaryStructure?.professionaltax || "Rs. 0",
-        incomeTax:
-          selectedEmployeeSalary?.salaryStructure?.incomeTax || "Rs. 0",
-        deductions:
-          selectedEmployeeSalary?.salaryStructure?.deductions || "Rs. 0",
-        pfEmployee:
-          selectedEmployeeSalary?.salaryStructure?.pfEmployee || "Rs. 0000",
-        pfEmployer:
-          selectedEmployeeSalary?.salaryStructure?.pfEmployer || "Rs. 0000",
-      });
-    }
-  }, [selectedEmployeeSalary, selectedEmployee]);
-
-  // Recalculate salary when salaryDetails change
-  const { totalEarnings, yearlyTotalEarnings, totalDeductions, netSalary } =
-    useSalaryCalculations(salaryDetails);
-
-  console.log("totalEarnings", totalEarnings);
-
+    setVisibleRows({});
+  }, [selectedEmployee?._id]);
   const packageDetails = [
     {
       year: 2025,
-      monthlyCTC: "₹60,000",
-      yearlyCTC: "₹7,20,000",
+      monthlyCTC,
+      yearlyCTC,
       proration: "90%",
     },
     {
@@ -71,7 +44,8 @@ const PackageInfo = () => {
     setVisibleRows((prev) => ({ ...prev, [year]: !prev[year] }));
   };
 
-  const maskValue = (value, isVisible) => (isVisible ? value : "* * * * *");
+  const maskValue = (value, isVisible) =>
+    isVisible ? value : "* * * * *";
 
   return (
     <div className="bg-[#d1cbc1]">
@@ -96,13 +70,13 @@ const PackageInfo = () => {
               {visibleRows[item.year] && (
                 <RiMoneyRupeeCircleFill className="h-5 w-5 mr-1 text-gray-700" />
               )}
-              {maskValue(totalEarnings, visibleRows[item.year])}
+              {maskValue(item.monthlyCTC, visibleRows[item.year])}
             </li>
             <li className="flex items-center">
               {visibleRows[item.year] && (
                 <RiMoneyRupeeCircleFill className="h-5 w-5 mr-1 text-gray-700" />
               )}
-              {maskValue(yearlyTotalEarnings, visibleRows[item.year])}
+              {maskValue(item.yearlyCTC, visibleRows[item.year])}
             </li>
             <li>{maskValue(item.proration, visibleRows[item.year])}</li>
             <li>

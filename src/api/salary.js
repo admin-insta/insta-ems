@@ -1,13 +1,13 @@
 const BASE_URL = process.env.REACT_APP_API_BASE_URL || "http://localhost:5000";
 //Read All Salary Account
 
-export const fetchSalary = async () => {
+export const fetchSalary = async (employeeId) => {
   try {
-    const response = await fetch(`${BASE_URL}/api/salary/getSalaryAccount`, {
+    const response = await fetch(`${BASE_URL}/api/salary/getSalaryAccount/${employeeId}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-      },
+      }, 
       credentials: "include",
     });
 
