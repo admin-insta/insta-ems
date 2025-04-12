@@ -132,7 +132,7 @@ const PaySlip = () => {
           description={
             <div ref={pdfRef} className="flex flex-col p-2 shadow-md bg-white">
               {/* Profile Section */}
-              <div className="mx-2 gap-2 grid grid-cols-12 p-2 bg-[#d1cbc1] rounded-md shadow-md">
+              <div className="mx-2 gap-2 grid grid-cols-12 p-2 bg-[#d1cbc1] rounded-sm shadow-sm">
                 <div className="col-span-9 flex flex-col items-start min-w-0">
                   <div className="text-8xl">
                     <img className="h-24" alt="profile-pic" src={Men_Dummy} />
@@ -153,9 +153,9 @@ const PaySlip = () => {
               </div>
 
               {/* Payslip Details Section */}
-              <div className="flex flex-row my-2">
+              <div className="flex flex-row my-1">
                 {/* Earnings Section */}
-                <div className="w-1/2 border shadow-md rounded-md bg-[#d1cbc1] m-2">
+                <div className="w-1/2 border shadow-sm rounded-sm bg-[#d1cbc1] m-2">
                   <p className="p-2 border-b">Earnings</p>
                   <div className="p-2 bg-gray-200 flex justify-end">
                     <span>Amounts in (₹)</span>
@@ -181,7 +181,7 @@ const PaySlip = () => {
                 </div>
 
                 {/* Deductions Section */}
-                <div className="w-1/2 border shadow-md rounded-md bg-[#d1cbc1] m-2">
+                <div className="w-1/2 border shadow-md rounded-sm bg-[#d1cbc1] m-2">
                   <p className="p-2 border-b">Deductions</p>
                   <div className="p-2 bg-gray-200 flex justify-end">
                     <span>Amounts in (₹)</span>
