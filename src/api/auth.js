@@ -9,12 +9,13 @@ export const login = async (email, password) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(loginData),
+        credentials: "include",
       });
       
       const data = await response.json();
       
       if (data.token) {
-        localStorage.setItem("authToken", data.token);
+        //localStorage.setItem("authToken", data.token);
         return { success: true, token: data.token, user: data.user, firstLogin:data.user.firstLogin };
       } else {
         return { success: false, message: "Invalid Credentials" };

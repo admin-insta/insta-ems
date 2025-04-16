@@ -20,21 +20,21 @@ const Header = () => {
   const [showProduct, setShowProduct] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  useEffect(() => {
-    const token = getCookie("authToken");
-    if (token) {
-      // console.log("Token is present");
-      setUser(userData);
-      navigate("/userview");
-    } else {
-      setUser(null);
-      // console.log("Token is missing");
-      dispatch(removeUser()); // Ensure Redux state is cleared when token is missing
-      navigate("/");
-    }
-  }, [getCookie("authToken")]); // Dependency includes userData & authToken
-
-  //Handle Sign In
+  // useEffect(() => {
+  //   const token = getCookie("authToken");  
+  //   if (token) {
+  //     // console.log("Token is present");
+  //     setUser(userData);
+  //     // navigate("/userview");
+  //   } else {
+  //     setUser(null);
+  //     // console.log("Token is missing");
+  //     dispatch(removeUser());  // Ensure Redux state is cleared when token is missing
+  //     navigate("/");
+  //   }
+  // }, [getCookie("authToken")]); // Dependency includes userData & authToken
+  
+//Handle Sign In
   const handleSignIn = () => {
     navigate("/login");
   };
@@ -44,7 +44,7 @@ const Header = () => {
     const result = await logout();
     if (result.success) {
       dispatch(removeUser());
-      deleteCookie("authToken");
+      //deleteCookie("authToken");
       navigate("/");
     }
   };
