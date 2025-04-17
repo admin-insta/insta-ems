@@ -11,7 +11,7 @@ import UserType from "./components/UserType";
 import Reviews from "./components/Reviews";
 import MainPage from "./components/userView/MainPage";
 import EmployeeInfo from "./components/userView/employeeInfo/EmployeeInfo";
-import { Provider } from "react-redux";
+import { Provider, useDispatch, } from "react-redux";
 import appStore from "./components/store/appStore";
 import DemoRequest from "./components/DemoRequest";
 import Attendance from "./components/userView/attendance/Attendance";
@@ -35,8 +35,47 @@ import LeaveCalendar from "./components/userView/leave/LeaveCalendar";
 import HolidayCalendar from "./components/userView/leave/HolidayCalendar";
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
+import { useEffect, useState } from "react";
+import { setUser } from "./components/store/userSlice";
 
-function App() {
+const BASE_URL = process.env.REACT_APP_API_BASE_URL || "http://localhost:5000";
+
+function AppContent() {
+  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const checkLoginStatus = async () => {
+      try {
+        const response = await fetch(`${BASE_URL}/api/users/getLoggedInUser`, {
+          credentials: "include", // sends the cookie
+        });
+
+        const data = await response.json();
+        console.log("Login status response:", data);
+        if (response.ok) {
+          dispatch(setUser({
+                        uid: data.user._id,
+                        email: data.user.email,
+                        name: data.user.name || "No Name",
+                        photoUrl: data.user.photoUrl || "",
+                        firstLogin: data.firstLogin,
+                      }));
+        } else {
+          console.warn("Not logged in or session expired");
+        }
+      } catch (error) {
+        console.error("Error checking login status:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    checkLoginStatus();
+  }, [dispatch]);
+
+  if (loading) return <div>Loading...</div>;
+
   const appRouter = createBrowserRouter([
     {
       path: "/",
@@ -57,12 +96,10 @@ function App() {
         { path: "/demorequest", element: <DemoRequest /> },
       ],
     },
-
     {
       path: "/userview",
       element: <MainPage />,
       children: [
-        // This will redirect from "/userview" to "/userview/userHome"
         { path: "", element: <Navigate to="userHome" replace /> },
         { path: "updateUser", element: <UpdateUserInfo /> },
         { path: "userHome", element: <UserHome /> },
@@ -73,26 +110,25 @@ function App() {
           path: "leave",
           element: <LeaveMain />,
           children: [
-            { index: true, element:<LeaveManagement/> }, // Default child route
+            { index: true, element: <LeaveManagement /> },
             { path: "leave-apply", element: <LeaveApply /> },
-            { path: "leave-balance", element: <LeaveBalance /> }, // ✅ Correct path
+            { path: "leave-balance", element: <LeaveBalance /> },
             { path: "leave-calendar", element: <LeaveCalendar /> },
-            { path: "holiday-calendar", element: <HolidayCalendar/> },
+            { path: "holiday-calendar", element: <HolidayCalendar /> },
           ],
         },
         {
           path: "salaryInfo",
           element: <SalaryInfo />,
           children: [
-            { index: true, element:<SalaryDescription/> }, // Default child route
+            { index: true, element: <SalaryDescription /> },
             { path: "paypackage", element: <PackageInfo /> },
-            { path: "it-statement", element: <ItStatement /> }, // ✅ Correct path
+            { path: "it-statement", element: <ItStatement /> },
             { path: "payslip", element: <PaySlip /> },
-            { path: "ytd-statement", element: <YtdStatement/> },
+            { path: "ytd-statement", element: <YtdStatement /> },
             { path: "payment", element: <SalaryPayment /> },
           ],
         },
-        
         { path: "documentCenter", element: <DocumentCenter /> },
         { path: "expenseClaim", element: <DocumentCenter /> },
         { path: "helpDesk", element: <HelpDesk /> },
@@ -101,6 +137,10 @@ function App() {
     },
   ]);
 
+  return <RouterProvider router={appRouter} />;
+}
+
+function App() {
   return (
     <>
       <ToastContainer
@@ -114,11 +154,10 @@ function App() {
         pauseOnHover
         theme="colored"
       />
-    <Provider store={appStore}>
-      <RouterProvider router={appRouter} />
-    </Provider>
+      <Provider store={appStore}>
+        <AppContent />
+      </Provider>
     </>
-    
   );
 }
 

@@ -82,3 +82,28 @@ export const createSalaryFromCtc = async (salaryDetails) => {
     };
   }
 };
+
+//Update Bank Account Details
+export const updateSalaryAccount = async (accountDetails) => {
+  try{
+    const response = await fetch(`${BASE_URL}/api/salary/updateAccountDetails`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify(accountDetails),
+    }); 
+    const data = await response.json();
+    if (response.ok) {
+      return { success: true, salaryAccount: data };
+    } else {
+      return { success: false, message: data.message || "Failed to update Salary" };
+    }
+  }catch(error){
+    console.log("Error while updating salary account", error);
+    return {
+      success: false,
+      message: "Something went wrong",
+    };    
+  }}

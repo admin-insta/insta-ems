@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import logocompany from "../components/utils/images/logocompany.jpg";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { removeUser } from "./store/userSlice";
-import { deleteCookie, getCookie } from "../cookieStorage/cookie";
 import Button from "../components/utils/theme/Button";
 import LanguageIcon from "@mui/icons-material/Language";
-import FitbitIcon from "@mui/icons-material/Fitbit";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronRightOutlinedIcon from "@mui/icons-material/ChevronRightOutlined";
 import CloseIcon from "@mui/icons-material/Close";
@@ -20,27 +18,17 @@ const Header = () => {
   const [showProduct, setShowProduct] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  // useEffect(() => {
-  //   const token = getCookie("authToken");  
-  //   if (token) {
-  //     // console.log("Token is present");
-  //     setUser(userData);
-  //     // navigate("/userview");
-  //   } else {
-  //     setUser(null);
-  //     // console.log("Token is missing");
-  //     dispatch(removeUser());  // Ensure Redux state is cleared when token is missing
-  //     navigate("/");
-  //   }
-  // }, [getCookie("authToken")]); // Dependency includes userData & authToken
-  
+  useEffect(()=>{
+  userData?navigate("/userview"):navigate("/")  
+  },[userData])
 //Handle Sign In
-  const handleSignIn = () => {
+const handleSignIn = () => {
     navigate("/login");
   };
 
   // Handle Sign Out
   const handleSignOut = async () => {
+    console.log("Logout clicked");
     const result = await logout();
     if (result.success) {
       dispatch(removeUser());
@@ -65,7 +53,7 @@ const Header = () => {
 
             <img
               onClick={() => {
-                user ? navigate("/userview") : navigate("/");
+                userData ? navigate("/userview") : navigate("/");
               }}
               className="h-10 cursor-pointer"
               alt="logo"
@@ -75,7 +63,7 @@ const Header = () => {
 
           {/* Desktop Navigation */}
 
-          {!user && (
+          {!userData && (
             <nav className="hidden lg:flex space-x-6 text-base">
               <span
                 onClick={() => (user ? navigate("/userview") : navigate("/"))}
@@ -112,13 +100,13 @@ const Header = () => {
 
           {/* Right Side Buttons */}
           <div className="hidden lg:flex items-center space-x-4">
-            {!user && (
+            {!userData && (
               <Button onClick={() => navigate("/demorequest")}>
                 Request A Demo
               </Button>
             )}
-            <Button onClick={user ? handleSignOut : handleSignIn}>
-              {user ? "Logout" : "Login"}
+            <Button onClick={userData ? handleSignOut : handleSignIn}>
+              {userData ? "Logout" : "Login"}
             </Button>
             <div className="flex items-center space-x-1 cursor-pointer">
               <LanguageIcon sx={{ fontSize: 24 }} />
@@ -142,7 +130,7 @@ const Header = () => {
             <span
               onClick={() => {
                 setIsMobileMenuOpen(false);
-                user ? navigate("/userview") : navigate("/");
+                userData ? navigate("/userview") : navigate("/");
               }}
               className="block cursor-pointer hover:text-blue-700 transition-all"
             >
@@ -175,7 +163,7 @@ const Header = () => {
               Request A Demo
             </Button>
             <Button onClick={user ? handleSignOut : handleSignIn}>
-              {user ? "Logout" : "Login"}
+              {userData ? "Logout" : "Login"}
             </Button>
           </nav>
         </div>

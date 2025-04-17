@@ -29,7 +29,7 @@ export const fetchUsers = async () => {
 };
 
 
-//Create a new employee
+//Create a new employee 
 export const addUser = async (userData) => {
   try {
     const response = await fetch(`${BASE_URL}/api/users/createUser`, {

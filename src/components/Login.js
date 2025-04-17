@@ -2,8 +2,7 @@ import React, { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { login, signup } from "../api/auth";
-import { setCookie } from "../cookieStorage/cookie";
-import { addUser } from "./store/userSlice"; // Import the Redux action
+import { setUser } from "./store/userSlice"; // Import the Redux action
 import loginbg from "../components/utils/images/loginbg.png";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import VisibilityIcon from "@mui/icons-material/Visibility";
@@ -57,7 +56,7 @@ const Login = () => {
           //setCookie("authToken", data.token, 1); // Store token for 1 day      
           // ✅ Dispatch user details to Redux
           dispatch(
-            addUser({
+            setUser({
               uid: data.user._id,
               email: data.user.email,
               name: data.user.name || "No Name",
