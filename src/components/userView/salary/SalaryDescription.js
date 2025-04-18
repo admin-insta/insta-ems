@@ -7,6 +7,7 @@ import {
   createSalaryAccount,
   createSalaryFromCtc,
   fetchSalary,
+  updateSalaryAccount,
 } from "../../../api/salary";
 import { useDispatch, useSelector } from "react-redux";
 import { setSalary } from "../../store/salarySlice";
@@ -19,13 +20,10 @@ const SalaryDescription = () => {
   const selectedEmployee = useSelector(
     (store) => store?.employee?.selectedEmployee
   );
-
   const [selectedEmployeeSalary, setSelectedSalaryEmployee] = useState(null);
-
   const [accountDetails, setAccountDetails] = useState(null);
   const [salaryDetails, setSalaryDetails] = useState(null);
-
-  const [isEmployeeEditMode, setIsEmployeeEditMode] = useState(false);
+  const [isAccountEditMode, setIsAccountEditMode] = useState(false);
   const [isSalaryEditMode, setIsSalaryEditMode] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [dialogConfig, setDialogConfig] = useState({
@@ -95,8 +93,8 @@ const SalaryDescription = () => {
     setShowConfirmation(true);
   };
 
-  const handleEmployeeEditToggle = () => {
-    if (isEmployeeEditMode) {
+  const handleAccountEditToggle = () => {
+    if (isAccountEditMode) {
       const isFormValid = Object.values(accountDetails).every(
         (value) => value !== null && value !== undefined && value !== ""
       );
@@ -116,7 +114,13 @@ const SalaryDescription = () => {
               employeeId: selectedEmployee?._id,
               ...accountDetails,
             };
-            const result = await createSalaryAccount(payload);
+            let result;
+            if (isAccountEditMode) {
+              result = await updateSalaryAccount(payload);
+            } else {
+              result = await createSalaryAccount(payload);
+            }
+            // const result = await createSalaryAccount(payload);
             if (result.success) {
               const updatedSalaryAccount = await fetchSalary(
                 selectedEmployee._id
@@ -129,11 +133,11 @@ const SalaryDescription = () => {
           } catch (error) {
             console.error("Something went wrong", error);
           }
-          setIsEmployeeEditMode(false);
+          setIsAccountEditMode(false);
         }
       );
     } else {
-      setIsEmployeeEditMode(true);
+      setIsAccountEditMode(true);
     }
   };
 
@@ -196,12 +200,12 @@ const SalaryDescription = () => {
 
             <form className="grid border grid-cols-2 gap-4">
               <BankAccountDetails
-                isEmployeeEditMode={isEmployeeEditMode}
-                handleEmployeeEditToggle={handleEmployeeEditToggle}
+                isAccountEditMode={isAccountEditMode}
+                handleAccountEditToggle={handleAccountEditToggle}
                 selectedEmployeeSalary={selectedEmployeeSalary}
                 accountDetails={accountDetails}
                 handleEmployeeChange={handleEmployeeChange}
-                setIsEmployeeEditMode={setIsEmployeeEditMode}
+                setIsAccountEditMode={setIsAccountEditMode}
               />
               <SalaryDetails
                 isSalaryEditMode={isSalaryEditMode}

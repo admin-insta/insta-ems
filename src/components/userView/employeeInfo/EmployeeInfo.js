@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import EmployeeList from "../EmployeeList";
 import Card from "../../utils/theme/Cards";
-import SettingsAccessibilityOutlinedIcon from "@mui/icons-material/SettingsAccessibilityOutlined";
 import { deleteUser } from "../../../api/users";
 import { setEmployees, setSelectedEmployee } from "../../store/employeeSlice";
 import AddEmployee from "./AddEmployee";

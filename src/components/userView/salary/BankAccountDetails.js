@@ -4,9 +4,9 @@ import InputField from "../../utils/theme/InputField";
 import { bankList } from "../../utils/bankList";
 
 const BankAccountDetails = ({
-  isEmployeeEditMode,
-  setIsEmployeeEditMode,
-  handleEmployeeEditToggle,
+  isAccountEditMode,
+  setIsAccountEditMode,
+  handleAccountEditToggle,
   selectedEmployeeSalary,
   accountDetails,
   handleEmployeeChange,
@@ -16,16 +16,16 @@ const BankAccountDetails = ({
       <div className="flex justify-between items-center my-2 bg-[#BDBAA2] p-2">
         <span className="font-semibold text-base">Bank Account Details</span>
         <div className="flex justify-end items-center gap-2">
-          {isEmployeeEditMode && (
+          {isAccountEditMode && (
             <Button
               variant="secondary"
-              onClick={() => setIsEmployeeEditMode(false)}
+              onClick={() => setIsAccountEditMode(false)}
             >
               Cancel
             </Button>
           )}
-          <Button onClick={handleEmployeeEditToggle}>
-            {isEmployeeEditMode
+          <Button onClick={handleAccountEditToggle}>
+            {isAccountEditMode
               ? "Save"
               : selectedEmployeeSalary
               ? "Update"
@@ -40,7 +40,7 @@ const BankAccountDetails = ({
           name="panNumber"
           value={accountDetails?.panNumber || ""}
           onChange={handleEmployeeChange}
-          disabled={!isEmployeeEditMode}
+          disabled={!isAccountEditMode}
         />
 
         <div>
@@ -49,7 +49,7 @@ const BankAccountDetails = ({
             name="bankName"
             value={accountDetails?.bankName || ""}
             onChange={handleEmployeeChange}
-            disabled={!isEmployeeEditMode}
+            disabled={!isAccountEditMode}
             className="w-full p-2 mt-1 border rounded-md"
           >
             <option value="" disabled>
@@ -68,35 +68,35 @@ const BankAccountDetails = ({
           name="accountNumber"
           value={accountDetails?.accountNumber || ""}
           onChange={handleEmployeeChange}
-          disabled={!isEmployeeEditMode}
+          disabled={!isAccountEditMode}
         />
         <InputField
           label="IFSC Code *"
           name="ifscCode"
           value={accountDetails?.ifscCode || ""}
           onChange={handleEmployeeChange}
-          disabled={!isEmployeeEditMode}
+          disabled={!isAccountEditMode}
         />
         <InputField
           label="UAN Number *"
           name="uanNumber"
           value={accountDetails?.uanNumber || ""}
           onChange={handleEmployeeChange}
-          disabled={!isEmployeeEditMode}
+          disabled={!isAccountEditMode}
         />
         <InputField
           label="PF Number of Employee *"
           name="pfNumberOfEmployee"
           value={accountDetails?.pfNumberOfEmployee || ""}
           onChange={handleEmployeeChange}
-          disabled={!isEmployeeEditMode}
+          disabled={!isAccountEditMode}
         />
         <InputField
           label="PF Number of Employer *"
           name="pfNumberOfEmployer"
           value={accountDetails?.pfNumberOfEmployer || ""}
           onChange={handleEmployeeChange}
-          disabled={!isEmployeeEditMode}
+          disabled={!isAccountEditMode}
         />
       </div>
     </div>
