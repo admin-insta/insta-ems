@@ -1,32 +1,38 @@
 const BASE_URL = process.env.REACT_APP_API_BASE_URL || "http://localhost:5000";
 //Read All the Emoloyee
-export const fetchUsers = async () => {
+export const fetchUsers = async (page = 1, limit = 10) => {
   try {
-    const response = await fetch(`${BASE_URL}/api/users/getAllUsers`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include", // Include credentials in the request
-    });
+    const response = await fetch(
+      `${BASE_URL}/api/users/getAllUsers?page=${page}&limit=${limit}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      }
+    );
 
     const data = await response.json();
     if (response.ok) {
-      return { success: true, users: data };
-    } else {
       return {
-        success: false,
-        message: data.message || "Failed to fetch users",
+        success: true,
+        employees: data?.users,
+        currentPage: data?.currentPage,
+        totalPages: data?.totalPages,
+        totalEmployees: data?.totalUsers,
       };
+    } else {
+      return { success: false, message: data.message };
     }
   } catch (error) {
-    console.error("Error fetching users:", error);
     return {
       success: false,
       message: "Something went wrong. Please try again.",
     };
   }
 };
+
 
 
 //Create a new employee 

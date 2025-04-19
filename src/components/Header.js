@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import logocompany from "../components/utils/images/logocompany.jpg";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { removeUser } from "./store/userSlice";
 import Button from "../components/utils/theme/Button";
@@ -17,12 +17,17 @@ const Header = () => {
   const [user, setUser] = useState(null);
   const [showProduct, setShowProduct] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
-  useEffect(()=>{
-  userData?navigate("/userview"):navigate("/")  
-  },[userData])
-//Handle Sign In
-const handleSignIn = () => {
+  const location = useLocation();
+  useEffect(() => {
+    if (userData) {
+      // only redirect to /userview if you're at the login page
+      if (location.pathname === "/") {
+        navigate("/userview");
+      }
+    }
+  }, [userData]);
+  //Handle Sign In
+  const handleSignIn = () => {
     navigate("/login");
   };
 

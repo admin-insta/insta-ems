@@ -145,18 +145,16 @@ const AddEmployee = ({
           "w-full lg:w-2/3 max-w-5xl mx-auto p-6 rounded-lg shadow-lg bg-white",
       }}
     >
-      <div className="flex flex-col items-center justify-center p-6">
-        <div className="mb-4 text-xl font-semibold text-center">
-          <Button variant="secondary">
-            {isEditForm ? "Edit Employee" : "Add Employee"}
-          </Button>
-        </div>
-
+      <div className="flex flex-col items-center justify-center">
         <form
-          className="w-full max-w-3xl bg-white shadow-lg rounded-lg p-6"
+          className="w-full max-w-3xl bg-white shadow-lg rounded-lg m-2  p-4 border"
           onSubmit={handleFormSubmit}
         >
-          <div className="grid grid-cols-2 gap-4">
+          <div className="bg-clay-light w-full p-4  flex items-center justify-center font-semibold text-xl">
+            {isEditForm ? "Edit Employee" : "Add Employee"}
+          </div>
+
+          <div className="grid grid-cols-2 gap-4 my-4">
             <InputField
               label="First Name"
               name="firstName"
