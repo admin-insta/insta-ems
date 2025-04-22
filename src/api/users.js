@@ -10,7 +10,7 @@ export const fetchUsers = async (page = 1, limit = 10) => {
           "Content-Type": "application/json",
         },
         credentials: "include",
-      }
+      } 
     );
 
     const data = await response.json();

@@ -58,7 +58,7 @@ function AppContent() {
                         uid: data.user._id,
                         email: data.user.email,
                         name: data.user.name || "No Name",
-                        photoUrl: data.user.photoUrl || "",
+                        profilePicture: data.user.profilePicture || "",
                         firstLogin: data.firstLogin,
                       }));
         } else {

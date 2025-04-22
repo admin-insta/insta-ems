@@ -11,8 +11,12 @@ import { LiaUserEditSolid } from "react-icons/lia";
 import { RiDeleteBin2Line } from "react-icons/ri";
 import { FaUserTie } from "react-icons/fa6";
 import { toast } from "react-toastify";
+import { uploadProfilePicture } from "../../../api/profilePicture";
+import { setUser } from "../../store/userSlice";
+import { TbUserEdit } from "react-icons/tb";
 const EmployeeInfo = () => {
   const dispatch = useDispatch();
+  const loggedInUser = useSelector((store) => store?.user);
   const employees = useSelector((store) => store?.employee?.employees || []);
   const selectedEmployee = useSelector(
     (store) => store?.employee?.selectedEmployee
@@ -66,6 +70,37 @@ const EmployeeInfo = () => {
     setConfirmDialog(false);
   };
 
+  const handleProfilePictureChange = async (event) => {
+    const file = event.target.files[0];
+    if (!file) {
+      toast.error("Select Your Image and Try Again");
+      return;
+    }
+
+    try {
+      const response = await uploadProfilePicture(file);
+      console.log("profile pic response", response);
+      if (response.success) {
+        toast.success("Profile picture updated successfully!");
+        dispatch(setSelectedEmployee(response.user)); // Assuming backend returns updatedUser
+        dispatch(
+          setUser({
+            uid: response.user._id,
+            email: response.user.email,
+            name: response.user.name || "No Name",
+            profilePicture: response.user.profilePicture || "",
+            firstLogin: response.firstLogin,
+          })
+        );
+      } else {
+        toast.error(response.message || "Failed to update profile picture");
+      }
+    } catch (err) {
+      console.error("Upload error:", err);
+      toast.error("An error occurred while uploading the picture.");
+    }
+  };
+
   return employees.length === 0 ? (
     <div className="m-4 gap-4">
       There are no employees in your organisation, Add Employee
@@ -89,7 +124,7 @@ const EmployeeInfo = () => {
               <div
                 style={{ display: "flex", alignItems: "center", gap: "8px" }}
               >
-                <FaUserTie className="w-6 h-6" /> Employee Information
+                <FaUserTie className="w-6 h-6" /> Employee Information             
               </div>
               <div className="m-2 flex gap-8">
                 <div
@@ -111,6 +146,7 @@ const EmployeeInfo = () => {
                   }}
                 >
                   <RiDeleteBin2Line className="w-6 h-6 " />
+
                   <span className="text-sm font-semibold">Delete</span>
                 </div>
               </div>
@@ -120,7 +156,37 @@ const EmployeeInfo = () => {
             <div className="p-2">
               {selectedEmployee ? (
                 <div className="bg-clay p-4 border border-clay rounded-md">
-                  <AccountCircleIcon sx={{ fontSize: 72, color: "blue" }} />
+                  {/* Profile Picture or Icon */}
+                  {selectedEmployee?.profilePicture ? (
+                    <img
+                      className="hover:opacity-90 hover:scale-110 transition-all ease-in-out"
+                      src={selectedEmployee.profilePicture}
+                      alt={`${selectedEmployee.name}'s profile`}
+                      style={{
+                        width: "90px",
+                        height: "90px",
+                        borderRadius: "50%",
+                        objectFit: "cover",
+                        objectPosition: "center 10% ", // Ensure the center of the image is shown
+                      }}
+                    />
+                  ) : (
+                    <AccountCircleIcon sx={{ fontSize: 96, color: "blue" }} />
+                  )}
+                  {loggedInUser?.uid === selectedEmployee?._id ? (
+                    <label className="text-blue-700 cursor-pointer text-sm ">
+                      <span className=" items-center inline-flex justify-center ml-1 hover:underline ">Edit Picture <TbUserEdit className="h-4 w-4" /></span>
+                      <input
+                        className="inline-block"
+                        type="file"
+                        accept="image/*"
+                        onChange={handleProfilePictureChange}
+                        style={{ display: "none" }}
+                      />
+                    </label>
+                  ) : null}
+
+                  {/* Details */}
                   {Object.entries(selectedEmployee)
                     .filter(
                       ([key]) =>
@@ -132,6 +198,7 @@ const EmployeeInfo = () => {
                           "createdAt",
                           "updatedAt",
                           "firstLogin",
+                          "profilePicture", // skip displaying the picture path here again
                         ].includes(key)
                     )
                     .map(([key, value]) => (

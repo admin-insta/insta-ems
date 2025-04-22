@@ -111,7 +111,7 @@ const AddEmployee = ({
         if (response.success) {
           console.log(response.user);
           dispatch(updateEmployee(response.user));
-          setConfirmDialog(false);
+          setConfirmDialog(false); 
           toast.success("Employee updated successfully!");
         }
       } else {
@@ -133,6 +133,7 @@ const AddEmployee = ({
     }
 
     setOpenDialog(false);
+    // setConfirmDialog(false)
   };
 
   return (

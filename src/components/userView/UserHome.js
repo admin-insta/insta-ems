@@ -1,11 +1,10 @@
-import React, { useEffect } from "react";
+import React from "react";
 import reviewHome from "../utils/images/reviewHome.jpg";
 import trackList from "../utils/images/trackList.jpg";
 import holidays from "../utils/images/holidays.jpg";
 import Button from "../utils/theme/Button";
 import Card from "../utils/theme/Cards";
 import WbSunnyOutlinedIcon from "@mui/icons-material/WbSunnyOutlined";
-
 
 const UserHome = () => {
   return (

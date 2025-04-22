@@ -12,8 +12,7 @@ import ThumbUpAltOutlinedIcon from "@mui/icons-material/ThumbUpAltOutlined";
 import { useSelector } from "react-redux";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 const SideBar = ({ name }) => {
-  
-  const user = useSelector((store)=>store?.user)
+  const user = useSelector((store) => store?.user);
   // const navigate = useNavigate();
   // useEffect(() => {
   //   if(user?.firstLogin){
@@ -26,7 +25,17 @@ const SideBar = ({ name }) => {
     <div className="bg-clay shadow-lg text-gray-800 h-screen fixed overflow-y-auto flex flex-col items-center p-1">
       {/* User Profile */}
       <div className="flex flex-col items-center p-4">
-        <AccountCircleIcon className="text-4xl" />
+        <img
+          src={user?.profilePicture||""}
+          alt={`${user?.name}'s profile`}
+          style={{
+            width: "60px",
+            height: '60px',
+            borderRadius: "50%",
+            objectFit: "cover",
+            objectPosition: "center 10% ", 
+          }}
+        />
         <span className="text-xs mt-1 text-center">{user?.name || ""}</span>
       </div>
 
@@ -34,21 +43,47 @@ const SideBar = ({ name }) => {
       <ul className="mt-4 w-full flex-1">
         {[
           { to: "/userview/userHome", icon: <HomeIcon />, label: "Home" },
-          { to: "/userview/employeeInfo", icon: <PeopleAltOutlinedIcon />, label: "Employees" },
-          { to: "/userview/AttendanceInfo", icon: <CalendarMonthIcon />, label: "Attendance" },
+          {
+            to: "/userview/employeeInfo",
+            icon: <PeopleAltOutlinedIcon />,
+            label: "Employees",
+          },
+          {
+            to: "/userview/AttendanceInfo",
+            icon: <CalendarMonthIcon />,
+            label: "Attendance",
+          },
           { to: "/userview/leave", icon: <EventBusyIcon />, label: "Leaves" },
-          { to: "/userview/salaryInfo", icon: <CurrencyRupeeIcon />, label: "Salary" },
-          { to: "/userview/documentCenter", icon: <ArticleOutlinedIcon />, label: "Documents" },
-          { to: "/userview/expenseClaim", icon: <MoneyIcon />, label: "Expenses" },
+          {
+            to: "/userview/salaryInfo",
+            icon: <CurrencyRupeeIcon />,
+            label: "Salary",
+          },
+          {
+            to: "/userview/documentCenter",
+            icon: <ArticleOutlinedIcon />,
+            label: "Documents",
+          },
+          {
+            to: "/userview/expenseClaim",
+            icon: <MoneyIcon />,
+            label: "Expenses",
+          },
           { to: "/userview/helpDesk", icon: <PrivacyTipIcon />, label: "Help" },
-          { to: "/userview/feedback", icon: <ThumbUpAltOutlinedIcon />, label: "Feedback" },
+          {
+            to: "/userview/feedback",
+            icon: <ThumbUpAltOutlinedIcon />,
+            label: "Feedback",
+          },
         ].map(({ to, icon, label }) => (
           <li key={to} className="mb-4 flex justify-center">
             <NavLink
               to={to}
               className={({ isActive }) =>
                 `flex flex-col items-center w-full p-2 rounded-md transition-all ease-in-out text-black text-xs text-center ${
-                  isActive ? "bg-white text-black shadow-md" : "text-black hover:text-black hover:bg-gray-100"
+                  isActive
+                    ? "bg-white text-black shadow-md"
+                    : "text-black hover:text-black hover:bg-gray-100"
                 }`
               }
               style={{ textDecoration: "none" }}

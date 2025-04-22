@@ -51,7 +51,7 @@ const Login = () => {
       if (isSignInForm) {
         // 🔹 Login Flow
         data = await login(emailValue, passwordValue);
-
+        console.log("data", data)
         if (data?.token) {
           //setCookie("authToken", data.token, 1); // Store token for 1 day      
           // ✅ Dispatch user details to Redux
@@ -60,7 +60,7 @@ const Login = () => {
               uid: data.user._id,
               email: data.user.email,
               name: data.user.name || "No Name",
-              photoUrl: data.user.photoUrl || "",
+              profilePicture: data.user.profilePicture || "",
               firstLogin: data.firstLogin,
             })
           );
