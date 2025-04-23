@@ -11,7 +11,7 @@ import UserType from "./components/UserType";
 import Reviews from "./components/Reviews";
 import MainPage from "./components/userView/MainPage";
 import EmployeeInfo from "./components/userView/employeeInfo/EmployeeInfo";
-import { Provider, useDispatch, } from "react-redux";
+import { Provider, useDispatch } from "react-redux";
 import appStore from "./components/store/appStore";
 import DemoRequest from "./components/DemoRequest";
 import Attendance from "./components/userView/attendance/Attendance";
@@ -33,49 +33,11 @@ import LeaveApply from "./components/userView/leave/LeaveApply";
 import LeaveBalance from "./components/userView/leave/LeaveBalance";
 import LeaveCalendar from "./components/userView/leave/LeaveCalendar";
 import HolidayCalendar from "./components/userView/leave/HolidayCalendar";
-import 'react-toastify/dist/ReactToastify.css';
-import { ToastContainer } from 'react-toastify';
-import { useEffect, useState } from "react";
-import { setUser } from "./components/store/userSlice";
-
-const BASE_URL = process.env.REACT_APP_API_BASE_URL || "http://localhost:5000";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
+import SessionGuard from "./SessionGuard";
 
 function AppContent() {
-  const dispatch = useDispatch();
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const checkLoginStatus = async () => {
-      try {
-        const response = await fetch(`${BASE_URL}/api/users/getLoggedInUser`, {
-          credentials: "include", // sends the cookie
-        });
-
-        const data = await response.json();
-        console.log("Login status response:", data);
-        if (response.ok) {
-          dispatch(setUser({
-                        uid: data.user._id,
-                        email: data.user.email,
-                        name: data.user.name || "No Name",
-                        profilePicture: data.user.profilePicture || "",
-                        firstLogin: data.firstLogin,
-                      }));
-        } else {
-          console.warn("Not logged in or session expired");
-        }
-      } catch (error) {
-        console.error("Error checking login status:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    checkLoginStatus();
-  }, [dispatch]);
-
-  if (loading) return <div>Loading...</div>;
-
   const appRouter = createBrowserRouter([
     {
       path: "/",
@@ -98,7 +60,11 @@ function AppContent() {
     },
     {
       path: "/userview",
-      element: <MainPage />,
+      element: (
+        <SessionGuard>
+          <MainPage />
+        </SessionGuard>
+      ),
       children: [
         { path: "", element: <Navigate to="userHome" replace /> },
         { path: "updateUser", element: <UpdateUserInfo /> },
