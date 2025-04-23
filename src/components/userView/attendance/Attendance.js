@@ -38,7 +38,9 @@ const Attendance = () => {
             <div className="">
               <div className="flex flex-col">
                 <div className="text-center text-lg font-semibold mb-2 mx-2 flex justify-between ">
+
                   <span>Attendance of - {mockAttendance.name}</span>
+
                   <span className="flex gap-2">
                     <GridViewIcon
                       onClick={() => toggleView("grid")}
@@ -53,6 +55,13 @@ const Attendance = () => {
                       }`}
                     />
                   </span>
+                </div>
+                <div className=" grid grid-flow-col grid-cols-8 gap-2 mb-2 mx-2">
+                  <div className="h-24  bg-white col-span-2 p-2  rounded-sm">Day Reviews</div>
+                  <div className="h-24  bg-white col-span-2 p-2  rounded-sm">Total Working Days</div>
+                  <div className="h-24  bg-white col-span-2  p-2  rounded-sm">Present Days</div>
+                  <div className="h-24  bg-white col-span-2  p-2  rounded-sm">Penality Days</div>
+
                 </div>
 
                 {/* Render content based on view */}

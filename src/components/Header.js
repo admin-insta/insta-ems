@@ -9,7 +9,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import ChevronRightOutlinedIcon from "@mui/icons-material/ChevronRightOutlined";
 import CloseIcon from "@mui/icons-material/Close";
 import { logout } from "../api/auth";
-
+import { toast } from "react-toastify";
 const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -24,6 +24,11 @@ const Header = () => {
       if (location.pathname === "/") {
         navigate("/userview");
       }
+      
+    }
+    else{
+      toast.warn("Session Expired, Please Login Again")
+      navigate("/")
     }
   }, [userData]);
   //Handle Sign In

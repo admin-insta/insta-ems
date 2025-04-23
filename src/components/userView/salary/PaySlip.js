@@ -12,8 +12,8 @@ const PaySlip = () => {
   const employee = useSelector((store) => store.employee || []);
   const selectedEmployee = useSelector(
     (store) => store?.employee?.selectedEmployee
-  ); 
-  const salary = useSelector((store)=>store?.salary?.salary?.salary);
+  );
+  const salary = useSelector((store) => store?.salary?.salary?.salary);
   const pdfRef = useRef(); // Reference for PDF generation
 
   useEffect(() => {
@@ -59,16 +59,10 @@ const PaySlip = () => {
     pdf.setFontSize(12);
     pdf.text("Earnings", 15, 65);
     pdf.setFontSize(10);
-    pdf.text(
-      `Basic Salary: ₹ ${salary?.salaryStructure?.basic || 0}`,
-      15,
-      72
-    );
+    pdf.text(`Basic Salary: ₹ ${salary?.salaryStructure?.basic || 0}`, 15, 72);
     pdf.text(`HRA: ₹ ${salary?.salaryStructure?.hra || 0}`, 15, 77);
     pdf.text(
-      `Special Allowance: ₹ ${
-        salary?.salaryStructure?.specialAllowance || 0
-      }`,
+      `Special Allowance: ₹ ${salary?.salaryStructure?.specialAllowance || 0}`,
       15,
       82
     );
@@ -79,9 +73,7 @@ const PaySlip = () => {
     pdf.text("Deductions", 110, 65);
     pdf.setFontSize(10);
     pdf.text(
-      `Professional Tax: ₹ ${
-        salary?.salaryStructure?.professionalTax || 0
-      }`,
+      `Professional Tax: ₹ ${salary?.salaryStructure?.professionalTax || 0}`,
       110,
       72
     );
@@ -115,7 +107,7 @@ const PaySlip = () => {
         <Card
           variant="primary"
           fullScreen="true"
-          title={ 
+          title={
             <div className="flex justify-between mr-4 font-normal">
               <div className="flex items-center gap-2">
                 <CurrencyBitcoinOutlinedIcon /> Salary Information
@@ -134,8 +126,19 @@ const PaySlip = () => {
               {/* Profile Section */}
               <div className="mx-2 gap-2 grid grid-cols-12 p-2 bg-[#d1cbc1] rounded-sm shadow-sm">
                 <div className="col-span-9 flex flex-col items-start min-w-0">
-                  <div className="text-8xl">
-                    <img className="h-24" alt="profile-pic" src={Men_Dummy} />
+                  <div className="flex items-center justify-center h-20 w-20 rounded-full overflow-hidden border">
+                    <img
+                     style={{
+                      width: "80px",
+                      height: '80px',
+                      borderRadius: "50%",
+                      objectFit: "cover",
+                      objectPosition: "center 10% ", 
+                    }}
+                      className="h-full w-full object-cover"
+                      alt="profile-pic"
+                      src={selectedEmployee?.profilePicture || Men_Dummy}
+                    />
                   </div>
                   <div className="text-xs border-b">
                     EMAIL ID: {selectedEmployee?.email}
@@ -170,9 +173,7 @@ const PaySlip = () => {
                   </div>
                   <div className="p-2 border-b flex justify-between">
                     <span>SPECIAL ALLOWANCE</span>
-                    <span>
-                      {salary?.salaryStructure?.specialAllowance}
-                    </span>
+                    <span>{salary?.salaryStructure?.specialAllowance}</span>
                   </div>
                   <div className="p-2 bg-white flex justify-between">
                     <span>Total Earnings:</span>
@@ -188,9 +189,7 @@ const PaySlip = () => {
                   </div>
                   <div className="p-2 border-b flex justify-between">
                     <span>Professional Tax</span>
-                    <span>
-                      {salary?.salaryStructure?.professionalTax}
-                    </span>
+                    <span>{salary?.salaryStructure?.professionalTax}</span>
                   </div>
                   <div className="p-2 border-b flex justify-between">
                     <span>Income Tax</span>

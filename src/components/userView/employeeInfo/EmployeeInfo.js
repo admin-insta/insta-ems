@@ -175,7 +175,7 @@ const EmployeeInfo = () => {
                   )}
                   {loggedInUser?.uid === selectedEmployee?._id ? (
                     <label className="text-blue-700 cursor-pointer text-sm ">
-                      <span className=" items-center inline-flex justify-center ml-1 hover:underline ">Edit Picture <TbUserEdit className="h-4 w-4" /></span>
+                      <span className=" items-center inline-flex justify-center ml-1 hover:underline ">Edit Picture <TbUserEdit className="h-6 w-6" /></span>
                       <input
                         className="inline-block"
                         type="file"

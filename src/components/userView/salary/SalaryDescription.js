@@ -189,8 +189,19 @@ const SalaryDescription = () => {
         description={
           <>
             <div className="border p-4 flex justify-between bg-[#BDBAA2] text-gray-900">
-              <div>
-                <img className="h-12" alt="profile-pic" src={Men_Dummy} />
+              <div className="flex items-center justify-center h-20 w-20 rounded-full overflow-hidden border">
+                <img
+                style={{
+                  width: "80px",
+                  height: '80px',
+                  borderRadius: "50%",
+                  objectFit: "cover",
+                  objectPosition: "center 10% ", 
+                }}
+                  className="h-full w-full object-cover"
+                  alt="profile-pic"
+                  src={selectedEmployee?.profilePicture || Men_Dummy}
+                />
               </div>
               <div>
                 <div className="text-sm">{selectedEmployee?.name}</div>
