@@ -1,5 +1,5 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
+import React, { useEffect } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 import HomeIcon from "@mui/icons-material/HomeOutlined";
 import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
@@ -13,34 +13,38 @@ import { useSelector } from "react-redux";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 const SideBar = ({ name }) => {
   const user = useSelector((store) => store?.user);
-  // const navigate = useNavigate();
-  // useEffect(() => {
-  //   if(user?.firstLogin){
-  //     console.log("First Login");
-  //     navigate("/userview/updateUser", { replace: true });
-  //   }
-  // }
-  // , [user?.firstLogin]);
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (user?.firstLogin) {
+      console.log("First Login");
+      navigate("/userview/updateUser", { replace: true });
+    }
+  }, [user?.firstLogin]);
   return (
-    <div className="bg-clay shadow-lg text-gray-800 h-screen fixed overflow-y-auto flex flex-col items-center p-1">
+    <div className="bg-clay shadow-lg text-gray-800 h-screen fixed overflow-y-auto flex flex-col items-center p-1 w-28">
       {/* User Profile */}
-      <div className="flex flex-col items-center p-4">
-        <img
-          src={user?.profilePicture||""}
-          alt={`${user?.name}'s profile`}
-          style={{
-            width: "60px",
-            height: '60px',
-            borderRadius: "50%",
-            objectFit: "cover",
-            objectPosition: "center 10% ", 
-          }}
-        />
+      <div className="flex flex-col items-center p-2">
+        {user?.profilePicture ? (
+          <img
+            src={user?.profilePicture || ""}
+            alt="Dp"
+            style={{
+              width: "60px",
+              height: "60px",
+              borderRadius: "50%",
+              objectFit: "cover",
+              objectPosition: "center 10% ",
+            }}
+          />
+        ) : (
+          <AccountCircleIcon />
+        )}
+
         <span className="text-xs mt-1 text-center">{user?.name || ""}</span>
       </div>
 
       {/* Sidebar Navigation */}
-      <ul className="mt-4 w-full flex-1">
+      <ul className=" w-full flex-1">
         {[
           { to: "/userview/userHome", icon: <HomeIcon />, label: "Home" },
           {

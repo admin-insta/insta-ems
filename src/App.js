@@ -11,7 +11,7 @@ import UserType from "./components/UserType";
 import Reviews from "./components/Reviews";
 import MainPage from "./components/userView/MainPage";
 import EmployeeInfo from "./components/userView/employeeInfo/EmployeeInfo";
-import { Provider, useDispatch } from "react-redux";
+import { Provider } from "react-redux";
 import appStore from "./components/store/appStore";
 import DemoRequest from "./components/DemoRequest";
 import Attendance from "./components/userView/attendance/Attendance";

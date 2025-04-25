@@ -107,7 +107,7 @@ const EmployeeList = ({ handleAddEmployee }) => {
         }
         fullScreen="true"
         description={
-          <div>
+          <div className="">
             {/* Search Input */}
             <input
               type="text"
@@ -118,7 +118,7 @@ const EmployeeList = ({ handleAddEmployee }) => {
             />
 
             {/* Employee List */}
-            <div className="flex flex-col">
+            <div className="flex flex-col ">
               {filteredEmployees.length > 0 ? (
                 filteredEmployees.map((employee) => (
                   <div

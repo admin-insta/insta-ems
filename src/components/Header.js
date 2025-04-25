@@ -24,12 +24,7 @@ const Header = () => {
       if (location.pathname === "/") {
         navigate("/userview");
       }
-      
     }
-    // else{
-    //   toast.warn("Session Expired, Please Login Again")
-    //   navigate("/")
-    // }
   }, [userData]);
   //Handle Sign In
   const handleSignIn = () => {
@@ -44,7 +39,7 @@ const Header = () => {
       dispatch(removeUser());
       //deleteCookie("authToken");
       navigate("/");
-      toast.success("You Have Succefully Logged Off")
+      toast.success("You Have Succefully Logged Off");
     }
   };
 
