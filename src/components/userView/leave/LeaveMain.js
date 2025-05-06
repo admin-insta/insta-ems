@@ -14,10 +14,10 @@ const LeaveMain = () => {
 
   return (
     <div className="grid grid-cols-12 gap-2 h-screen border-gray-300">
-      <div className="col-span-3">
+      {/* <div className="col-span-3">
         <EmployeeList />
-      </div>
-      <div className="col-span-9 bg-[#BDBAA2]">
+      </div> */}
+      <div className="col-span-12 bg-[#BDBAA2]">
         <div className="m-2">
           <ul className="grid grid-flow-col items-start font-semibold">
             {tabs.map((item) => (

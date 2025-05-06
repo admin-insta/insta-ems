@@ -5,16 +5,31 @@ import { useDispatch, useSelector } from "react-redux";
 import Card from "../../utils/theme/Cards";
 import BeachAccessOutlinedIcon from "@mui/icons-material/BeachAccessOutlined";
 import { setSelectedEmployee } from "../../store/employeeSlice";
+import { getLeaves } from "../../../api/leaves";
+import formatDate from "../../utils/theme/formatDate";
+import { SiTicktick } from "react-icons/si";
+import { ImCancelCircle } from "react-icons/im";
 const LeaveManagement = () => {
-  const dispatch= useDispatch()
-  const employee = useSelector((store) => store.employee || []); 
-  const selectedEmployee = useSelector((store)=>store?.employee?.selectedEmployee)
+  const dispatch = useDispatch();
+  const employee = useSelector((store) => store.employee || []);
+  const selectedEmployee = useSelector(
+    (store) => store?.employee?.selectedEmployee
+  );
 
   useEffect(() => {
     if (employee.length > 0 && !selectedEmployee) {
       dispatch(setSelectedEmployee(employee[0]));
     }
   }, [employee, selectedEmployee]);
+
+  useEffect(() => {
+    const getAllLeaves = async () => {
+      const result = await getLeaves();
+      console.log("leave result", result.leaves);
+      setLeaveRequests(result.leaves);
+    };
+    getAllLeaves();
+  }, []);
 
   const mockLeaveApplications = [
     {
@@ -74,7 +89,20 @@ const LeaveManagement = () => {
       ],
     },
   ];
-  const [leaveRequests, setLeaveRequests] = useState(mockLeaveApplications);
+  const [leaveRequests, setLeaveRequests] = useState([]);
+  const getLeaveDuration = (fromDateStr, toDateStr) => {
+    const fromDate = new Date(fromDateStr);
+    const toDate = new Date(toDateStr);
+
+    // Ensure dates are valid
+    if (isNaN(fromDate) || isNaN(toDate)) return 0;
+
+    // Calculate time difference in milliseconds
+    const diffInMs = toDate.getTime() - fromDate.getTime();
+
+    // Convert to days and add 1 to include both start and end date
+    return Math.floor(diffInMs / (1000 * 60 * 60 * 24)) + 1;
+  };
 
   const handleApprove = (applicationId) => {
     setLeaveRequests((prevRequests) =>
@@ -124,7 +152,7 @@ const LeaveManagement = () => {
     <div className="  h-screen border-gray-300 bg-clay-light ">
       <div className=" ">
         <Card
-          variant="primary"
+          variant="secondary"
           fullScreen="true"
           title={
             <span style={{ display: "flex", alignItems: "center", gap: "8px" }}>
@@ -132,36 +160,42 @@ const LeaveManagement = () => {
             </span>
           }
           description={
-            <div className="col-span-9 p-2 bg-white shadow-md rounded-md overflow-y-scroll">
+            <div className="col-span-9 p-2 bg-white shadow-md rounded-md  ">
               <div className="mb-4 mx-4">Approve Leaves</div>
-              <div className="border p-4 mb-2 grid grid-cols-5 text-sm font-semibold bg-gray-100">
+              <div className="border p-4 mb-2 grid grid-cols-8 text-sm font-semibold bg-gray-100 gap-2">
                 <div className="text-center">Employee Name</div>
                 <div className="text-center">Leave Type</div>
+                <div className="text-center">From Date </div>
+                <div className="text-center">To Date </div>
                 <div className="text-center">Duration</div>
                 <div className="text-center">Status</div>
+                <div className="text-center">Reason</div>
                 <div className="text-center">Action</div>
               </div>
 
               <div>
                 {leaveRequests.map((request) => (
                   <div
-                    key={request.applicationId}
-                    className="border p-4 mb-2 grid grid-cols-5 items-center"
+                    key={request._id}
+                    className="border p-2 mb-2 grid grid-cols-8 items-center gap-2"
                   >
                     <div className="text-center">
                       <div className="text-base font-medium">
-                        {request.employeeName}
-                      </div>
-                      <div className="text-xs text-gray-500">
-                        {request.department}
+                        {request.fromEmployeeId.name}
                       </div>
                     </div>
                     <div className="text-center text-sm">
                       {request.leaveType}
                     </div>
+                    <div className="text-center font-medium">
+                      {formatDate(request.fromDate)}
+                    </div>
+                    <div className="text-center font-medium">
+                      {formatDate(request.toDate)}
+                    </div>
+
                     <div className="text-center text-sm">
-                      {request.startDate} to {request.endDate} (
-                      {request.totalDays} days)
+                      {getLeaveDuration(request.fromDate, request.toDate)}
                     </div>
                     <div className="text-center text-sm">
                       <p
@@ -173,20 +207,25 @@ const LeaveManagement = () => {
                             : "text-yellow-600"
                         }
                       >
-                        {request.status}
+                        {request.status === "pending" ? "Pending" : "Rejected"}
                       </p>
+                    </div>
+                    <div className="text-center text-sm">
+                      {request.reason?.length > 10
+                        ? `${request.reason.slice(0, 10)}...`
+                        : request.reason}
                     </div>
                     <div className="flex gap-2 justify-center">
                       <Button
                         onClick={() => handleApprove(request.applicationId)}
                       >
-                        Accept
+                        <SiTicktick/>
                       </Button>
                       <Button
                         variant="secondary"
                         onClick={() => handleReject(request.applicationId)}
                       >
-                        Reject
+                        <ImCancelCircle/>
                       </Button>
                     </div>
                   </div>

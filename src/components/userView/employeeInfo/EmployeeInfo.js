@@ -14,6 +14,7 @@ import { toast } from "react-toastify";
 import { uploadProfilePicture } from "../../../api/profilePicture";
 import { setUser } from "../../store/userSlice";
 import { TbUserEdit } from "react-icons/tb";
+import formatDate from "../../utils/theme/formatDate";
 const EmployeeInfo = () => {
   const dispatch = useDispatch();
   const loggedInUser = useSelector((store) => store?.user);
@@ -124,7 +125,7 @@ const EmployeeInfo = () => {
               <div
                 style={{ display: "flex", alignItems: "center", gap: "8px" }}
               >
-                <FaUserTie className="w-6 h-6" /> Employee Information             
+                <FaUserTie className="w-6 h-6" /> Employee Information
               </div>
               <div className="m-2 flex gap-8">
                 <div
@@ -175,7 +176,9 @@ const EmployeeInfo = () => {
                   )}
                   {loggedInUser?.uid === selectedEmployee?._id ? (
                     <label className="text-blue-700 cursor-pointer text-sm ">
-                      <span className=" items-center inline-flex justify-center ml-1 hover:underline ">Edit Picture <TbUserEdit className="h-6 w-6" /></span>
+                      <span className=" items-center inline-flex justify-center ml-1 hover:underline ">
+                        Edit Picture <TbUserEdit className="h-6 w-6" />
+                      </span>
                       <input
                         className="inline-block"
                         type="file"
@@ -198,24 +201,31 @@ const EmployeeInfo = () => {
                           "createdAt",
                           "updatedAt",
                           "firstLogin",
-                          "profilePicture", // skip displaying the picture path here again
+                          "profilePicture",
                         ].includes(key)
                     )
-                    .map(([key, value]) => (
-                      <div
-                        key={key}
-                        className="flex justify-between m-4 border-b"
-                      >
-                        <span className="font-semibold">
-                          {key
-                            .replace(/([A-Z])/g, " $1")
-                            .trim()
-                            .replace(/^./, (char) => char.toUpperCase())}
-                          :
-                        </span>
-                        <span>{value}</span>
-                      </div>
-                    ))}
+                    .map(([key, value]) => {
+                      const dateKeys = ["dob", "joiningDate"];
+                      const formattedValue = dateKeys.includes(key)
+                        ? formatDate(value)
+                        : value;
+
+                      return (
+                        <div
+                          key={key}
+                          className="flex justify-between m-4 border-b"
+                        >
+                          <span className="font-semibold">
+                            {key
+                              .replace(/([A-Z])/g, " $1")
+                              .trim()
+                              .replace(/^./, (char) => char.toUpperCase())}
+                            :
+                          </span>
+                          <span>{formattedValue}</span>
+                        </div>
+                      );
+                    })}
                 </div>
               ) : (
                 <p className="text-gray-500">No employee found.</p>

@@ -72,6 +72,13 @@ const SalaryDetails = ({
           </span>
         </div>
         <div className="flex justify-between my-1 p-2 bg-white rounded-sm">
+          <span>Income Tax -</span>
+          <span className="flex items-center">
+            <RiMoneyRupeeCircleFill className="h-5 w-5 mr-1 text-gray-800" />
+            {salaryDetails?.incomeTax||"0"}
+          </span>
+        </div>
+        <div className="flex justify-between my-1 p-2 bg-white rounded-sm">
           <span>Professional Tax -</span>
           <span className="flex items-center">
             <RiMoneyRupeeCircleFill className="h-5 w-5 mr-1 text-gray-800" />
