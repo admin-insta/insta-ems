@@ -20,6 +20,7 @@ const AddEmployee = ({
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
+    gender: "",
     email: "",
     phoneNumber: "",
     dob: "",
@@ -37,8 +38,6 @@ const AddEmployee = ({
 
   // Populate form when editingEmployee changes
   useEffect(() => {
-    console.log("Editing Employee Data:", editingEmployee); // Debugging step
-
     if (editingEmployee) {
       setIsEditForm(true);
 
@@ -50,6 +49,7 @@ const AddEmployee = ({
       setFormData({
         firstName,
         lastName,
+        gender: editingEmployee.gender || "",
         email: editingEmployee.email || "",
         phoneNumber: editingEmployee.phoneNumber || "",
         dob: editingEmployee.dob ? formatDate(editingEmployee.dob) : "", // Handle missing dob
@@ -64,6 +64,7 @@ const AddEmployee = ({
       setFormData({
         firstName: "",
         lastName: "",
+        gender: "",
         email: "",
         phoneNumber: "",
         dob: "",
@@ -86,6 +87,7 @@ const AddEmployee = ({
       !formData.firstName ||
       !formData.lastName ||
       !formData.email ||
+      !formData.gender ||
       !formData.phoneNumber ||
       !formData.dob ||
       !formData.designation ||
@@ -111,7 +113,7 @@ const AddEmployee = ({
         if (response.success) {
           console.log(response.user);
           dispatch(updateEmployee(response.user));
-          setConfirmDialog(false); 
+          setConfirmDialog(false);
           toast.success("Employee updated successfully!");
         }
       } else {
@@ -168,6 +170,26 @@ const AddEmployee = ({
               value={formData.lastName}
               onChange={handleInputChange}
             />
+            <div className="flex flex-col">
+              <label
+                htmlFor="gender"
+                className="text-xs font-medium text-blue-700 mb-1"
+              >
+                Gender
+              </label>
+              <select
+                id="gender"
+                name="gender"
+                value={formData.gender}
+                onChange={handleInputChange}
+                className="border border-gray-300  px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="">Select</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
             <InputField
               label="Email"
               type="email"
@@ -181,17 +203,18 @@ const AddEmployee = ({
               value={formData.phoneNumber}
               onChange={handleInputChange}
             />
+
+            <InputField
+              label="Designation"
+              name="designation"
+              value={formData.designation}
+              onChange={handleInputChange}
+            />
             <InputField
               label="Date of Birth"
               type="date"
               name="dob"
               value={formData.dob}
-              onChange={handleInputChange}
-            />
-            <InputField
-              label="Designation"
-              name="designation"
-              value={formData.designation}
               onChange={handleInputChange}
             />
             <InputField

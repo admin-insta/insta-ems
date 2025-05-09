@@ -5,7 +5,6 @@ import SideBar from "./SideBar";
 import { fetchUsers } from "../../api/users";
 import { setEmployees, setPagination } from "../store/employeeSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { addEmployee } from "../store/employeeSlice";
 
 const MainPage = () => { 
   const dispatch = useDispatch();
@@ -15,7 +14,6 @@ const MainPage = () => {
       if (employee.length > 0) return;
   
       const result = await fetchUsers(1, 10); // page 1, 10 per page
-      console.log("results",result);
       if (result.success) {
         dispatch(setEmployees(result.employees));
         dispatch(setPagination({

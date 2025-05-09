@@ -61,3 +61,29 @@ export const leaveApply = async (data) => {
     };
   }
 };
+
+export const leaveApprove = async (requestId, status)=>{
+  try{
+    const response = await fetch(`${BASE_URL}/api/leave/approveLeaveRequest/${status}/${requestId}`,
+     { method:"PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    }
+    )
+    const apiData = await response.json()
+    if (response.ok){
+      return{success:true, data:apiData}
+    }else{
+      return{success:false, message: apiData.message || "failed to apply leave"}
+    }
+
+  }catch(error){
+    console.log("something went wrong")
+    return{
+      success:false,
+      message:"something went wrong, please try again"
+    }
+  }
+}

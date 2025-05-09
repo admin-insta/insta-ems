@@ -4,9 +4,12 @@ import Card from "../../utils/theme/Cards";
 import { FaPlus } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { leaveApply } from "../../../api/leaves";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { MdManageAccounts } from "react-icons/md";
+import { addLeaves } from "../../store/leaveSlice";
 const LeaveApply = () => {
+  const dispatch = useDispatch();
+
   const user = useSelector((store) => store?.user);
   const [leaveData, setLeaveData] = useState({
     leaveType: "",
@@ -31,7 +34,6 @@ const LeaveApply = () => {
     const { leaveType, fromDate, toDate, reason } = leaveData;
     const fromEmployeeId = user?.uid;
     const data = { ...leaveData, fromEmployeeId: fromEmployeeId };
-    console.log("leave date", data)
     if (!leaveType || !fromDate || !toDate || !reason) {
       toast.error("Please fill in all required fields.");
       return;
@@ -40,6 +42,7 @@ const LeaveApply = () => {
     try {
       const response = await leaveApply(data);
       if (response.success) {
+        dispatch(addLeaves(response.leaveRequest));
         toast.success("Leave applied successfully!");
       } else {
         toast.error(response.message || "Failed to apply leave");
@@ -55,13 +58,8 @@ const LeaveApply = () => {
       variant="secondary"
       fullScreen="true"
       description={
-        <div className="grid grid-cols-12 gap-1 ">
-          <div className="col-span-3 p-2 mt-14 flex flex-col gap-2">
-            <div className="bg-white p-2">Leave</div>
-            <div className="bg-white p-2">Leave Cancel</div>
-            <div className="bg-white p-2">Comp Off Grant</div>
-          </div>
-          <div className="p-2 col-span-9">
+        <div className="grid grid-cols-12 gap-1 ">         
+          <div className="p-2 col-span-10">
             <div className="flex justify-center">
               <div className="flex items-center mb-2">
                 <button className="border px-4 py-2 rounded-l-md bg-[#1976d2] text-white text-base">
@@ -216,6 +214,11 @@ const LeaveApply = () => {
                 </div>
               </form>
             </div>
+          </div>
+          <div className="col-span-2 p-2 mt-12 flex flex-col gap-1">
+            <Button className=" p-2 rounded-sm bg-">Leave</Button>
+            <Button className="bg-white p-2 rounded-sm">Leave Cancel</Button>
+            <Button className="bg-white p-2 rounded-sm">Comp Off Grant</Button>
           </div>
         </div>
       }

@@ -33,7 +33,6 @@ const Header = () => {
 
   // Handle Sign Out
   const handleSignOut = async () => {
-    console.log("Logout clicked");
     const result = await logout();
     if (result.success) {
       dispatch(removeUser());

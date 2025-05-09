@@ -51,7 +51,6 @@ const Login = () => {
       if (isSignInForm) {
         // 🔹 Login Flow
         data = await login(emailValue, passwordValue);
-        console.log("data", data)
         if (data?.token) {
           //setCookie("authToken", data.token, 1); // Store token for 1 day      
           // ✅ Dispatch user details to Redux
