@@ -1,9 +1,10 @@
 import React from 'react'
+import FeedbackForm from './FeedbackForm'
 
 const Feedback = () => {
   return (
     <div>
-      <div>We value your Feedback</div>
+      <div><FeedbackForm/></div>
     </div>
   )
 }

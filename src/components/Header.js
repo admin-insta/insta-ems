@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import logocompany from "../components/utils/images/logocompany.jpg";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { removeUser } from "./store/userSlice";
-import { deleteCookie, getCookie } from "../cookieStorage/cookie";
 import Button from "../components/utils/theme/Button";
 import LanguageIcon from "@mui/icons-material/Language";
-import FitbitIcon from "@mui/icons-material/Fitbit";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronRightOutlinedIcon from "@mui/icons-material/ChevronRightOutlined";
 import CloseIcon from "@mui/icons-material/Close";
-
+import { logout } from "../api/auth";
+import { toast } from "react-toastify";
 const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -17,33 +17,33 @@ const Header = () => {
   const [user, setUser] = useState(null);
   const [showProduct, setShowProduct] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
+  const location = useLocation();
   useEffect(() => {
-    const token = getCookie("authToken");
-    if (token) {      
-      navigate("/userview")
-      setUser(userData);
-    } else {
-      setUser(null);
-      dispatch(removeUser());
+    if (userData) {
+      // only redirect to /userview if you're at the login page
+      if (location.pathname === "/") {
+        navigate("/userview");
+      }
     }
-  },[userData, dispatch]);
-
-  // Handle Sign In
+  }, [userData]);
+  //Handle Sign In
   const handleSignIn = () => {
     navigate("/login");
   };
 
   // Handle Sign Out
-  const handleSignOut = () => {
-    deleteCookie("authToken"); // Remove the cookie on logout
-    setUser(null); // Reset local user state
-    dispatch(removeUser()); // Clear Redux store user data
-    navigate("/"); // Redirect to home page
+  const handleSignOut = async () => {
+    const result = await logout();
+    if (result.success) {
+      dispatch(removeUser());
+      //deleteCookie("authToken");
+      navigate("/");
+      toast.success("You Have Succefully Logged Off");
+    }
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-white shadow-md">
+    <header className={`sticky top-0 z-50 bg-white shadow-md`}>
       <div className="container mx-auto px-4 lg:px-8">
         <div className="flex items-center justify-between py-4">
           {/* Left Side - Logo and Hamburger Menu Icon */}
@@ -55,54 +55,63 @@ const Header = () => {
                 onClick={() => setIsMobileMenuOpen(true)}
               />
             </div>
-            <FitbitIcon
-              className="text-blue-700 cursor-pointer hover:scale-110 transition-all"
-              sx={{ fontSize: 32 }}
-              onClick={() => navigate("/")}
+
+            <img
+              onClick={() => {
+                userData ? navigate("/userview") : navigate("/");
+              }}
+              className="h-10 cursor-pointer"
+              alt="logo"
+              src={logocompany}
             />
           </div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex space-x-6">
-            <span
-              onClick={() => (user ? navigate("/userview") : navigate("/"))}
-              className="cursor-pointer hover:text-blue-700 transition-all"
-            >
-              Home
-            </span>
-            <span className="cursor-pointer hover:text-blue-700 transition-all">
-              Resources
-            </span>
-            <span className="cursor-pointer hover:text-blue-700 transition-all">
-              Pricing
-            </span>
 
-            {/* Dropdown for Products */}
-            <div
-              className="relative cursor-pointer"
-              onMouseEnter={() => setShowProduct(true)}
-              onMouseLeave={() => setShowProduct(false)}
-            >
-              <span className="flex items-center hover:text-blue-700 transition-all">
-                Products
-                <ChevronRightOutlinedIcon
-                  className={`ml-1 transition-transform duration-300 ${
-                    showProduct ? "rotate-90" : "rotate-0"
-                  }`}
-                />
+          {!userData && (
+            <nav className="hidden lg:flex space-x-6 text-base">
+              <span
+                onClick={() => (user ? navigate("/userview") : navigate("/"))}
+                className="cursor-pointer hover:text-blue-700 transition-all"
+              >
+                Home
+              </span>
+              <span className="cursor-pointer hover:text-blue-700 transition-all">
+                Resources
+              </span>
+              <span className="cursor-pointer hover:text-blue-700 transition-all">
+                Pricing
               </span>
 
-              {showProduct && <ProductMenu />}
-            </div>
-          </nav>
+              {/* Dropdown for Products */}
+              <div
+                className="relative cursor-pointer"
+                onMouseEnter={() => setShowProduct(true)}
+                onMouseLeave={() => setShowProduct(false)}
+              >
+                <span className="flex items-center hover:text-blue-700 transition-all">
+                  Products
+                  <ChevronRightOutlinedIcon
+                    className={`ml-1 transition-transform duration-300 ${
+                      showProduct ? "rotate-90" : "rotate-0"
+                    }`}
+                  />
+                </span>
+
+                {showProduct && <ProductMenu />}
+              </div>
+            </nav>
+          )}
 
           {/* Right Side Buttons */}
           <div className="hidden lg:flex items-center space-x-4">
-            <Button onClick={() => navigate("/demorequest")}>
-              Request A Demo
-            </Button>
-            <Button onClick={user ? handleSignOut : handleSignIn}>
-              {user ? "Logout" : "Login"}
+            {!userData && (
+              <Button onClick={() => navigate("/demorequest")}>
+                Request A Demo
+              </Button>
+            )}
+            <Button onClick={userData ? handleSignOut : handleSignIn}>
+              {userData ? "Logout" : "Login"}
             </Button>
             <div className="flex items-center space-x-1 cursor-pointer">
               <LanguageIcon sx={{ fontSize: 24 }} />
@@ -126,7 +135,7 @@ const Header = () => {
             <span
               onClick={() => {
                 setIsMobileMenuOpen(false);
-                user ? navigate("/userview") : navigate("/");
+                userData ? navigate("/userview") : navigate("/");
               }}
               className="block cursor-pointer hover:text-blue-700 transition-all"
             >
@@ -159,7 +168,7 @@ const Header = () => {
               Request A Demo
             </Button>
             <Button onClick={user ? handleSignOut : handleSignIn}>
-              {user ? "Logout" : "Login"}
+              {userData ? "Logout" : "Login"}
             </Button>
           </nav>
         </div>
@@ -170,7 +179,7 @@ const Header = () => {
 
 export default Header;
 
-export const ProductMenu = () => {
+export const ProductMenu = React.memo(() => {
   return (
     <div className="absolute left-0 bg-white shadow-lg p-4 rounded-md w-48 md:w-56 lg:w-64 z-50">
       <ul className="text-sm">
@@ -191,4 +200,4 @@ export const ProductMenu = () => {
       </ul>
     </div>
   );
-};
+});
